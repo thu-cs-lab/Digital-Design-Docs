@@ -11,7 +11,7 @@ theme:
     logo: material/developer-board
     repo: fontawesome/brands/github
   features:
-    - instant
+    - navigation.instant
 
 repo_name: 'thu-cs-lab/Digital-Design-Docs'
 repo_url: 'https://github.com/thu-cs-lab/Digital-Design-Docs'
