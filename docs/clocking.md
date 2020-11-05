@@ -69,7 +69,7 @@ end
 
 ### 异步 FIFO
 
-对于分隔于两个时钟域的生产者——消费者模型，可以通过具有两个端口的 FIFO 来进行同步，每端使用自己的时钟进行 `push` 和 `pop` 即可。
+对于分隔于两个时钟域的生产者——消费者模型，可以通过具有两个端口的 FIFO 来进行同步，每端使用自己的时钟进行 `enqueue` 和 `dequeue` 即可。
 
 Quartus 中对应的 IP Core 名称为 `DCFIFO` 和 `DCFIFO_MIXED_WIDTHS`（读写宽度相同或者不同），Vivado 中为 `FIFO Generator` (PG057)，XPM 中也有相应的 `XPM_FIFO_ASYNC` 模块。
 
