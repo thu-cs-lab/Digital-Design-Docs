@@ -2,6 +2,18 @@
 
 时序逻辑通常需要复位信号，用于重置电路状态。本页是关于复位的一些注意事项。
 
+!!! warning "尽量不要使用异步复位"
+
+    Vivado Design Suite User Guide: Synthesis (UG901) 的第四章 HDL Coding Techniques 的 Coding Guidelines 部分指出：
+
+    Do not asynchronously set or reset registers:  
+
+      * Control set remapping becomes impossible.
+      * Sequential functionality in device resources such as block RAM components and DSP blocks can be set or reset synchronously only.
+      * If you use asynchronously set or reset registers, you cannot leverage device resources, or those resources are configured sub-optimally.
+    
+    考虑到 FPGA 复位大多来源于按钮触发，时间足够长，请遵守官方的指导，尽量只使用同步复位。
+
 ## 信号极性
 
 复位信号通常分为低有效和高有效，为了防止混淆，通常命名为 `rst_n` 和 `rst`。
@@ -38,7 +50,7 @@ assign rst_synced = rst_sync[1];
 
 always @(posedge clk, posedge rst) begin
     if (rst) begin
-        rst_sync <= 2'b0;
+        rst_sync <= 2'b11;
     end else begin
         rst_sync <= {rst_sync[0], rst};
     end
@@ -51,14 +63,3 @@ end
 
     异步复位，否则就无法做到立刻捕获复位信号，同步释放也失去意义了。
 
-!!! warning "尽量不要使用异步复位"
-
-    Vivado Design Suite User Guide: Synthesis (UG901) 的第四章 HDL Coding Techniques 的 Coding Guidelines 部分指出：
-
-    Do not asynchronously set or reset registers:  
-
-      * Control set remapping becomes impossible.
-      * Sequential functionality in device resources such as block RAM components and DSP blocks can be set or reset synchronously only.
-      * If you use asynchronously set or reset registers, you cannot leverage device resources, or those resources are configured sub-optimally.
-    
-    考虑到 FPGA 复位大多来源于按钮触发，时间足够长，请遵守官方的指导，尽量只使用同步复位。
