@@ -21,6 +21,7 @@ extra:
 
 nav:
   - 总述: index.md
+  - 复位: reset.md
   - 时钟相关: clocking.md
 
 extra_javascript:
