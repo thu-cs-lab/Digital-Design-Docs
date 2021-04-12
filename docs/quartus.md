@@ -4,7 +4,7 @@
 
 本实验使用的 EDA 软件为 Intel Quartus Prime Lite 20.1.1 （以及 Cyclone 设备支持）和配套的 ModelSim 仿真器。为了正常使用，请确保你的硬盘 **至少有 50GB 可用空间**。
 
-Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d346d09854/) 下载所有的文件，Linux 用户请自行从 [Intel 官网](https://cloud.tsinghua.edu.cn/d/8b419beff6d346d09854/) 下载对应版本。
+Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d346d09854/) 下载所有的文件，Linux 用户请自行从 [Intel 官网](https://fpgasoftware.intel.com/?edition=lite) 下载对应版本（可能需要注册用户）。
 
 各个组件的安装顺序如下：
 
@@ -18,11 +18,12 @@ Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d3
 
 模板中的重要文件和目录包括：
 
-* `digital-design.qsf`：Quartus 项目文件
+* `digital-design.qpf`：Quartus 项目文件，可以在 Quartus 中通过 File → Open Project 打开
+* `digital-design.qsf`：Quartus 设置文件
 * `io.tcl`：IO 管脚绑定约束
 * `src/`：放置你编写的 RTL 代码
-    * `mod_top.sv`：顶层模块
-    * `dpy_scan.v`：数码管译码模块
+    * `mod_top.sv`：顶层模块，请根据需要取消信号列表中的注释，注意列表末尾的逗号
+    * `dpy_scan.v`：数码管扫描、译码模块
     * `vga.v`：使用 VGA 时序驱动 HDMI 接口的样例
 * `ip/`：用于放置 Quartus 生成的各类 IP
     * `pll`：预生成的 PLL 模块，用于从输入的 100M 时钟生成 50M 时钟提供给 VGA 模块
@@ -39,7 +40,7 @@ Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d3
 
 !!! error "禁止使用坐标驱动图像输出"
 
-    提供的 `vga.v` 中使用了横纵坐标来计算出某个像素的颜色，请不要使用这种方法驱动复杂的渲染逻辑，否则将导致 **严重的时序问题**！
+    提供的 `mod_top.sv` 中使用了横纵坐标来计算出某个像素的颜色，请不要使用这种方法驱动复杂的渲染逻辑，否则将导致 **严重的时序问题**！
 
 RTL 代码应该具有良好的风格，如规范的缩进、清晰的命名和恰当的注释。
 
@@ -62,4 +63,4 @@ Quartus 提供了丰富的 IP Core，你可以根据需要自由生成和选用�
 * 各类 DSP（乘除法、开方、乘方、三角函数等数学运算）
 * Triple-Speed Ethernet（用于驱动 GMII 以太网 PHY）
 
-在使用任何 IP 前，请 **完整阅读** 它的使用手册（通常 Quartus 自带，或可以从 Intel 官网获取）。
+在使用任何 IP 前，请 **完整阅读** 它的使用手册（通常 Quartus 自带，或可以从 Intel 官网获取）。如果部分 IP 不包含在 Lite 版本的软件中，请联系助教团队寻求帮助。
