@@ -23,6 +23,8 @@ nav:
   - 总述: index.md
   - 复位: reset.md
   - 时钟相关: clocking.md
+  - 实验板: board.md
+  - 外设相关: peripheral.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
