@@ -16,7 +16,7 @@ Pmod（Peripheral Module Interface）是 Digilent 提出的，适用于各类开
 * 博客介绍：http://xilinx.eetrend.com/d6-xilinx/article/2018-05/12915.html
 * 接口规范：https://reference.digilentinc.com/_media/reference/pmod/digilent-pmod-interface-specification.pdf
 
-各种常用的通信协议都被 Pmod 标准所支持，当然用户也可以自行规定引脚含义。
+各种常用的通信协议都被 Pmod 标准所支持，当然用户也可以自行规定引脚含义。实验板上共提供了 8 个标准 12 Pin Pmod 接口，用于连接外设模块，其供电电压与 IO 电平均为 3.3V。同时，相邻的 Pmod 接口可以用于连接宽体的模块，以提供更多 IO 信号。
 
 ### UART 协议
 
@@ -65,13 +65,19 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 
 ### Pmod 模块
 
-下面列出的模块适用于实验板的 Pmod 接口。
+下面列出的模块适用于实验板的 Pmod 接口。如需其他模块，也可先在各类电商平台搜索，实验板可以支持几乎所有 Pmod 模块。
 
-// TODO(gyc): 给一些例子和链接？淘宝店？
+| 功能          | 型号   | 接口 | 简介              | 购买链接                     |
+| ------------- | ------ | ---- | ----------------- | ---------------------------- |
+| 音频输入/输出 | WM8731 | I2S  | 音频输入/输出模块 | 自制模块，请联系助教团队获取 |
+| 无线通信 | PSI-EMOD-BLUETOOTH | UART | 蓝牙串口传输模块，可与手机连接传输数据 | https://item.taobao.com/item.htm?id=602102213182 |
+| 温度传感器 | PSI-EMOD-SENSOR-001 | 1-Wire | 基于 DS18B20 的温度传感器模块 | https://item.taobao.com/item.htm?id=616627001082 |
+| EEPROM 存储器 | PSI-EMOD-MEMORY-001 | I2C | 2K 字节 EEPROM 存储器，可方便地存储少量持久化数据 | https://item.taobao.com/item.htm?id=617136619926 |
+
 
 ### 传感器类
 
-下面的模块需要手工连接到实验板的 GPIO 接口上。
+下面的模块需要使用杜邦线，手工连接到实验板的 GPIO 接口上。
 
 | 功能             | 型号      | 接口 | 简介                                                | 购买链接                                                                                    |
 | ---------------- | --------- | ---- | --------------------------------------------------- | ------------------------------------------------------------------------------------------- |
