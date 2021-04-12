@@ -7,7 +7,7 @@
     注意：下面的各类接口只负责数据的传输，一般外设模块都另外需要连接电源（VCC）、接地（GND）引脚。
     **千万注意选择正确的电平/电压（一般为 CMOS 电平，注意 FPGA 只能连接 3.3V IO 电平的模块），并且避免短路、插反，不允许带电插拔，避免损坏芯片或FPGA。**
 
-关于 UART/SPI/I2C 三种接口的介绍视频（搬运自 [YouTube](https://www.youtube.com/watch?v=IyGwvGzrqp8)）：<https://cloud.tsinghua.edu.cn/f/35e2b12ca7184a6aa226/>。 **TODO(gyc) 失效了**。
+关于 UART/SPI/I2C 三种接口的介绍视频（搬运自 [YouTube](https://www.youtube.com/watch?v=IyGwvGzrqp8)）：https://www.bilibili.com/video/BV1D7411m7gh?from=search&seid=17456041608147636146 。 
 
 ### Pmod 规范
 
@@ -73,7 +73,14 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 | 无线通信 | PSI-EMOD-BLUETOOTH | UART | 蓝牙串口传输模块，可与手机连接传输数据 | https://item.taobao.com/item.htm?id=602102213182 |
 | 温度传感器 | PSI-EMOD-SENSOR-001 | 1-Wire | 基于 DS18B20 的温度传感器模块 | https://item.taobao.com/item.htm?id=616627001082 |
 | EEPROM 存储器 | PSI-EMOD-MEMORY-001 | I2C | 2K 字节 EEPROM 存储器，可方便地存储少量持久化数据 | https://item.taobao.com/item.htm?id=617136619926 |
+| 摄像头 | PSI-EMOD-OV7670 | 并行 | OV7670 摄像头模组，较低分辨率适合 FPGA 使用 | https://item.taobao.com/item.htm?id=625385869412 |
+| 摄像头 | PMOD_CAM_5M | 并行 | OV5640 摄像头模组，500 万像素 | https://item.taobao.com/item.htm?id=524514493918 |
 
+此外，可以前往以下店铺，尝试发现更多 Pmod 模块，注意其中部分模块的功能实验板已经内置，请勿重复购买。
+
+1. [PSI 皮赛电子](https://pisai.taobao.com/category-1478440875.htm)
+2. [Muse Lab](https://shop446922193.taobao.com/category-1573912201.htm)
+3. [Digilent China](https://digilent.taobao.com/category-1194735943.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
 
 ### 传感器类
 
