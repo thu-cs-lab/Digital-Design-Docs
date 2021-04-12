@@ -10,7 +10,7 @@ Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d3
 
 * 首先安装 Quartus Prime Lite，使用默认选项即可，注意路径中不要有空格和中文；
 * 启动 Quartus，选择 Tools → Install Devices，选择下载的 Cyclone 设备支持文件；
-* 最后安装 ModelSim。安装后启动 Quartus，选择 Tools → Options → EDA Tool Options，确认已经自动识别了 ModelSim Starter 的安装路径（否则需要手工配置）。
+* 最后安装 ModelSim。安装后启动 Quartus，选择 Tools → Options → EDA Tool Options，确认已经自动识别了 ModelSim-IntelFPGA 的安装路径（否则需要手工配置）。
 
 ## 工程模板
 
