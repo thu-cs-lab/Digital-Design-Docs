@@ -7,14 +7,14 @@
     注意：下面的各类接口只负责数据的传输，一般外设模块都另外需要连接电源（VCC）、接地（GND）引脚。
     **千万注意选择正确的电平/电压（一般为 CMOS 电平，注意 FPGA 只能连接 3.3V IO 电平的模块），并且避免短路、插反，不允许带电插拔，避免损坏芯片或FPGA。**
 
-关于 UART/SPI/I2C 三种接口的介绍视频（搬运自 [YouTube](https://www.youtube.com/watch?v=IyGwvGzrqp8)）：https://www.bilibili.com/video/BV1D7411m7gh?from=search&seid=17456041608147636146 。 
+关于 UART/SPI/I2C 三种接口的介绍视频（搬运自 [YouTube](https://www.youtube.com/watch?v=IyGwvGzrqp8)）：[Bilibili](https://www.bilibili.com/video/BV1D7411m7gh?from=search&seid=17456041608147636146)。 
 
 ### Pmod 规范
 
 Pmod（Peripheral Module Interface）是 Digilent 提出的，适用于各类开发板的接口扩展规范。它定义了引脚的物理外观、电气特性、接口定义等，能够兼容各类协议。遵循 PMOD 规范的外设能够互相兼容，减少了外设的复杂性。相关介绍可见：
 
-* 博客介绍：http://xilinx.eetrend.com/d6-xilinx/article/2018-05/12915.html
-* 接口规范：https://reference.digilentinc.com/_media/reference/pmod/digilent-pmod-interface-specification.pdf
+* 博客介绍：<http://xilinx.eetrend.com/d6-xilinx/article/2018-05/12915.html>
+* 接口规范：<https://reference.digilentinc.com/_media/reference/pmod/digilent-pmod-interface-specification.pdf>
 
 各种常用的通信协议都被 Pmod 标准所支持，当然用户也可以自行规定引脚含义。实验板上共提供了 8 个标准 12 Pin Pmod 接口，用于连接外设模块，其供电电压与 IO 电平均为 3.3V。同时，相邻的 Pmod 接口可以用于连接宽体的模块，以提供更多 IO 信号。
 
@@ -22,8 +22,8 @@ Pmod（Peripheral Module Interface）是 Digilent 提出的，适用于各类开
 
 通用非同步收发传输器（Universal Asynchronous Receiver/Transmitter），又称为“串口”，一般有两个引脚（`RX`、`TX`）。每个引脚负责一个方向，两个方向异步发送，传送时不包含时钟，速率需要事先协定好（称为波特率/Baud）。可参考实现：
 
-* https://github.com/z4yx/thinpad_top/blob/rev.3/thinpad_top.srcs/sources_1/new/async.v
-* https://www.fpga4fun.com/SerialInterface.html
+* <https://github.com/z4yx/thinpad_top/blob/rev.3/thinpad_top.srcs/sources_1/new/async.v>
+* <https://www.fpga4fun.com/SerialInterface.html>
 
 ### I²C 协议
 
@@ -67,7 +67,7 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 
 下面列出的模块适用于实验板的 Pmod 接口。如需其他模块，也可先在各类电商平台搜索，实验板可以支持几乎所有 Pmod 模块。
 
-| 功能          | 型号   | 接口 | 简介              | 购买链接                     |
+| 功能          | 型号   | 协议 | 简介              | 购买链接                     |
 | ------------- | ------ | ---- | ----------------- | ---------------------------- |
 | 音频输入/输出 | WM8731 | I2S  | 音频输入/输出模块 | 自制模块，请联系助教团队获取 |
 | 无线通信 | PSI-EMOD-BLUETOOTH | UART | 蓝牙串口传输模块，可与手机连接传输数据 | https://item.taobao.com/item.htm?id=602102213182 |
