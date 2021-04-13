@@ -21,13 +21,15 @@ extra:
 
 nav:
   - 总述: index.md
+  - 项目设计: project.md
   - HDL 编程:
-    - 时钟相关: clocking.md
-    - 复位相关: reset.md
+    - 时钟相关: hdl/clocking.md
+    - 复位相关: hdl/reset.md
   - 硬件相关:
-    - 实验板: board.md
-    - 常见外设: peripheral.md
+    - 实验板: hardware/board.md
+    - 常见外设: hardware/peripheral.md
   - Quartus 使用: quartus.md
+  - 常用软件: software.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'

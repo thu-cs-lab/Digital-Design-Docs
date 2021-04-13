@@ -8,11 +8,11 @@
 
 《数字逻辑设计》课程所用的实验板外观如图：
 
-![Board](img/board.png)
+![Board](../img/board.png)
 
 实验时可能用到的组件标号如下图，具体描述及功能请阅读下一节了解。
 
-![Board with annoation](img/board_anno.png)
+![Board with annoation](../img/board_anno.png)
 
 ## 各组件说明
 
