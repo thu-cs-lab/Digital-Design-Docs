@@ -25,6 +25,7 @@ nav:
   - HDL 编程:
     - 时钟相关: hdl/clocking.md
     - 复位相关: hdl/reset.md
+    - 总线协议: hdl/bus.md
   - 硬件相关:
     - 实验板: hardware/board.md
     - 常见外设: hardware/peripheral.md
