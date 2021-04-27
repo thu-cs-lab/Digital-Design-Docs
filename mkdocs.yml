@@ -28,7 +28,8 @@ nav:
     - 总线协议: hdl/bus.md
   - 硬件相关:
     - 实验板: hardware/board.md
-    - 常见外设: hardware/peripheral.md
+    - 板载外设: hardware/onboard.md
+    - 外接外设: hardware/peripheral.md
   - Quartus 使用: quartus.md
   - 常用软件: software.md
 
