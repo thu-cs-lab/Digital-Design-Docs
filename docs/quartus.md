@@ -14,7 +14,31 @@ Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d3
 
 ## 工程模板
 
-请从 [此处](static/digital-design-template.zip) 下载工程模板。解压后即可导入 Quartus 中，通常不需要更改任何设置即可使用。
+<!-- 请从 [此处](static/digital-design-template.zip) 下载工程模板。解压后即可导入 Quartus 中，通常不需要更改任何设置即可使用。 -->
+
+工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2021-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
+
+!!! success "必须使用 Git"
+    
+    课程强制使用 Git 进行版本控制管理，而不是使用微信交换文件。助教提供的 `.gitignore` 文件可直接使用，用来忽略 Quartus 生成的中间文件。
+
+如果原始框架代码有更新（届时会通过多种渠道通知），你可以如下合并这些更新：
+
+```shell
+> git remote add upstream git@git.tsinghua.edu.cn:digital-design-lab/project-template.git
+> git fetch upstream
+> git merge upstream/master
+```
+
+或者，更简单地，直接：
+
+```shell
+> git pull git@git.tsinghua.edu.cn:digital-design-lab/project-template.git master
+```
+
+!!! info "注意更新方式"
+
+    用户对于自己的项目仓库没有 force push 权限，所以请不要使用 rebase 来合并上游更新，平时也不要随意修改已经 push 的 commit。如果出现问题，请自行查询并使用 `git reflog` 解决。
 
 模板中的重要文件和目录包括：
 
@@ -29,10 +53,6 @@ Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d3
     * `pll`：预生成的 PLL 模块，用于从输入的 100M 时钟生成 50M 时钟提供给 VGA 模块
 
 在新建文件时，你也应当遵循这一规范，合理放置文件。
-
-!!! success "推荐使用 Git"
-    
-    强烈推荐使用 Git 进行版本控制管理，而不是使用微信交换文件。助教提供的 `.gitignore` 文件可直接使用，用来忽略 Quartus 生成的中间文件。
 
 ### RTL 代码
 
