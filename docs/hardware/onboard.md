@@ -30,4 +30,6 @@
 
 实验板上提供了千兆以太网 PHY 芯片，其型号为 RTL8211。我们将其配置成了 GMII 接口，与实验 FPGA 相连。我们的 FPGA 同时扮演了 “CPU” 和 MAC 芯片的角色。PHY 芯片将网线上的比特流进行接收，通过 GMII 接口发送至 FPGA；FPGA 中实现的 MAC 模块将其进行解析后，将原始的以太网帧通过各类流式总线发送至 FPGA 中的其他逻辑，即可完成各类处理。
 
-Quartus 软件中已经提供了 MAC 模块的 IP Core，其数据手册见 [Intel 网站](https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/ug/ug_ethernet.pdf)。这一 IP Core 的使用比较复杂，助教团队调试后将会提供一定的技术支持。
+由于 Quartus 软件中提供的 Ethernet MAC IP 核需要专用的 license，助教团队使用 [verilog-ethernet](https://github.com/alexforencich/verilog-axis) 项目中，开源的 `eth_mac_1g_gmii` 模块进行了调试。该模块将 GMII 中到来的以太网帧，从 AXI Stream 接口中发出，该接口的位宽为 8bit，时钟频率为 125MHz。可以从 [此处](static/ethernet_example.zip) 下载样例工程，参考其中的使用方法。该项目中同时提供了带缓存的 `eth_mac_1g_gmii_fifo` 模块，如果需要对以太网帧进行短时间的 FIFO 缓存，可以将 MAC 替换为该模块。
+
+同时，针对 AXI Stream 协议，[verilog-axis](https://github.com/alexforencich/verilog-axis) 项目提供了许多有用的模块，例如 FIFO、数据宽度转换等，建议根据实际需要，使用其中的一些开源模块搭建项目。在此对这两个项目的作者 [Alex Forencich](https://github.com/alexforencich) 表示感谢，同学们也可以查看他编写的更多 Verilog 模块，从中获得启发。
