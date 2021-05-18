@@ -82,6 +82,12 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 2. [Muse Lab](https://shop446922193.taobao.com/category-1573912201.htm)
 3. [Digilent China](https://digilent.taobao.com/category-1194735943.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
 
+此外，课程助教设计并生产了基于 WM8731 音频芯片的 PMOD 扩展板：
+
+- [WM8731PMOD 硬件设计](https://github.com/jiegec/WM8731PMOD)
+- [WM8731PMOD 参考项目](https://github.com/jiegec/Arty-A7-WM8731PMOD)
+- [WM8731 文档](https://statics.cirrus.com/pubs/proDatasheet/WM8731_v4.9.pdf)
+
 ### 传感器类
 
 下面的模块需要使用杜邦线，手工连接到实验板的 GPIO 接口上。
