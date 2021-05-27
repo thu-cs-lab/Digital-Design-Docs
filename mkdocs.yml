@@ -27,6 +27,7 @@ nav:
     - 复位相关: hdl/reset.md
     - 总线协议: hdl/bus.md
     - 调试相关: hdl/debug.md
+    - 三态门: hdl/tri.md
   - 硬件相关:
     - 实验板: hardware/board.md
     - 板载外设: hardware/onboard.md
