@@ -2,21 +2,13 @@
 
 ## 下载安装
 
-本实验使用的 EDA 软件为 Intel Quartus Prime Lite 20.1.1 （以及 Cyclone 设备支持）和配套的 ModelSim 仿真器。为了正常使用，请确保你的硬盘 **至少有 50GB 可用空间**。
-
-Windows 用户请从 [清华云盘](https://cloud.tsinghua.edu.cn/d/8b419beff6d346d09854/) 下载所有的文件，Linux 用户请自行从 [Intel 官网](https://fpgasoftware.intel.com/?edition=lite) 下载对应版本（可能需要注册用户）。
-
-各个组件的安装顺序如下：
-
-* 首先安装 Quartus Prime Lite，使用默认选项即可，注意路径中不要有空格和中文；
-* 启动 Quartus，选择 Tools → Install Devices，选择下载的 Cyclone 设备支持文件；
-* 最后安装 ModelSim。安装后启动 Quartus，选择 Tools → Options → EDA Tool Options，确认已经自动识别了 ModelSim-IntelFPGA 的安装路径（否则需要手工配置）。
+本实验使用的 EDA 软件为 Intel Quartus Prime Lite Edition，由于 20.1.1 版本存在一个 [bug](https://community.intel.com/t5/Intel-Quartus-Prime-Software/Error-suppressible-vsim-12110-The-novopt-option-has-no-effect-on/td-p/1195522)，我们建议下载 19.1 版本。同时需要安装 Cyclone IV 器件支持，以及 ModelSim IntelFPGA Starter Edition 仿真器，用于实验过程中的仿真。请保证硬盘至少有 50GB 的可用空间。
 
 ## 工程模板
 
 <!-- 请从 [此处](static/digital-design-template.zip) 下载工程模板。解压后即可导入 Quartus 中，通常不需要更改任何设置即可使用。 -->
 
-工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2021-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
+工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2022-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
 
 !!! success "必须使用 Git"
     
