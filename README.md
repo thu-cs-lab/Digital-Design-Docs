@@ -4,7 +4,7 @@
 
 本项目为数字逻辑实验课程的实验文档，采用 `mkdocs` 编写。
 
-本站点的自动编译版本在 [这里](https://lab.cs.tsinghua.edu.cn/digital_design/doc/) 发布。
+本站点的自动编译版本在 [这里](https://lab.cs.tsinghua.edu.cn/digital-design/doc/) 发布。
 
 ## 撰写
 
