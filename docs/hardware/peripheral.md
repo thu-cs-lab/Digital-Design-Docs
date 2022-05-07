@@ -80,7 +80,7 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 
 1. [PSI 皮赛电子](https://pisai.taobao.com/category-1478440875.htm)
 2. [Muse Lab](https://shop446922193.taobao.com/category-1573912201.htm)
-3. [Digilent China](https://digilent.taobao.com/category-1194735943.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
+3. [迪芝伦](https://digilentchina.taobao.com/category-1636623609.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
 
 此外，课程助教设计并生产了基于 WM8731 音频芯片的 PMOD 扩展板：
 
