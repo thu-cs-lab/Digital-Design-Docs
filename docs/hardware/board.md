@@ -26,7 +26,7 @@
 6. SD 卡座：建议使用小容量低速 SD 卡，并通过 SPI 协议访问；
 7. 8 位扫描式数码管：使用方法请参考工程模板；
 8. 32 位 LED 灯：用于调试，输出高电平时点亮；
-9. 4MB SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联；
+9. 4MB SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成；
 10. 32MB SDRAM 内存：16 位宽，需要使用专用的控制器模块；
 11. FPGA JTAG 调试接口：用于连接 USB Blaster 下载程序；
 12. 2 个带去抖按键：自带硬件去抖电路，按下时为高电平；
