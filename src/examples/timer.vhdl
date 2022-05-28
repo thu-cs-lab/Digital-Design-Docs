@@ -21,7 +21,7 @@ begin
         timer_reg <= X"0";
         counter_reg <= X"00000";
       else
-        if counter_reg=999999 then
+        if counter_reg=999_999 then
           timer_reg <= timer_reg + 1;
           counter_reg <= X"00000";
         else

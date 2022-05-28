@@ -110,6 +110,10 @@ end behavior;
 
 可以看到这里引入了一个 `process(button)` 块，表示这一块内部的逻辑敏感于 `button` 信号；VHDL 表示上升沿的方式是 `button='1' and button'event`，可以理解为，`button` 变成了 `1`，并且这是一个边沿事件（event），也就是从 `0` 变成了 `1`，即上升沿。
 
+!!! tip "使用 VHDL 的 rising_edge()"
+
+    事实上 `button='1' and button'event` 可以改写成更简洁的 `rising_edge(button)`，详细对比见 [clk'event vs rising_edge()](https://stackoverflow.com/questions/15205202/clkevent-vs-rising-edge)
+
 然后在 `if` 判断的内部，编写代码 `light_reg <= not light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
 
 再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
