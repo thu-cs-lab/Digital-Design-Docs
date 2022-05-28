@@ -58,6 +58,7 @@
 ```vhdl
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity add2 is
     Port ( a : in  STD_LOGIC_VECTOR (1 downto 0);
@@ -90,6 +91,7 @@ module add2 (
   input [1:0] b,
   output [1:0] c
 );
+  // TODO
 endmodule
 ```
 
