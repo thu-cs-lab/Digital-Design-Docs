@@ -42,7 +42,7 @@ end
 由于复位的异步释放可能会导致亚稳态，而同步复位又可能无法采样到短暂的复位信号，因此通常使用的复位方式是两者的结合，被称为“异步复位，同步释放”。代码如下：
 
 ```verilog
-reg [1:0] rst_sync
+reg [1:0] rst_sync;
 wire rst_synced;
 
 // use rst_synced as asynchronous reset of all modules

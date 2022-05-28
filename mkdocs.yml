@@ -20,23 +20,30 @@ extra:
   pagetime: 'on'
 
 nav:
-  - 总述: index.md
-  - 项目设计: project.md
-  - HDL 编程:
-    - 时钟相关: hdl/clocking.md
-    - 复位相关: hdl/reset.md
-    - 总线协议: hdl/bus.md
-    - 调试相关: hdl/debug.md
-    - 三态门: hdl/tri.md
-  - 硬件相关:
-    - 实验板: hardware/board.md
-    - 板载外设: hardware/onboard.md
-    - 外接外设: hardware/peripheral.md
-  - Quartus 使用: quartus.md
-  - 常用软件: software.md
+  - 数字逻辑设计实验:
+    - 总述: index.md
+    - 项目设计: project.md
+    - HDL 编程:
+      - 时钟相关: hdl/clocking.md
+      - 复位相关: hdl/reset.md
+      - 总线协议: hdl/bus.md
+      - 调试相关: hdl/debug.md
+      - 三态门: hdl/tri.md
+    - 硬件相关:
+      - 实验板: hardware/board.md
+      - 板载外设: hardware/onboard.md
+      - 外接外设: hardware/peripheral.md
+    - Quartus 使用: quartus.md
+    - 常用软件: software.md
+  - HDL By Example:
+    - 总述: hdl-by-example/index.md
+    - 加法器: hdl-by-example/adder.md
+    - 按钮开关: hdl-by-example/button.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+  - 'https://cdn.jsdelivr.net/npm/wavedrom@2.1.2/wavedrom.unpkg.js'
+  - 'https://wavedrom.com/skins/default.js'
 
 plugins:
   - search
