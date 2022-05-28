@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity timer is
@@ -20,12 +21,11 @@ begin
         timer_reg <= X"0";
         counter_reg <= X"00000";
       else
-        -- 999999 = 0xF423F
-        if counter_reg=X"F423F" then
-          timer_reg <= timer_reg + X"1";
+        if counter_reg=999999 then
+          timer_reg <= timer_reg + 1;
           counter_reg <= X"00000";
         else
-          counter_reg <= counter_reg + X"00001";
+          counter_reg <= counter_reg + 1;
         end if;
       end if;
     end if;
