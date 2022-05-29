@@ -140,7 +140,7 @@ reg light_reg;
 assign light = light_reg;
 ```
 
-然后采用 `assign light < light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
+然后采用 `assign light = light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
 
 ```verilog
 always @ (posedge button) begin
