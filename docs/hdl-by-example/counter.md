@@ -152,5 +152,261 @@
 
 ### VHDL
 
-首先是消抖电路，鉴于同学已经比较熟悉 VHDL 代码了，这里直接给出最终代码：
+鉴于同学已经比较熟悉 VHDL 代码了，这里直接给出最终代码：
 
+首先是消抖电路：
+
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity debouncer is
+    Port ( clock            : in  STD_LOGIC;
+           reset            : in  STD_LOGIC;
+           button           : in  STD_LOGIC;
+           button_debounced : out STD_LOGIC);
+end debouncer;
+
+architecture behavior of debouncer is
+signal last_button_reg : STD_LOGIC;
+signal counter_reg : STD_LOGIC_VECTOR (15 downto 0);
+signal button_debounced_reg : STD_LOGIC;
+begin
+  -- sequential
+  process(clock, reset, button) begin
+    if rising_edge(clock) then
+      if reset='1' then
+        last_button_reg <= '0';
+        counter_reg <= X"0000";
+        button_debounced_reg <= '0';
+      else
+        last_button_reg <= button;
+
+        if button=last_button_reg then
+          if counter_reg=10000 then
+            button_debounced_reg <= last_button_reg;
+          else
+            counter_reg <= counter_reg + 1;
+          end if;
+        else
+          counter_reg <= X"0000";
+        end if;
+      end if;
+    end if;
+  end process;
+
+  -- combinatorial
+  button_debounced <= button_debounced_reg;
+end behavior;
+```
+
+接着是计数器部分：
+
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity counter is
+    Port ( clock            : in  STD_LOGIC;
+           reset            : in  STD_LOGIC;
+           button_debounced : in  STD_LOGIC;
+           ones             : out STD_LOGIC_VECTOR (3 downto 0);
+           tens             : out STD_LOGIC_VECTOR (3 downto 0));
+end counter;
+
+architecture behavior of counter is
+signal ones_reg : STD_LOGIC_VECTOR (3 downto 0);
+signal tens_reg : STD_LOGIC_VECTOR (3 downto 0);
+signal button_debounced_reg : STD_LOGIC;
+begin
+  -- sequential
+  process(clock, reset, button_debounced) begin
+    if rising_edge(clock) then
+      if reset='1' then
+        ones_reg <= X"0";
+        tens_reg <= X"0";
+        button_debounced_reg <= '0';
+      else
+        button_debounced_reg <= button_debounced;
+
+        if button_debounced='1' and button_debounced_reg='0' then
+          if ones_reg=X"9" then
+            ones_reg <= X"0";
+            tens_reg <= tens_reg + 1;
+          else
+            ones_reg <= ones_reg + 1;
+          end if;
+        end if;
+      end if;
+    end if;
+  end process;
+
+  -- combinatorial
+  ones <= ones_reg;
+  tens <= tens_reg;
+end behavior;
+```
+
+最后再用一个顶层 `entity` 把两个模块合起来：
+
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity counter_top is
+    Port ( clock            : in  STD_LOGIC;
+           reset            : in  STD_LOGIC;
+           button           : in  STD_LOGIC;
+           ones             : out STD_LOGIC_VECTOR (3 downto 0);
+           tens             : out STD_LOGIC_VECTOR (3 downto 0));
+end counter_top;
+
+architecture behavior of counter_top is
+signal button_debounced : STD_LOGIC;
+begin
+  -- debouncer
+  debouncer_component : entity work.debouncer
+    port map(
+      clock => clock,
+      reset => reset,
+      button => button,
+      button_debounced => button_debounced
+    );
+
+  -- counter
+  counter_component : entity work.counter
+    port map(
+      clock => clock,
+      reset => reset,
+      button_debounced => button_debounced,
+      ones => ones,
+      tens => tens
+    );
+end behavior;
+```
+
+这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `signal`，这个实际上只是连线，并不是寄存器，因为综合器会发现它没有设计时钟的上升沿触发逻辑。其他信号则是直接连接到顶层模块的输入输出信号。
+
+这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
+
+### Verilog
+
+鉴于同学已经比较熟悉 Verilog 代码了，这里直接给出最终代码：
+
+首先是消抖电路：
+
+```verilog
+module debouncer (
+  input clock,
+  input reset,
+  input button,
+  output button_debounced
+);
+  reg last_button_reg;
+  reg [15:0] counter_reg;
+  reg button_debounced_reg;
+
+  always @ (posedge clock) begin
+    if (reset) begin
+      last_button_reg <= 1'b0;
+      counter_reg <= 16'b0;
+      button_debounced_reg <= 1'b0;
+    end else begin
+      last_button_reg <= button;
+
+      if (button == last_button_reg) begin
+        if (counter_reg == 16'd10000) begin
+          button_debounced_reg <= last_button_reg;
+        end else begin
+          counter_reg <= counter_reg + 16'b1;
+        end
+      end else begin
+        counter_reg <= 16'b0;
+      end
+    end
+  end
+
+  assign button_debounced = button_debounced_reg;
+endmodule
+```
+
+接着是计数器部分：
+
+```verilog
+module counter (
+  input clock,
+  input reset,
+  input button_debounced,
+  output [3:0] ones,
+  output [3:0] tens
+);
+
+  reg [3:0] ones_reg;
+  reg [3:0] tens_reg;
+  reg button_debounced_reg;
+
+  always @ (posedge clock) begin
+    if (reset) begin
+      ones_reg <= 4'b0;
+      tens_reg <= 4'b0;
+      button_debounced_reg <= 1'b0;
+    end else begin
+      button_debounced_reg <= button_debounced;
+
+      if (button_debounced && !button_debounced_reg) begin
+        if (ones_reg == 4'd9) begin
+          ones_reg <= 4'b0;
+          tens_reg <= tens_reg + 4'b1;
+        end else begin
+          ones_reg <= ones_reg + 4'b1;
+        end
+      end
+    end
+  end
+
+  assign ones = ones_reg;
+  assign tens = tens_reg;
+
+endmodule
+```
+
+最后再用一个顶层 `module` 把两个模块合起来：
+
+```verilog
+module counter_top (
+  input clock,
+  input reset,
+  input button,
+  output [3:0] ones,
+  output [3:0] tens
+);
+
+  wire button_debounced;
+
+  debouncer debouncer_component (
+    .clock(clock),
+    .reset(reset),
+    .button(button),
+    .button_debounced(button_debounced)
+  );
+
+  counter counter_component (
+    .clock(clock),
+    .reset(reset),
+    .button_debounced(button_debounced),
+    .ones(ones),
+    .tens(tens)
+  );
+
+endmodule
+```
+
+这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `wire`，这个只是把两个模块的输入输出连起来，并不是寄存器。其他信号则是直接连接到顶层模块的输入输出信号。
+
+这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
