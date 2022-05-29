@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity timer is
     Port ( clock : in  STD_LOGIC;
            reset : in  STD_LOGIC;
-	         timer : out STD_LOGIC_VECTOR (3 downto 0));
+           timer : out STD_LOGIC_VECTOR (3 downto 0));
 end timer;
 
 architecture behavior of timer is
