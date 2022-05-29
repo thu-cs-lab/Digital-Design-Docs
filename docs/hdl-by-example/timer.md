@@ -261,7 +261,7 @@ end
 
 由于时钟和复位是十分常见的触发器的输入，因此通常使用的触发器在之前提到的输入 D，输入 C，输出 Q 的基础上，还添加了输入 R 用于复位，而根据同步复位和异步复位、复位的极性（高有效、低有效）的不同一共可以分为四类：
 
-同步复位，高有效（SDFFPP0 = Synchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
+同步复位，高有效（SDFF_PP0 = Synchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
 
 | 输入 D | 输入 C      | 输入 R | 输出 Q |
 | ----   | ----------- | ------ | ------ |
@@ -270,7 +270,7 @@ end
 
 ![](imgs/sync_reset.png)
 
-同步复位，低有效（SDFFPN0 = Synchronous D Flip Flop, Positive/rising edge, Negative/active-low reset polarity, Reset to zero）：
+同步复位，低有效（SDFF_PN0 = Synchronous D Flip Flop, Positive/rising edge, Negative/active-low reset polarity, Reset to zero）：
 
 | 输入 D | 输入 C      | 输入 R | 输出 Q |
 | ----   | ----------- | ------ | ------ |
@@ -279,7 +279,7 @@ end
 
 ![](imgs/sync_reset_n.png)
 
-异步复位，高有效（DFFPP0 = Asynchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
+异步复位，高有效（DFF_PP0 = Asynchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
 
 | 输入 D | 输入 C      | 输入 R | 输出 Q |
 | ----   | ----------- | ------ | ------ |
@@ -288,7 +288,7 @@ end
 
 ![](imgs/async_reset.png)
 
-异步复位，低有效（DFFPP0 = Asynchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
+异步复位，低有效（DFF_PN0 = Asynchronous D Flip Flop, Positive/rising edge, Negative/active-low reset polarity, Reset to zero）：
 
 | 输入 D | 输入 C      | 输入 R | 输出 Q |
 | ----   | ----------- | ------ | ------ |
