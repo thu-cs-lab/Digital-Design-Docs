@@ -229,6 +229,8 @@ endmodule
 
 ## 扩展
 
+### 同步复位与异步复位
+
 如果你看过网上的一些代码，你可能会发现，有的代码对 `reset` 的处理并不同，例如：
 
 VHDL:
@@ -236,7 +238,7 @@ VHDL:
 ```vhdl
 if reset='1' then
   -- some logic
-elseif clock='1' and clock'event then
+elsif clock='1' and clock'event then
   -- some logic
 end if;
 ```
@@ -254,3 +256,43 @@ end
 ```
 
 这两种写法实际上是异步复位，而我们在上面实现的秒表例子采用的是同步复位。两种写法都是可以的，在目前的学习阶段中，不需要区分二者的区别。
+
+### 触发器类型
+
+由于时钟和复位是十分常见的触发器的输入，因此通常使用的触发器在之前提到的输入 D，输入 C，输出 Q 的基础上，还添加了输入 R 用于复位，而根据同步复位和异步复位、复位的极性（高有效、低有效）的不同一共可以分为四类：
+
+同步复位，高有效（SDFFPP0 = Synchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
+
+| 输入 D | 输入 C      | 输入 R | 输出 Q |
+| ----   | ----------- | ------ | ------ |
+| d      | 0->1        | 0      | d      |
+| x      | 0->1        | 1      | 0      |
+
+![](imgs/sync_reset.png)
+
+同步复位，低有效（SDFFPN0 = Synchronous D Flip Flop, Positive/rising edge, Negative/active-low reset polarity, Reset to zero）：
+
+| 输入 D | 输入 C      | 输入 R | 输出 Q |
+| ----   | ----------- | ------ | ------ |
+| d      | 0->1        | 1      | d      |
+| x      | 0->1        | 0      | 0      |
+
+![](imgs/sync_reset_n.png)
+
+异步复位，高有效（DFFPP0 = Asynchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
+
+| 输入 D | 输入 C      | 输入 R | 输出 Q |
+| ----   | ----------- | ------ | ------ |
+| d      | 0->1        | 0      | d      |
+| x      | x           | 1      | 0      |
+
+![](imgs/async_reset.png)
+
+异步复位，低有效（DFFPP0 = Asynchronous D Flip Flop, Positive/rising edge, Positive/active-high reset polarity, Reset to zero）：
+
+| 输入 D | 输入 C      | 输入 R | 输出 Q |
+| ----   | ----------- | ------ | ------ |
+| d      | 0->1        | 1      | d      |
+| x      | x           | 0      | 0      |
+
+![](imgs/async_reset_n.png)

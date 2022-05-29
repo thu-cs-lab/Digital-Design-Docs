@@ -1,4 +1,4 @@
-module sync_reset (
+module sync_reset_n (
   input clock,
   input reset_n,
   input d,

@@ -1,4 +1,4 @@
-module async_reset (
+module async_reset_n (
   input clock,
   input reset_n,
   input d,
