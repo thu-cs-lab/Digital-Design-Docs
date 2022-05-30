@@ -91,7 +91,7 @@
 
 最后，我们把 `timer_reg` 的输出连接到 `timer` 输出即可。电路图如下：
 
-![](imgs/timer.drawio.png)
+![](imgs/timer.drawio.svg)
 
 这里采用的是上面提到的第二种方法，也就是 `timer = timer_reg`；如果要改成第一种方法的 `timer = reset ? 0 : timer_reg`，只需要在输出 `timer` 前面添加一段组合逻辑即可。
 
