@@ -41,6 +41,7 @@ nav:
     - 按钮开关: hdl-by-example/button.md
     - 秒表: hdl-by-example/timer.md
     - 计数器: hdl-by-example/counter.md
+    - 无状态仲裁器: hdl-by-example/arbiter.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
@@ -85,3 +86,8 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+
+extra:
+  analytics:
+    provider: google
+    property: G-69YPS2LP7R
