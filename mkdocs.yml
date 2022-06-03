@@ -41,7 +41,7 @@ nav:
     - 按钮开关: hdl-by-example/button.md
     - 秒表: hdl-by-example/timer.md
     - 计数器: hdl-by-example/counter.md
-    - 无状态仲裁器: hdl-by-example/arbiter.md
+    - 无状态仲裁器: hdl-by-example/priority_encoder.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
