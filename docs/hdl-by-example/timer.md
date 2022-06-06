@@ -237,7 +237,7 @@ VHDL:
 
 ```vhdl
 if reset='1' then
-  -- some logic
+  -- some simple reset logic
 elsif clock='1' and clock'event then
   -- some logic
 end if;
@@ -248,7 +248,7 @@ Verilog:
 ```verilog
 always @ (posedge clock, posedge reset) begin
   if (reset) begin
-    // some logic
+    // some simple reset logic
   end else begin
     // some logic
   end
