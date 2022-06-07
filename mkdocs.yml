@@ -42,6 +42,7 @@ nav:
     - 秒表: hdl-by-example/timer.md
     - 计数器: hdl-by-example/counter.md
     - 无状态仲裁器: hdl-by-example/priority_encoder.md
+    - 循环优先级仲裁器: hdl-by-example/rr_arbiter.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
