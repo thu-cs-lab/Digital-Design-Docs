@@ -43,6 +43,7 @@ nav:
     - 计数器: hdl-by-example/counter.md
     - 无状态仲裁器: hdl-by-example/priority_encoder.md
     - 循环优先级仲裁器: hdl-by-example/rr_arbiter.md
+    - 代码规范: hdl-by-example/coding_standard.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
