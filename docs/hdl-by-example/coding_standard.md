@@ -22,6 +22,7 @@ signal priority_encoder_valid_comb : STD_LOGIC;
 Verilog:
 
 ```verilog
+// GOOD
 reg light_reg;
 reg [1:0] user_reg;
 reg priority_encoder_valid_comb;
@@ -255,6 +256,15 @@ end
 always @ (posedge clock, posedge reset) begin
   if (reset) begin
     c_reg <= 1'b0;
+  end else begin
+    c_reg <= a + b;
+  end
+end
+
+// BAD
+always @ (posedge clock, posedge reset) begin
+  if (reset) begin
+    c_reg <= a - b;
   end else begin
     c_reg <= a + b;
   end
