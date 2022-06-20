@@ -413,6 +413,122 @@ endmodule
 
 这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
 
+### System Verilog
+
+鉴于同学已经比较熟悉 System Verilog 代码了，这里直接给出最终代码：
+
+首先是消抖电路：
+
+```verilog
+module debouncer (
+  input clock,
+  input reset,
+  input button,
+  output button_debounced
+);
+  reg last_button_reg;
+  reg [15:0] counter_reg;
+  reg button_debounced_reg;
+
+  always_ff @ (posedge clock) begin
+    if (reset) begin
+      last_button_reg <= 1'b0;
+      counter_reg <= 16'b0;
+      button_debounced_reg <= 1'b0;
+    end else begin
+      last_button_reg <= button;
+
+      if (button == last_button_reg) begin
+        if (counter_reg == 16'd10000) begin
+          button_debounced_reg <= last_button_reg;
+        end else begin
+          counter_reg <= counter_reg + 16'b1;
+        end
+      end else begin
+        counter_reg <= 16'b0;
+      end
+    end
+  end
+
+  assign button_debounced = button_debounced_reg;
+endmodule
+```
+
+接着是计数器部分：
+
+```verilog
+module counter (
+  input clock,
+  input reset,
+  input button_debounced,
+  output [3:0] ones,
+  output [3:0] tens
+);
+
+  reg [3:0] ones_reg;
+  reg [3:0] tens_reg;
+  reg button_debounced_reg;
+
+  always_ff @ (posedge clock) begin
+    if (reset) begin
+      ones_reg <= 4'b0;
+      tens_reg <= 4'b0;
+      button_debounced_reg <= 1'b0;
+    end else begin
+      button_debounced_reg <= button_debounced;
+
+      if (button_debounced && !button_debounced_reg) begin
+        if (ones_reg == 4'd9) begin
+          ones_reg <= 4'b0;
+          tens_reg <= tens_reg + 4'b1;
+        end else begin
+          ones_reg <= ones_reg + 4'b1;
+        end
+      end
+    end
+  end
+
+  assign ones = ones_reg;
+  assign tens = tens_reg;
+
+endmodule
+```
+
+最后再用一个顶层 `module` 把两个模块合起来：
+
+```verilog
+module counter_top (
+  input clock,
+  input reset,
+  input button,
+  output [3:0] ones,
+  output [3:0] tens
+);
+
+  wire button_debounced;
+
+  debouncer debouncer_component (
+    .clock(clock),
+    .reset(reset),
+    .button(button),
+    .button_debounced(button_debounced)
+  );
+
+  counter counter_component (
+    .clock(clock),
+    .reset(reset),
+    .button_debounced(button_debounced),
+    .ones(ones),
+    .tens(tens)
+  );
+
+endmodule
+```
+
+这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `wire`，这个只是把两个模块的输入输出连起来，并不是寄存器。其他信号则是直接连接到顶层模块的输入输出信号。
+
+这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
+
 ## 扩展
 
 上面介绍了消抖电路，它主要的目的是消除 **物理按键** 在按下和松开时产生的抖动，其检测的事件是，输入信号持续一段时间（ms 量级）不变。

@@ -65,7 +65,7 @@
 
 ## 代码
 
-既然电路的实现已经很清晰了，让我们用 VHDL/Verilog 来实现上述的功能吧。
+既然电路的实现已经很清晰了，让我们用 HDL 语言来实现上述的功能吧。
 
 ### VHDL
 
@@ -174,6 +174,67 @@ endmodule
 !!! question "为什么这里的赋值是 `=`，而之前在 `always @ (posedge clock)` 中用的是 `<=`？"
 
     这依然是 Verilog 的设计问题。具体的原因不详述了，只要记住在时序逻辑 `always @ (posedge clock)` 中始终用 `<=`（非阻塞赋值），而组合逻辑 `always @ (*)` 中始终用 `=`（阻塞赋值）。
+
+### System Verilog
+
+首先根据输入输出信号，声明 `module`：
+
+```verilog
+module priority_encoder (
+  input [3:0] request,
+  output valid,
+  output [1:0] user
+);
+  // TODO
+endmodule
+```
+
+接着来实现组合逻辑电路。一种方法是用之前提到的 `assign` 方法，比如 `assign valid = request[0] || request[1] || request[2] || request[3]` 或者更简洁的 `assign valid = |request`；但是要涉及到更加复杂的组合逻辑的时候，这样写会比较复杂。下面我们使用 `always_comb` 块来实现这个功能：
+
+```verilog
+  reg valid_comb;
+  reg [1:0] user_comb;
+
+  always_comb begin
+    // default
+    valid_comb = 1'b0;
+    user_comb = 2'd0;
+
+    // cases
+    case (request)
+      4'bxxx1: begin
+        valid_comb = 1'b1;
+        user_comb = 2'd0;
+      end
+      4'bxx10: begin
+        valid_comb = 1'b1;
+        user_comb = 2'd1;
+      end
+      4'bx100: begin
+        valid_comb = 1'b1;
+        user_comb = 2'd2;
+      end
+      4'b1000: begin
+        valid_comb = 1'b1;
+        user_comb = 2'd3;
+      end
+    endcase
+
+  end
+
+  assign valid = valid_comb;
+  assign user = user_comb;
+```
+
+!!! question "为什么这里要用 `reg`？明明是组合逻辑呀。"
+
+    相信第一次看到这段代码的你一定会有这样的疑惑，这其实是 Verilog 语法上的一个特殊要求，所有在 `always` 块中赋值的对象，无论是组合逻辑的 `always_comb` 还是时序逻辑的 `always_ff @(posedge clock)`，都需要放在一个 `reg` （或者具有类似语义的类型）中。归根结底是因为 Verilog 描述的是功能模型，它与仿真过程是可以对应的，导致写代码的时候容易混淆。因此，在代码中，我们把这一类 `reg` 的命名都加上了 `_comb` 的后缀表示是组合逻辑。细心的读者也会发现，之前我们所有的寄存器命名都加上了 `_reg` 的后缀，就是为了区分这两种用途。
+
+此时，我们就可以在 `always_comb` 块中灵活地使用各种条件语句，包括这里使用的 `case` 语句。可以看到，这里首先设置了一个默认的结果，这样如果下面所有的 `case` 都不满足，那么输出的就是默认值。由于组合逻辑电路中，不允许出现某个情况下没有取值的情况，所以这里必须人为保证 **所有可能性下，每个组合信号都有取值**。为了达成这个目的，并且防止自己遗忘在某些条件下进行赋值，可以在开头设置一个默认值。
+
+!!! question "为什么这里的赋值是 `=`，而之前在 `always_ff @ (posedge clock)` 中用的是 `<=`？"
+
+    这依然是 Verilog 的设计问题。具体的原因不详述了，只要记住在时序逻辑 `always_ff @ (posedge clock)` 中始终用 `<=`（非阻塞赋值），而组合逻辑 `always_comb` 中始终用 `=`（阻塞赋值）。
 
 ## 总结
 
