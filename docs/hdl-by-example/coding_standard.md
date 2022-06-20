@@ -4,13 +4,15 @@
 
 ## 001 通过命名来区分寄存器和信号
 
+### 规范
+
 在实现的过程中，模块内部经常需要声明一些变量，但是这些变量在硬件中，可能对应了时序逻辑（寄存器），也可能对应了组合逻辑（信号），为了区分二者，我们推荐：
 
 1. 所有的寄存器命名添加 `_reg` 后缀
 2. 所有的组合逻辑信号命名添加 `_comb` 后缀
 3. 模块的输入输出信号不添加后缀
 
-VHDL
+### VHDL
 
 ```vhdl
 -- GOOD
@@ -19,7 +21,7 @@ signal user_reg : STD_LOGIC_VECTOR (1 downto 0);
 signal priority_encoder_valid_comb : STD_LOGIC;
 ```
 
-Verilog:
+### Verilog/System Verilog
 
 ```verilog
 // GOOD
@@ -30,9 +32,11 @@ reg priority_encoder_valid_comb;
 
 ## 002 信号或寄存器应当仅在一个块中赋值
 
+### 规范
+
 对于目前学到的数字逻辑中，所有的信号或寄存器都应当在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
 
-VHDL:
+### VHDL
 
 ```vhdl
 -- GOOD
@@ -70,7 +74,7 @@ process (clock) begin
 end process;
 ```
 
-Verilog:
+### Verilog
 
 ```verilog
 // GOOD
@@ -100,11 +104,43 @@ always @ (posedge clock) begin
 end
 ```
 
+### System Verilog
+
+```sv
+// GOOD
+always_comb begin
+  c_comb = a + b;
+end
+
+// BAD
+always_comb begin
+  c_comb = a;
+end
+always_comb begin
+  c_comb = b;
+end
+
+// GOOD
+always_ff @ (posedge clock) begin
+  c_reg <= a + b;
+end
+
+// BAD
+always_ff @ (posedge clock) begin
+  c_reg <= a + b;
+end
+always_ff @ (posedge clock) begin
+  c_reg <= a - b;
+end
+```
+
 ## 003 将时序逻辑和组合逻辑写在不同的块中
+
+### 规范
 
 通常，我们会将代码组织为时序逻辑和组合逻辑两部分，比如先写时序逻辑，再写组合逻辑，而不会混在一起编写。
 
-VHDL:
+### VHDL
 
 ```vhdl
 -- GOOD
@@ -128,7 +164,7 @@ process (clock, a, b) begin
 end process;
 ```
 
-Verilog:
+### Verilog
 
 ```verilog
 // GOOD
@@ -141,11 +177,26 @@ always @ (*) begin
 end
 ```
 
+### System Verilog
+
+```sv
+// GOOD
+always_ff @ (posedge clock) begin
+  c_reg <= a + b;
+end
+
+always_comb begin
+  d_comb = a - b;
+end
+```
+
 ## 004 每个寄存器应当只在一个时钟上升沿触发
+
+### 规范
 
 由于 D 触发器只有一个时钟输入，并在时钟的上升沿触发更新，因此不能有超过一个时钟输入；此外，在目前学习的数字电路中，推荐统一使用上升沿触发，不使用下降沿触发。
 
-VHDL：
+### VHDL
 
 ```vhdl
 -- GOOD
@@ -166,7 +217,7 @@ process (clock1, clock2) begin
 end
 ```
 
-Verilog:
+### Verilog
 
 ```verilog
 // GOOD
@@ -188,11 +239,35 @@ always @ (posedge clock1, posedge clock2) begin
 end
 ```
 
+### System Verilog
+
+```sv
+// GOOD
+always_ff @ (posedge clock) begin
+  c_reg <= a + b;
+end
+
+// BAD
+always_ff @ (posedge clock1) begin
+  c_reg <= a + b;
+end
+always_ff @ (posedge clock2) begin
+  c_reg <= a - b;
+end
+
+// BAD
+always_ff @ (posedge clock1, posedge clock2) begin
+  c_reg <= a + b;
+end
+```
+
 ## 005 寄存器应该实现复位逻辑，并且复位到常量
+
+### 规范
 
 对于使用到的寄存器，都应当实现相应的复位逻辑，并且应当复位到常量。实现时，可以采用同步复位或者异步复位的方式。
 
-VHDL：
+### VHDL
 
 ```vhdl
 -- GOOD
@@ -236,7 +311,7 @@ process (clock, reset) begin
 end process;
 ```
 
-Verilog:
+### Verilog
 
 需要注意的是，虽然编写的时候是 `posedge reset`，但实际上这里的 `reset` 是电平触发。
 
@@ -271,13 +346,50 @@ always @ (posedge clock, posedge reset) begin
 end
 ```
 
+### System Verilog
+
+需要注意的是，虽然编写的时候是 `posedge reset`，但实际上这里的 `reset` 是电平触发。
+
+```sv
+// GOOD
+// sync reset
+always_ff @ (posedge clock) begin
+  if (reset) begin
+    c_reg <= 1'b0;
+  end else begin
+    c_reg <= a + b;
+  end
+end
+
+// GOOD
+// async reset
+always_ff @ (posedge clock, posedge reset) begin
+  if (reset) begin
+    c_reg <= 1'b0;
+  end else begin
+    c_reg <= a + b;
+  end
+end
+
+// BAD
+always_ff @ (posedge clock, posedge reset) begin
+  if (reset) begin
+    c_reg <= a - b;
+  end else begin
+    c_reg <= a + b;
+  end
+end
+```
+
 ## 006 组合逻辑需要保证每个分支下每个信号都有赋值
+
+### 规范
 
 在实现比较复杂的组合逻辑的时候，通常会用一些 `if-then-else` 的语句来实现，但此时很容易在一些分支下遗忘了对组合逻辑信号的赋值，此时就会产生锁存器（latch），可能会导致电路与预期效果不符。目前的数字电路学习中，不需要使用锁存器。
 
 为了防止自己遗忘，可以在分支开头设置一个默认值。
 
-VHDL:
+### VHDL
 
 ```vhdl
 -- GOOD
@@ -309,7 +421,7 @@ process (a,b,c) begin
 end process;
 ```
 
-Verilog:
+### Verilog
 
 ```verilog
 // GOOD
@@ -332,6 +444,38 @@ end
 
 // GOOD
 always @ (*) begin
+  d_comb = c;
+  if (!a) begin
+    d_comb = b + c;
+  end else if (!b) begin
+    d_comb = b - c;
+  end
+end
+```
+
+### System Verilog
+
+```sv
+// GOOD
+always_comb begin
+  if (!a) begin
+    d_comb = b + c;
+  end else begin
+    d_comb = b - c;
+  end
+end
+
+// BAD
+always_comb begin
+  if (!a) begin
+    d_comb = b + c;
+  end else if (!b) begin
+    d_comb = b - c;
+  end
+end
+
+// GOOD
+always_comb begin
   d_comb = c;
   if (!a) begin
     d_comb = b + c;
