@@ -59,132 +59,132 @@
 
 最后再用 HDL 来实现如上的功能。之前我们已经学过，组合电路比较简单，直接把计算结果 **连接** 到输出即可。但时序逻辑里，我们需要显式的声明一个寄存器（对应电路里的触发器），并且 **严格** 按照下面的方式，把信号 **连接** 到触发器的输入 D 端口。
 
-### VHDL
-
-首先，还是根据前面确定的输出信号编写 `entity`：
-
-```vhdl
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
-entity button is
-    Port ( button : in  STD_LOGIC;
-           light  : out STD_LOGIC);
-end button;
-```
-
-这里的输入输出信号都只有 `1` 位，所以可以这里用 `STD_LOGIC`；如果有更多位，则要用 `STD_LOGIC_VECTOR (n-1 downto 0)` 表示 `n` 位的信号。
-
-接着，我们要把电路的实现放在 `architecture` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
-
-```vhdl
-architecture behavior of button is
-signal light_reg : STD_LOGIC;
-begin
-  -- sequential
-  -- how to write?
-
-  -- combinatorial
-  light <= light_reg;
-end behavior;
-```
-
-然后采用 `light <= light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
-
-```vhdl
-architecture behavior of button is
-signal light_reg : STD_LOGIC;
-begin
-  -- sequential
-  process(button)
-  begin
-    if button='1' and button'event then
-      light_reg <= not light_reg;
-    end if;
-  end process;
-
-  -- combinatorial
-  light <= light_reg;
-end behavior;
-```
-
-可以看到这里引入了一个 `process(button)` 块，表示这一块内部的逻辑敏感于 `button` 信号；VHDL 表示上升沿的方式是 `button='1' and button'event`，可以理解为，`button` 变成了 `1`，并且这是一个边沿事件（event），也就是从 `0` 变成了 `1`，即上升沿。
-
-!!! tip "使用 VHDL 的 rising_edge()"
-
-    事实上 `button='1' and button'event` 可以改写成更简洁的 `rising_edge(button)`，详细对比见 [clk'event vs rising_edge()](https://stackoverflow.com/questions/15205202/clkevent-vs-rising-edge)
-
-然后在 `if` 判断的内部，编写代码 `light_reg <= not light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
-
-再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
-
-### Verilog
-
-首先，还是根据前面确定的输出信号编写 `module`：
-
-```verilog
-module button (
-  input button,
-  output light
-);
-  // TODO
-endmodule
-```
-
-这里的输入输出信号都只有 `1` 位，所以就直接写 `input button` 和 `output light` 即可，不需要写 `[n-1:0]`。
-
-接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
-
-```verilog
-reg light_reg;
-assign light = light_reg;
-```
-
-然后采用 `assign light = light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
-
-```verilog
-always @ (posedge button) begin
-  light_reg <= ~light_reg;
-end
-```
-
-可以看到这里引入了一个 `always @ (posedge button)` 块，表示这一块内部的逻辑在 `button` 的上升沿触发。然后在 `always` 块的内部，编写代码 `light_reg <= ~light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
-
-再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
-
-### System Verilog
-
-首先，还是根据前面确定的输出信号编写 `module`：
-
-```verilog
-module button (
-  input button,
-  output light
-);
-  // TODO
-endmodule
-```
-
-这里的输入输出信号都只有 `1` 位，所以就直接写 `input button` 和 `output light` 即可，不需要写 `[n-1:0]`。
-
-接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
-
-```verilog
-reg light_reg;
-assign light = light_reg;
-```
-
-然后采用 `assign light = light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
-
-```verilog
-always_ff @ (posedge button) begin
-  light_reg <= ~light_reg;
-end
-```
-
-可以看到这里引入了一个 `always_ff @ (posedge button)` 块，表示这一块内部的逻辑在 `button` 的上升沿触发。然后在 `always_ff` 块的内部，编写代码 `light_reg <= ~light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
-
-再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
+=== "VHDL"
+    
+    首先，还是根据前面确定的输出信号编写 `entity`：
+    
+    ```vhdl
+    library IEEE;
+    use IEEE.STD_LOGIC_1164.ALL;
+    
+    entity button is
+        Port ( button : in  STD_LOGIC;
+               light  : out STD_LOGIC);
+    end button;
+    ```
+    
+    这里的输入输出信号都只有 `1` 位，所以可以这里用 `STD_LOGIC`；如果有更多位，则要用 `STD_LOGIC_VECTOR (n-1 downto 0)` 表示 `n` 位的信号。
+    
+    接着，我们要把电路的实现放在 `architecture` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
+    
+    ```vhdl
+    architecture behavior of button is
+    signal light_reg : STD_LOGIC;
+    begin
+      -- sequential
+      -- how to write?
+    
+      -- combinatorial
+      light <= light_reg;
+    end behavior;
+    ```
+    
+    然后采用 `light <= light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
+    
+    ```vhdl
+    architecture behavior of button is
+    signal light_reg : STD_LOGIC;
+    begin
+      -- sequential
+      process(button)
+      begin
+        if button='1' and button'event then
+          light_reg <= not light_reg;
+        end if;
+      end process;
+    
+      -- combinatorial
+      light <= light_reg;
+    end behavior;
+    ```
+    
+    可以看到这里引入了一个 `process(button)` 块，表示这一块内部的逻辑敏感于 `button` 信号；VHDL 表示上升沿的方式是 `button='1' and button'event`，可以理解为，`button` 变成了 `1`，并且这是一个边沿事件（event），也就是从 `0` 变成了 `1`，即上升沿。
+    
+    !!! tip "使用 VHDL 的 rising_edge()"
+    
+        事实上 `button='1' and button'event` 可以改写成更简洁的 `rising_edge(button)`，详细对比见 [clk'event vs rising_edge()](https://stackoverflow.com/questions/15205202/clkevent-vs-rising-edge)
+    
+    然后在 `if` 判断的内部，编写代码 `light_reg <= not light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
+    
+    再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
+    
+=== "Verilog"
+    
+    首先，还是根据前面确定的输出信号编写 `module`：
+    
+    ```verilog
+    module button (
+      input button,
+      output light
+    );
+      // TODO
+    endmodule
+    ```
+    
+    这里的输入输出信号都只有 `1` 位，所以就直接写 `input button` 和 `output light` 即可，不需要写 `[n-1:0]`。
+    
+    接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
+    
+    ```verilog
+    reg light_reg;
+    assign light = light_reg;
+    ```
+    
+    然后采用 `assign light = light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
+    
+    ```verilog
+    always @ (posedge button) begin
+      light_reg <= ~light_reg;
+    end
+    ```
+    
+    可以看到这里引入了一个 `always @ (posedge button)` 块，表示这一块内部的逻辑在 `button` 的上升沿触发。然后在 `always` 块的内部，编写代码 `light_reg <= ~light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
+    
+    再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
+    
+=== "System Verilog"
+    
+    首先，还是根据前面确定的输出信号编写 `module`：
+    
+    ```verilog
+    module button (
+      input button,
+      output light
+    );
+      // TODO
+    endmodule
+    ```
+    
+    这里的输入输出信号都只有 `1` 位，所以就直接写 `input button` 和 `output light` 即可，不需要写 `[n-1:0]`。
+    
+    接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
+    
+    ```verilog
+    reg light_reg;
+    assign light = light_reg;
+    ```
+    
+    然后采用 `assign light = light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
+    
+    ```verilog
+    always_ff @ (posedge button) begin
+      light_reg <= ~light_reg;
+    end
+    ```
+    
+    可以看到这里引入了一个 `always_ff @ (posedge button)` 块，表示这一块内部的逻辑在 `button` 的上升沿触发。然后在 `always_ff` 块的内部，编写代码 `light_reg <= ~light_reg` 来实现更新。注意，这里的意思是把 `light_reg` 的输出 Q 经过非门连接到 `light_reg` 的输入 D 中。换句话说，出现在 `<=` 右侧的都是触发器的输出 Q 端口，而出现在 `<=` 左侧的都是触发器的输入 D 端口。
+    
+    再次提醒同学，这里的 `<=` 要理解为信号的连接，而不是软件编程中的赋值。
 
 ## 总结
 

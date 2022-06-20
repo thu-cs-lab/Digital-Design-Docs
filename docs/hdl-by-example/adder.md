@@ -51,60 +51,60 @@
 
 最后再用 HDL 来实现如上的功能。虽然上面我们推导了加法的逻辑电路，但实际上写 HDL 的时候，我们直接写 `a+b` 就可以了，EDA 工具会自动完成逻辑的转换。
 
-### VHDL
+=== "VHDL"
 
-首先，根据前面确定的输出信号编写 `entity`：
-
-```vhdl
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
-
-entity add2 is
-    Port ( a : in  STD_LOGIC_VECTOR (1 downto 0);
-           b : in  STD_LOGIC_VECTOR (1 downto 0);
-           c : out STD_LOGIC_VECTOR (1 downto 0));
-end add2;
-```
-
-通常，当我们声明一个宽度为 `n` 的信号的时候，采用的是 `STD_LOGIC_VECTOR (n-1 downto 0)` 的写法，可以理解为一共有 `n` 位，下标从高到底是 `n-1` 到 `0`。其余部分是什么作用，不用管，当成模板记住就行。
-
-接着，我们要把电路实现放在 `architecture` 内部。对于组合电路，直接构造 `a+b` 的电路，然后把结果 **连接** 到输出信号 `c` 即可。
-
-
-```vhdl
-architecture behavior of add2 is
-begin
-  c <= a + b;
-end behavior;
-```
-
-请注意，不要把这里的 `<=` 理解为赋值，而是把它看成信号的连接：通过一系列的逻辑门（比如上面提到的异或门 XOR、与门 AND），计算得到 `a+b` 的结果，再把结果连接到输出信号 `c` 上。
-
-### Verilog/System Verilog
-
-首先，根据前面确定的输出输出信号编写 `module`：
-
-```verilog
-module add2 (
-  input [1:0] a,
-  input [1:0] b,
-  output [1:0] c
-);
-  // TODO
-endmodule
-```
-
-通常，当我们声明一个宽度为 `n` 的信号的时候，采用的是 `[n-1:0]` 的写法，可以理解为一共有 `n` 位，下标从高到底是 `n-1` 到 `0`。其余部分是什么作用，不用管，当成模板记住就行。这里有一个很容易犯的错误是在 `output [1:0] c` 后面多写了一个逗号，通常是在复制粘贴的时候忘记删除。
-
-接着，我们要把电路实现放在 `module` 内部。对于组合电路，直接构造 `a+b` 的电路，然后把结果 **连接** 到输出信号 `c` 即可。
+    首先，根据前面确定的输出信号编写 `entity`：
+  
+    ```vhdl
+    library IEEE;
+    use IEEE.STD_LOGIC_1164.ALL;
+    use IEEE.STD_LOGIC_UNSIGNED.ALL;
+  
+    entity add2 is
+        Port ( a : in  STD_LOGIC_VECTOR (1 downto 0);
+               b : in  STD_LOGIC_VECTOR (1 downto 0);
+               c : out STD_LOGIC_VECTOR (1 downto 0));
+    end add2;
+    ```
+  
+    通常，当我们声明一个宽度为 `n` 的信号的时候，采用的是 `STD_LOGIC_VECTOR (n-1 downto 0)` 的写法，可以理解为一共有 `n` 位，下标从高到底是 `n-1` 到 `0`。其余部分是什么作用，不用管，当成模板记住就行。
+  
+    接着，我们要把电路实现放在 `architecture` 内部。对于组合电路，直接构造 `a+b` 的电路，然后把结果 **连接** 到输出信号 `c` 即可。
 
 
-```verilog
-  assign c = a + b;
-```
+    ```vhdl
+    architecture behavior of add2 is
+    begin
+      c <= a + b;
+    end behavior;
+    ```
 
-请注意，不要把这里的 `assign c = a + b` 理解为赋值，而是把它看成信号的连接：通过一系列的逻辑门（比如上面提到的异或门 XOR、与门 AND），计算得到 `a+b` 的结果，再把结果连接到输出信号 `c` 上。
+    请注意，不要把这里的 `<=` 理解为赋值，而是把它看成信号的连接：通过一系列的逻辑门（比如上面提到的异或门 XOR、与门 AND），计算得到 `a+b` 的结果，再把结果连接到输出信号 `c` 上。
+
+=== "Verilog/System Verilog"
+
+    首先，根据前面确定的输出输出信号编写 `module`：
+  
+    ```verilog
+    module add2 (
+      input [1:0] a,
+      input [1:0] b,
+      output [1:0] c
+    );
+      // TODO
+    endmodule
+    ```
+  
+    通常，当我们声明一个宽度为 `n` 的信号的时候，采用的是 `[n-1:0]` 的写法，可以理解为一共有 `n` 位，下标从高到底是 `n-1` 到 `0`。其余部分是什么作用，不用管，当成模板记住就行。这里有一个很容易犯的错误是在 `output [1:0] c` 后面多写了一个逗号，通常是在复制粘贴的时候忘记删除。
+  
+    接着，我们要把电路实现放在 `module` 内部。对于组合电路，直接构造 `a+b` 的电路，然后把结果 **连接** 到输出信号 `c` 即可。
+  
+  
+    ```verilog
+      assign c = a + b;
+    ```
+  
+    请注意，不要把这里的 `assign c = a + b` 理解为赋值，而是把它看成信号的连接：通过一系列的逻辑门（比如上面提到的异或门 XOR、与门 AND），计算得到 `a+b` 的结果，再把结果连接到输出信号 `c` 上。
 
 ## 总结
 
