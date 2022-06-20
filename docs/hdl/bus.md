@@ -29,7 +29,7 @@ IntelFPGA 上的 IP 使用的标准内存映射协议为 Avalon，详细说明�
 * Width Converter：转换主从接口的数据宽度
 * Clock Converter：转换主从接口的时钟频率
 * FIFO：在接口间缓存数据
-* Register Slice：插入寄存器，切断组合逻辑，改善时许
+* Register Slice：插入寄存器，切断组合逻辑，改善时序
 
 Quartus 与 Vivado 中均有相应的 IP 可供使用。
 
