@@ -471,3 +471,67 @@
       end
     end
     ```
+
+## 007 如有必要可以对寄存器设置 FPGA 启动初始值
+
+当 FPGA 初始化的时候，寄存器也有一个启动初始值，它与复位不同，FPGA 在加载 bitstream 的时候，会按照启动初始值来设置寄存器的取值。这个方法用的比较少，通常来说并不需要使用这个功能，但是在一些情况下，例如对于外设的访问，如果按照默认初始值，可能还没来得及复位，就对外设进行了非预期的操作，这时候就需要设置寄存器的 FPGA 启动初始值。但是这种方法只对 FPGA 和仿真环境有效，而 ASIC 无效。
+
+设置启动初始值不能代替复位的功能，不能偷懒，必须都实现。不可以对组合逻辑使用。
+
+=== "VHDL"
+ 
+    ```vhdl
+    -- GOOD
+    architecture behavior of initial_reg is
+    signal some_reg : STD_LOGIC := '0';
+    begin
+    end behavior;
+
+    -- BAD
+    architecture behavior of initial_reg is
+    signal some_comb : STD_LOGIC := '0';
+    begin
+    end behavior;
+    ```
+
+=== "Verilog"
+ 
+    ```verilog
+    // GOOD
+    reg some_reg;
+    initial begin
+      some_reg <= 1'b0;
+    end
+ 
+    // GOOD
+    reg some_reg;
+    initial some_reg = 1'b0;
+
+    // BAD
+    wire some_comb = 1'b0;
+
+    // BAD
+    wire some_comb;
+    initial some_comb = 1'b0;
+    ```
+
+=== "System Verilog"
+ 
+    ```sv
+    // GOOD
+    reg some_reg;
+    initial begin
+      some_reg <= 1'b0;
+    end
+ 
+    // GOOD
+    reg some_reg;
+    initial some_reg = 1'b0;
+
+    // BAD
+    wire some_comb = 1'b0;
+
+    // BAD
+    wire some_comb;
+    initial some_comb = 1'b0;
+    ```
