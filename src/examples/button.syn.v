@@ -5,6 +5,10 @@
 module button(button, light);
   (* src = "examples/button.v:7.3-9.6" *)
   wire _0_;
+  (* src = "examples/button.v:7.3-9.6" *)
+  wire _1_;
+  (* src = "examples/button.v:5.7-5.16" *)
+  wire _2_;
   (* src = "examples/button.v:2.9-2.15" *)
   input button;
   wire button;
@@ -13,9 +17,11 @@ module button(button, light);
   wire light;
   (* src = "examples/button.v:5.7-5.16" *)
   reg light_reg;
-  assign _0_ = ~ (* src = "examples/button.v:8.18-8.28" *) light_reg;
+  assign _1_ = ~_2_;
   (* src = "examples/button.v:7.3-9.6" *)
   always @(posedge button)
     light_reg <= _0_;
   assign light = light_reg;
+  assign _2_ = light_reg;
+  assign _0_ = _1_;
 endmodule
