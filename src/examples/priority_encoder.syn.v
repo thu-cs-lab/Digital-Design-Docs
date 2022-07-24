@@ -46,21 +46,21 @@ module priority_encoder(request, valid, user);
   (* src = "examples/priority_encoder.v:6.7-6.17" *)
   wire valid_comb;
   assign _13_ = ~_17_;
-  assign _14_ = ~(_15_ | _16_);
+  assign _14_ = ~(_16_ | _15_);
   assign _09_ = ~(_17_ | _18_);
   assign _10_ = _17_ | _18_;
-  assign _21_ = ~(_14_ & _09_);
+  assign _20_ = _14_ & _10_;
   assign _11_ = _13_ & _18_;
   assign _12_ = ~(_16_ | _11_);
   assign _19_ = ~(_15_ | _12_);
-  assign _20_ = _14_ & _10_;
+  assign _21_ = ~(_14_ & _09_);
   assign user_comb = user;
   assign valid_comb = valid;
-  assign _15_ = request[0];
-  assign _16_ = request[1];
   assign _17_ = request[2];
   assign _18_ = request[3];
-  assign valid = _21_;
-  assign user[0] = _19_;
+  assign _16_ = request[1];
+  assign _15_ = request[0];
   assign user[1] = _20_;
+  assign user[0] = _19_;
+  assign valid = _21_;
 endmodule
