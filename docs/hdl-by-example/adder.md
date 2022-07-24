@@ -45,7 +45,7 @@
 
 电路图如下：
 
-![](imgs/add2.png)
+![](imgs/adder.svg)
 
 ## 代码
 
