@@ -52,7 +52,7 @@
 那么，如何找到请求的用户里，编号最小的那一个呢？我们可以分情况讨论，下面的 `x` 表示任意值：
 
 1. `request=0000`，那么输出的 `user` 可以是任意值，因为此时 `valid=0`
-2. `request=xxx0`，此时 `user=0, valid=1`
+2. `request=xxx1`，此时 `user=0, valid=1`
 3. `request=xx10`，此时 `user=1, valid=1`
 4. `request=x100`，此时 `user=2, valid=1`
 5. `request=1000`，此时 `user=3, valid=1`
