@@ -238,9 +238,9 @@
     
     接着，我们把电路实现放在 `module` 中。首先，声明我们需要用到的两个寄存器：
     
-    ```verilog
-      reg [3:0] timer_reg;
-      reg [19:0] counter_reg;
+    ```sv
+      logic [3:0] timer_reg;
+      logic [19:0] counter_reg;
     ```
     
     接下来按照上面的思路来实现 `timer_reg` 和 `counter_reg` 的逻辑：
@@ -251,7 +251,7 @@
     
     由于二者的判断是类似的，我们可以直接合并起来写：
     
-    ```verilog
+    ```sv
       // sequential
       always_ff @ (posedge clock) begin
         if (reset) begin
@@ -309,7 +309,7 @@
 
 === "System Verilog"
 
-    ```verilog
+    ```sv
     always_ff @ (posedge clock, posedge reset) begin
       if (reset) begin
         // some simple reset logic

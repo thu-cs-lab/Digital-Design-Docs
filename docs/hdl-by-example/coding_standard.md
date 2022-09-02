@@ -19,13 +19,22 @@
     signal priority_encoder_valid_comb : STD_LOGIC;
     ```
     
-=== "Verilog/System Verilog"
+=== "Verilog"
     
     ```verilog
     // GOOD
     reg light_reg;
     reg [1:0] user_reg;
     reg priority_encoder_valid_comb;
+    ```
+
+=== "System Verilog"
+    
+    ```sv
+    // GOOD
+    logic light_reg;
+    logic [1:0] user_reg;
+    logic priority_encoder_valid_comb;
     ```
 
 ## 002 信号或寄存器应当仅在一个块中赋值
@@ -519,13 +528,13 @@
  
     ```sv
     // GOOD
-    reg some_reg;
+    logic some_reg;
     initial begin
       some_reg <= 1'b0;
     end
  
     // GOOD
-    reg some_reg;
+    logic some_reg;
     initial some_reg = 1'b0;
 
     // BAD

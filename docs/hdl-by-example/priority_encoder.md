@@ -191,9 +191,9 @@
     
     接着来实现组合逻辑电路。一种方法是用之前提到的 `assign` 方法，比如 `assign valid = request[0] || request[1] || request[2] || request[3]` 或者更简洁的 `assign valid = |request`；但是要涉及到更加复杂的组合逻辑的时候，这样写会比较复杂。下面我们使用 `always_comb` 块来实现这个功能：
     
-    ```verilog
-      reg valid_comb;
-      reg [1:0] user_comb;
+    ```sv
+      logic valid_comb;
+      logic [1:0] user_comb;
     
       always_comb begin
         // default

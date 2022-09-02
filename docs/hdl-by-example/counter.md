@@ -419,17 +419,17 @@
     
     首先是消抖电路：
     
-    ```verilog
+    ```sv
     module debouncer (
       input clock,
       input reset,
       input button,
       output button_debounced
     );
-      reg last_button_reg;
-      reg [15:0] counter_reg;
-      reg button_debounced_reg;
-    
+      logic last_button_reg;
+      logic [15:0] counter_reg;
+      logic button_debounced_reg;
+
       always_ff @ (posedge clock) begin
         if (reset) begin
           last_button_reg <= 1'b0;
@@ -449,14 +449,14 @@
           end
         end
       end
-    
+
       assign button_debounced = button_debounced_reg;
     endmodule
     ```
-    
+
     接着是计数器部分：
-    
-    ```verilog
+
+    ```sv
     module counter (
       input clock,
       input reset,
@@ -464,11 +464,11 @@
       output [3:0] ones,
       output [3:0] tens
     );
-    
-      reg [3:0] ones_reg;
-      reg [3:0] tens_reg;
-      reg button_debounced_reg;
-    
+
+      logic [3:0] ones_reg;
+      logic [3:0] tens_reg;
+      logic button_debounced_reg;
+
       always_ff @ (posedge clock) begin
         if (reset) begin
           ones_reg <= 4'b0;
@@ -496,7 +496,7 @@
     
     最后再用一个顶层 `module` 把两个模块合起来：
     
-    ```verilog
+    ```sv
     module counter_top (
       input clock,
       input reset,
@@ -504,9 +504,9 @@
       output [3:0] ones,
       output [3:0] tens
     );
-    
+
       wire button_debounced;
-    
+
       debouncer debouncer_component (
         .clock(clock),
         .reset(reset),

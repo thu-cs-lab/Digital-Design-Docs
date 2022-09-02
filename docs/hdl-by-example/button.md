@@ -167,14 +167,14 @@
     
     接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
     
-    ```verilog
-    reg light_reg;
+    ```sv
+    logic light_reg;
     assign light = light_reg;
     ```
     
     然后采用 `assign light = light_reg` 语句把触发器的输出 Q 端口连接到输出信号 `light` 上。那么，接下来我们要实现 `light_reg` 在 `button` 上升沿的时候，将当前的值取反：
     
-    ```verilog
+    ```sv
     always_ff @ (posedge button) begin
       light_reg <= ~light_reg;
     end

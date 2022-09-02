@@ -441,8 +441,8 @@
       output valid,
       output [1:0] user
     );
-      reg valid_comb;
-      reg [1:0] user_comb;
+      logic valid_comb;
+      logic [1:0] user_comb;
     
       always_comb begin
         // default
@@ -549,11 +549,11 @@
       output valid,
       output [1:0] user
     );
-      reg [1:0] user_reg;
-      reg valid_reg;
+      logic [1:0] user_reg;
+      logic valid_reg;
     
-      reg [1:0] user_comb;
-      reg [1:0] priority_encoder_user_comb;
+      logic [1:0] user_comb;
+      logic [1:0] priority_encoder_user_comb;
       
       rr_priority_encoder rr_priority_encoder_inst (
         .request(request),
