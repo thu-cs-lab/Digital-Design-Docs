@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
   {{ super() }}
 
@@ -30,5 +31,61 @@
     window.addEventListener('load', function() {
         wavedrom.processAll();
     });
+  </script>
+{% endblock %}
+
+{% block analytics %}
+  {{ super() }}
+  <script>
+    const ident = "{{ config.extra.xapi.ident }}";
+    const auth = "{{ config.extra.xapi.auth }}";
+
+    // Fetch user
+    fetch("https://lab.cs.tsinghua.edu.cn/portal/api/login", {
+      credentials: "include",
+    })
+      .then(resp => resp.json())
+      .then(payload => {
+        console.log("Fetched user: ", payload);
+        if(!payload.logged_in)
+          document.location = "https://lab.cs.tsinghua.edu.cn/portal/login?returnto=" + encodeURIComponent(document.location);
+
+        const uid = payload.user.user_name;
+        const uname = payload.user.real_name;
+
+        const upload = (loc) => {
+          const href = loc.href;
+          console.log('Navigate', href);
+
+          fetch("XAPI_URL", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': auth,
+              'X-Experience-API-Version': '1.0.3',
+            },
+            body: JSON.stringify([{
+              actor: {
+                name: uname,
+                mbox: 'mailto:' + uid + '@tsinghua.edu.cn',
+              },
+              verb: { id: 'http://id.tincanapi.com/verb/viewed' },
+              object: { id: 'http://lab.cs.tsinghua.edu.cn/xapi/document/' + ident },
+              context: {
+                extensions: {
+                  "http://adlnet.gov/expapi/activities/link": {
+                    url: href,
+                  },
+                }
+              },
+            }])
+          });
+        };
+
+        upload(document.location);
+        document.addEventListener('DOMContentLoaded', () => {
+          location$.subscribe(upload);
+        });
+      });
   </script>
 {% endblock %}

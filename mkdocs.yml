@@ -16,9 +16,6 @@ theme:
 repo_name: 'thu-cs-lab/Digital-Design-Docs'
 repo_url: 'https://github.com/thu-cs-lab/Digital-Design-Docs'
 
-extra:
-  pagetime: 'on'
-
 nav:
   - 数字逻辑设计实验:
     - 总述: index.md
@@ -92,6 +89,10 @@ markdown_extensions:
   - pymdownx.tilde
 
 extra:
+  pagetime: 'on'
   analytics:
     provider: google
     property: G-69YPS2LP7R
+  xapi:
+    ident: digital-logic-design
+    auth: 'XAPI_TOKEN'
