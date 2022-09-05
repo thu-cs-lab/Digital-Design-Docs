@@ -28,7 +28,7 @@
 
 ## 千兆以太网
 
-实验板上提供了千兆以太网 PHY 芯片，其型号为 RTL8211。我们将其配置成了 GMII 接口，与实验 FPGA 相连。我们的 FPGA 同时扮演了 “CPU” 和 MAC 芯片的角色。PHY 芯片将网线上的比特流进行接收，通过 GMII 接口发送至 FPGA；FPGA 中实现的 MAC 模块将其进行解析后，将原始的以太网帧通过各类流式总线发送至 FPGA 中的其他逻辑，即可完成各类处理。
+实验板上提供了千兆以太网 PHY 芯片，其型号为 RTL8211。我们将其配置成了 GMII 接口，与实验 FPGA 相连。我们的 FPGA 同时扮演了“CPU”和 MAC 芯片的角色。PHY 芯片将网线上的比特流进行接收，通过 GMII 接口发送至 FPGA；FPGA 中实现的 MAC 模块将其进行解析后，将原始的以太网帧通过各类流式总线发送至 FPGA 中的其他逻辑，即可完成各类处理。
 
 由于 Quartus 软件中提供的 Ethernet MAC IP 核需要专用的 license，助教团队使用 [verilog-ethernet](https://github.com/alexforencich/verilog-ethernet) 项目中，开源的 `eth_mac_1g_gmii` 模块进行了调试。该模块将 GMII 中到来的以太网帧，从 AXI Stream 接口中发出，该接口的位宽为 8bit，时钟频率为 125MHz。可以从 [此处](../static/ethernet-example.zip) 下载样例工程，参考其中的使用方法。该项目中同时提供了带缓存的 `eth_mac_1g_gmii_fifo` 模块，如果需要对以太网帧进行短时间的 FIFO 缓存，可以将 MAC 替换为该模块。
 
