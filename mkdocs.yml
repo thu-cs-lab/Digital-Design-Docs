@@ -96,3 +96,4 @@ extra:
   xapi:
     ident: digital-logic-design
     auth: 'XAPI_TOKEN'
+    endpoint: 'XAPI_URL'

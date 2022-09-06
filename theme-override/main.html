@@ -39,6 +39,7 @@
   <script>
     const ident = "{{ config.extra.xapi.ident }}";
     const auth = "{{ config.extra.xapi.auth }}";
+    const endpoint = "{{ config.extra.xapi.endpoint }}";
 
     // Fetch user
     fetch("https://lab.cs.tsinghua.edu.cn/portal/api/login", {
@@ -57,7 +58,7 @@
           const href = loc.href;
           console.log('Navigate', href);
 
-          fetch("XAPI_URL", {
+          fetch(endpoint, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
