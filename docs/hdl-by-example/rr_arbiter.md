@@ -270,16 +270,16 @@
     
         // naive way
         if (last_user == 2'd3) begin
-          case (request)
-            4'bxxx1: begin
+          casez (request)
+            4'b???1: begin
               valid_comb = 1'b1;
               user_comb = 2'd0;
             end
-            4'bxx10: begin
+            4'b??10: begin
               valid_comb = 1'b1;
               user_comb = 2'd1;
             end
-            4'bx100: begin
+            4'b?100: begin
               valid_comb = 1'b1;
               user_comb = 2'd2;
             end
@@ -289,16 +289,16 @@
             end
           endcase
         end else if (last_user == 2'd0) begin
-          case (request)
-            4'bxx1x: begin
+          casez (request)
+            4'b??1?: begin
               valid_comb = 1'b1;
               user_comb = 2'd1;
             end
-            4'bx10x: begin
+            4'b?10?: begin
               valid_comb = 1'b1;
               user_comb = 2'd2;
             end
-            4'b100x: begin
+            4'b100?: begin
               valid_comb = 1'b1;
               user_comb = 2'd3;
             end
@@ -308,16 +308,16 @@
             end
           endcase
         end else if (last_user == 2'd1) begin
-          case (request)
-            4'bx1xx: begin
+          casez (request)
+            4'b?1??: begin
               valid_comb = 1'b1;
               user_comb = 2'd2;
             end
-            4'b10xx: begin
+            4'b10??: begin
               valid_comb = 1'b1;
               user_comb = 2'd3;
             end
-            4'b00x1: begin
+            4'b00?1: begin
               valid_comb = 1'b1;
               user_comb = 2'd0;
             end
@@ -327,16 +327,16 @@
             end
           endcase
         end else if (last_user == 2'd2) begin
-          case (request)
-            4'b1xxx: begin
+          casez (request)
+            4'b1???: begin
               valid_comb = 1'b1;
               user_comb = 2'd3;
             end
-            4'b0xx1: begin
+            4'b0??1: begin
               valid_comb = 1'b1;
               user_comb = 2'd0;
             end
-            4'b0x10: begin
+            4'b0?10: begin
               valid_comb = 1'b1;
               user_comb = 2'd1;
             end
@@ -451,16 +451,16 @@
     
         // naive way
         if (last_user == 2'd3) begin
-          case (request)
-            4'bxxx1: begin
+          casez (request)
+            4'b???1: begin
               valid_comb = 1'b1;
               user_comb = 2'd0;
             end
-            4'bxx10: begin
+            4'b??10: begin
               valid_comb = 1'b1;
               user_comb = 2'd1;
             end
-            4'bx100: begin
+            4'b?100: begin
               valid_comb = 1'b1;
               user_comb = 2'd2;
             end
@@ -470,16 +470,16 @@
             end
           endcase
         end else if (last_user == 2'd0) begin
-          case (request)
-            4'bxx1x: begin
+          casez (request)
+            4'b??1?: begin
               valid_comb = 1'b1;
               user_comb = 2'd1;
             end
-            4'bx10x: begin
+            4'b?10?: begin
               valid_comb = 1'b1;
               user_comb = 2'd2;
             end
-            4'b100x: begin
+            4'b100?: begin
               valid_comb = 1'b1;
               user_comb = 2'd3;
             end
@@ -489,16 +489,16 @@
             end
           endcase
         end else if (last_user == 2'd1) begin
-          case (request)
-            4'bx1xx: begin
+          casez (request)
+            4'b?1??: begin
               valid_comb = 1'b1;
               user_comb = 2'd2;
             end
-            4'b10xx: begin
+            4'b10??: begin
               valid_comb = 1'b1;
               user_comb = 2'd3;
             end
-            4'b00x1: begin
+            4'b00?1: begin
               valid_comb = 1'b1;
               user_comb = 2'd0;
             end
@@ -508,16 +508,16 @@
             end
           endcase
         end else if (last_user == 2'd2) begin
-          case (request)
-            4'b1xxx: begin
+          casez (request)
+            4'b1???: begin
               valid_comb = 1'b1;
               user_comb = 2'd3;
             end
-            4'b0xx1: begin
+            4'b0??1: begin
               valid_comb = 1'b1;
               user_comb = 2'd0;
             end
-            4'b0x10: begin
+            4'b0?10: begin
               valid_comb = 1'b1;
               user_comb = 2'd1;
             end
