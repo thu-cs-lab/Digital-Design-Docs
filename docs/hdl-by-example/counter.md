@@ -535,24 +535,39 @@
 
 此外，还有一类在输入异步信号的处理上很常用的电路，它针对的问题是，如果我用一个时钟驱动的触发器对异步的输入信号进行采样，如果输入信号变化的时刻 **不满足 setup/hold 约束**，即它变化的时刻与时钟上升沿十分接近，此时触发器的输出是不稳定的，可能会出现错误。对于这个问题，通常的解决方法是，用两个触发器进行采样：
 
-```vhdl
-process(clock) begin
-  if rising_edge(clk) begin
-    in_reg1 <= in;
-    in_reg2 <= in_reg1;
+=== "VHDL"
 
-    -- use in_reg2 instead of in
-  end if;
-end process;
-```
+    ```vhdl
+    process(clock) begin
+      if rising_edge(clk) begin
+        in_reg1 <= in;
+        in_reg2 <= in_reg1;
 
-```verilog
-always @ (posedge clock) begin
-  in_reg1 <= in;
-  in_reg2 <= in_reg1;
+        -- use in_reg2 instead of in
+      end if;
+    end process;
+    ```
 
-  // use in_reg2 instead of in
-end
-```
+=== "Verilog"
+
+    ```verilog
+    always @ (posedge clock) begin
+      in_reg1 <= in;
+      in_reg2 <= in_reg1;
+
+      // use in_reg2 instead of in
+    end
+    ```
+
+=== "System Verilog"
+
+    ```sv
+    always_ff @ (posedge clock) begin
+      in_reg1 <= in;
+      in_reg2 <= in_reg1;
+
+      // use in_reg2 instead of in
+    end
+    ```
 
 这种方法在异步复位转同步、跨时钟域的场景中都会看到。
