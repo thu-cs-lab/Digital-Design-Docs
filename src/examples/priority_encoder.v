@@ -12,16 +12,16 @@ module priority_encoder (
     user_comb = 2'd0;
 
     // cases
-    case (request)
-      4'bxxx1: begin
+    casez (request)
+      4'b???1: begin
         valid_comb = 1'b1;
         user_comb = 2'd0;
       end
-      4'bxx10: begin
+      4'b??10: begin
         valid_comb = 1'b1;
         user_comb = 2'd1;
       end
-      4'bx100: begin
+      4'b?100: begin
         valid_comb = 1'b1;
         user_comb = 2'd2;
       end

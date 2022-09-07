@@ -18,7 +18,6 @@ module priority_encoder(request, valid, user);
   wire _12_;
   wire _13_;
   wire _14_;
-  (* src = "examples/priority_encoder.v:2.15-2.22" *)
   wire _15_;
   (* src = "examples/priority_encoder.v:2.15-2.22" *)
   wire _16_;
@@ -26,12 +25,14 @@ module priority_encoder(request, valid, user);
   wire _17_;
   (* src = "examples/priority_encoder.v:2.15-2.22" *)
   wire _18_;
-  (* src = "examples/priority_encoder.v:4.16-4.20" *)
+  (* src = "examples/priority_encoder.v:2.15-2.22" *)
   wire _19_;
   (* src = "examples/priority_encoder.v:4.16-4.20" *)
   wire _20_;
-  (* src = "examples/priority_encoder.v:3.10-3.15" *)
+  (* src = "examples/priority_encoder.v:4.16-4.20" *)
   wire _21_;
+  (* src = "examples/priority_encoder.v:3.10-3.15" *)
+  wire _22_;
   (* src = "examples/priority_encoder.v:2.15-2.22" *)
   input [3:0] request;
   wire [3:0] request;
@@ -45,22 +46,22 @@ module priority_encoder(request, valid, user);
   wire valid;
   (* src = "examples/priority_encoder.v:6.7-6.17" *)
   wire valid_comb;
-  assign _13_ = ~_17_;
-  assign _14_ = ~(_16_ | _15_);
-  assign _09_ = ~(_17_ | _18_);
-  assign _10_ = _17_ | _18_;
-  assign _20_ = _14_ & _10_;
-  assign _11_ = _13_ & _18_;
-  assign _12_ = ~(_16_ | _11_);
-  assign _19_ = ~(_15_ | _12_);
-  assign _21_ = ~(_14_ & _09_);
+  assign _14_ = ~_18_;
+  assign _15_ = _19_ & _14_;
+  assign _10_ = ~(_17_ | _15_);
+  assign _20_ = ~(_16_ | _10_);
+  assign _11_ = ~(_16_ | _17_);
+  assign _12_ = ~(_19_ | _18_);
+  assign _13_ = _19_ | _18_;
+  assign _21_ = _11_ & _13_;
+  assign _22_ = ~(_11_ & _12_);
   assign user_comb = user;
   assign valid_comb = valid;
-  assign _17_ = request[2];
-  assign _18_ = request[3];
-  assign _16_ = request[1];
-  assign _15_ = request[0];
-  assign user[1] = _20_;
-  assign user[0] = _19_;
-  assign valid = _21_;
+  assign user[0] = _20_;
+  assign _16_ = request[0];
+  assign _17_ = request[1];
+  assign user[1] = _21_;
+  assign _19_ = request[3];
+  assign _18_ = request[2];
+  assign valid = _22_;
 endmodule
