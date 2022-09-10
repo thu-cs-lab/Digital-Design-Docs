@@ -364,3 +364,10 @@
 | x      | x           | 0      | 0      |
 
 ![](imgs/async_reset_n.png)
+
+Xilinx Vivado 采用了另一种命名方式：
+
+- FDCE: 异步复位到 0
+- FDPE: 异步复位到 1
+- FDRE: 同步复位到 0
+- FDSE: 同步复位到 1
