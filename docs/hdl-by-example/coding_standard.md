@@ -263,7 +263,9 @@
 
 ## 005 寄存器应该实现复位逻辑，并且复位到常量
 
-对于使用到的寄存器，都应当实现相应的复位逻辑，并且应当复位到常量。实现时，可以采用同步复位或者异步复位的方式。如果编写的硬件逻辑面向的是 Xilinx FPGA，建议采用同步复位的方法。
+对于使用到的寄存器，都应当实现相应的复位逻辑，并且应当复位到常量。实现时，可以采用同步复位或者异步复位的方式。
+
+如果编写的硬件逻辑面向的是 Xilinx FPGA，建议采用同步复位的方法。
 
 === "VHDL"
 
@@ -545,6 +547,59 @@
     initial some_comb = 1'b0;
     ```
 
+## 008 组合逻辑块中的赋值语句之间若有依赖则需要保证赋值顺序
+
+如果在一个组合逻辑块中，赋值的变量又会参与到同一个组合逻辑块的其他变量的赋值当中，那么需要保证赋值的顺序，即被依赖的赋值要写在前面。
+
+=== "VHDL"
+    
+    ```vhdl
+    -- GOOD
+    process (a, b) begin
+      c_comb <= a + b;
+      d_comb <= c_comb;
+    end process;
+
+    -- BAD
+    process (a, b) begin
+      d_comb <= c_comb;
+      c_comb <= a + b;
+    end process;
+    ```
+
+=== "Verilog"
+    
+    ```verilog
+    // GOOD
+    always @(*) begin
+      c_comb = a + b;
+      d_comb = c_comb;
+    end
+
+    // BAD
+    always @(*) begin
+      d_comb = c_comb;
+      c_comb = a + b;
+    end
+    ```
+
+=== "System Verilog"
+    
+    ```sv
+    // GOOD
+    always_comb begin
+      c_comb = a + b;
+      d_comb = c_comb;
+    end
+
+    // BAD
+    always_comb begin
+      d_comb = c_comb;
+      c_comb = a + b;
+    end
+    ```
+
+
 ## V-001（仅 Verilog）组合逻辑的敏感信号应当用隐式列表（`@(*)`）
 
 编写组合逻辑的时候，敏感信号列表应该用隐式列表（`@(*)`），而不列出每个敏感信号。
@@ -745,3 +800,7 @@ end
       end
     end
     ```
+
+## V-004（仅 Verilog/System Verilog）使用 `casez` 替代 `casex`
+
+在编写需要通配符的 `case` 语句的时候，使用 `casez`，而不是 `casex`。它们的区别是在遇到输入数据是 `x` 的时候，匹配的行为不一样。
