@@ -8,7 +8,7 @@
 
 1. 所有的寄存器命名添加 `_reg` 后缀
 2. 所有的组合逻辑信号命名添加 `_comb` 后缀
-3. 模块的输入输出信号不添加后缀
+3. 模块的输入输出信号不添加 `_reg` 或 `_comb` 后缀
 
 === "VHDL"
 
@@ -39,7 +39,7 @@
 
 ## 002 信号或寄存器应当仅在一个块中赋值
 
-对于目前学到的数字逻辑中，所有的信号或寄存器都应当在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
+在常用的数字逻辑中，所有的信号或寄存器都应当在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
 
 === "VHDL"
     
@@ -543,4 +543,205 @@
     // BAD
     wire some_comb;
     initial some_comb = 1'b0;
+    ```
+
+## V-001（仅 Verilog）组合逻辑的敏感信号应当用隐式列表（`@(*)`）
+
+编写组合逻辑的时候，敏感信号列表应该用隐式列表（`@(*)`），而不列出每个敏感信号。
+
+如果在代码中列出敏感信号，很容易出现遗漏，导致行为不符合预期。
+
+```verilog
+// GOOD
+always @(*) begin
+  c_comb = a + b;
+end
+
+// BAD
+always @(a, b) begin
+  c_comb = a + b;
+end
+
+// VERY BAD
+always @(a) begin
+  c_comb = a + b;
+end
+```
+
+## V-002（仅 Verilog/System Verilog）组合逻辑块中使用阻塞赋值，时序逻辑块中使用非阻塞赋值
+
+在组合逻辑块中，应当使用阻塞赋值（`=`），而时序逻辑块中，应当使用非阻塞赋值（`<=`）。不能混用，也不能两种赋值同时出现在同一个 `always` 块中。
+
+=== "Verilog"
+ 
+    ```verilog
+    // GOOD
+    reg some_reg;
+    always @ (posedge clock) begin
+      some_reg <= 1'b0;
+    end
+ 
+    // GOOD
+    always @ (*) begin
+      some_comb = 1'b0;
+    end
+
+    // BAD
+    reg some_reg;
+    always @ (posedge clock) begin
+      some_reg = 1'b0;
+    end
+
+    // BAD
+    always @ (*) begin
+      some_comb <= 1'b0;
+    end
+
+    // BAD
+    always @ (*) begin
+      some_comb = 1'b0;
+      if (a) begin
+        some_comb <= 1'b1;
+      end
+    end
+    ```
+
+=== "System Verilog"
+ 
+    ```sv
+    // GOOD
+    reg some_reg;
+    always_ff @ (posedge clock) begin
+      some_reg <= 1'b0;
+    end
+ 
+    // GOOD
+    always_comb begin
+      some_comb = 1'b0;
+    end
+
+    // BAD
+    reg some_reg;
+    always_ff @ (posedge clock) begin
+      some_reg = 1'b0;
+    end
+
+    // BAD
+    always_comb begin
+      some_comb <= 1'b0;
+    end
+
+    // BAD
+    always_comb begin
+      some_comb = 1'b0;
+      if (a) begin
+        some_comb <= 1'b1;
+      end
+    end
+    ```
+
+## V-003（仅 Verilog/System Verilog）异步复位中边沿触发要与 `if` 判断语句极性一致
+
+异步复位时，如果复位信号是高有效，那么敏感信号应该写 `posedge reset`，`if` 判断语句应该写 `if (reset)`；如果复位信号是低有效，那么敏感信号应该写 `negedge reset_n`，`if` 判断语句应该写 `if (~reset_n)`。
+
+判断是否复位的 `if` 语句应该是 `always` 块中的最顶层的第一个语句。如果没有判断复位的 `if` 语句，那么敏感信号中不应该出现复位信号。
+
+=== "Verilog"
+ 
+    ```verilog
+    // GOOD
+    reg some_reg;
+    always @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        some_reg <= 1'b0;
+      end else begin
+        some_reg <= a + b;
+      end
+    end
+ 
+    // GOOD
+    reg some_reg;
+    always @ (posedge clock, negedge reset_n) begin
+      if (~reset_n) begin
+        some_reg <= 1'b0;
+      end else begin
+        some_reg <= a + b;
+      end
+    end
+
+    // BAD
+    reg some_reg;
+    always @ (posedge clock, posedge reset) begin
+      some_reg <= 1'b0;
+    end
+
+    // BAD
+    reg some_reg;
+    always @ (posedge clock, posedge reset) begin
+      if (~reset) begin
+        some_reg <= 1'b0;
+      end else begin
+        some_reg <= a + b;
+      end
+    end
+
+    // BAD
+    reg some_reg;
+    always @ (posedge clock, posedge reset) begin
+      if (a) begin
+        some_reg <= a + b;
+      end else if (reset) begin
+        some_reg <= 1'b0;
+      end
+    end
+    ```
+
+=== "System Verilog"
+ 
+    ```sv
+    // GOOD
+    reg some_reg;
+    always_ff @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        some_reg <= 1'b0;
+      end else begin
+        some_reg <= a + b;
+      end
+    end
+ 
+    // GOOD
+    reg some_reg;
+    always_ff @ (posedge clock, negedge reset_n) begin
+      if (~reset_n) begin
+        some_reg <= 1'b0;
+      end else begin
+        some_reg <= a + b;
+      end
+    end
+
+    // BAD
+    reg some_reg;
+    always_ff @ (posedge clock, posedge reset) begin
+      some_reg <= 1'b0;
+    end
+
+    // BAD
+    reg some_reg;
+    always_ff @ (posedge clock, posedge reset) begin
+      if (~reset) begin
+        some_reg <= 1'b0;
+      end else begin
+        some_reg <= a + b;
+      end
+    end
+
+    // BAD
+    reg some_reg;
+    always_ff @ (posedge clock, posedge reset) begin
+      if (a) begin
+        some_reg <= a + b;
+      end else if (reset) begin
+        some_reg <= 1'b0;
+      end
+    end
     ```
