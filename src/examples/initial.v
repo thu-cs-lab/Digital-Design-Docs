@@ -9,7 +9,7 @@ module initial_reg (
 
 	//initial r = 1'b0;
 	//initial begin
-		//r <= 1'b0;
+		//r = 1'b0;
 	//end
 
 	always @ (posedge clock) begin

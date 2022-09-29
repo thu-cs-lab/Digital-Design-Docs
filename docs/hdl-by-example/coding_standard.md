@@ -511,7 +511,7 @@
     // GOOD
     reg some_reg;
     initial begin
-      some_reg <= 1'b0;
+      some_reg = 1'b0;
     end
  
     // GOOD
@@ -532,7 +532,7 @@
     // GOOD
     logic some_reg;
     initial begin
-      some_reg <= 1'b0;
+      some_reg = 1'b0;
     end
  
     // GOOD
