@@ -177,9 +177,9 @@
     
     ```verilog
     module timer (
-      input clock,
-      input reset,
-      output [3:0] timer
+      input wire clock,
+      input wire reset,
+      output wire [3:0] timer
     );
     endmodule
     ```
@@ -229,9 +229,9 @@
     
     ```verilog
     module timer (
-      input clock,
-      input reset,
-      output [3:0] timer
+      input wire clock,
+      input wire reset,
+      output wire [3:0] timer
     );
     endmodule
     ```

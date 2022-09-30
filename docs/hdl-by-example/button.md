@@ -122,14 +122,14 @@
     
     ```verilog
     module button (
-      input button,
-      output light
+      input wire button,
+      output wire light
     );
       // TODO
     endmodule
     ```
     
-    这里的输入输出信号都只有 `1` 位，所以就直接写 `input button` 和 `output light` 即可，不需要写 `[n-1:0]`。
+    这里的输入输出信号都只有 `1` 位，所以就直接写 `input wire button` 和 `output wire light` 即可，不需要写 `[n-1:0]`。
     
     接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
     
@@ -156,14 +156,14 @@
     
     ```verilog
     module button (
-      input button,
-      output light
+      input wire button,
+      output wire light
     );
       // TODO
     endmodule
     ```
     
-    这里的输入输出信号都只有 `1` 位，所以就直接写 `input button` 和 `output light` 即可，不需要写 `[n-1:0]`。
+    这里的输入输出信号都只有 `1` 位，所以就直接写 `input wire button` 和 `output wire light` 即可，不需要写 `[n-1:0]`。
     
     接着，我们要把电路的实现放在 `module` 中。前面提到过，我们需要显式声明一个触发器，称为 `light_reg`：
     

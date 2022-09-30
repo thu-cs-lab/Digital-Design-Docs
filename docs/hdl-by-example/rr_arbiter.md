@@ -255,10 +255,10 @@
     
     ```verilog
     module rr_priority_encoder (
-      input [3:0] request,
-      input [1:0] last_user,
-      output valid,
-      output [1:0] user
+      input wire [3:0] request,
+      input wire [1:0] last_user,
+      output wire valid,
+      output wire [1:0] user
     );
       reg valid_comb;
       reg [1:0] user_comb;
@@ -361,12 +361,12 @@
     
     ```verilog
     module rr_arbiter (
-      input clock,
-      input reset,
+      input wire clock,
+      input wire reset,
     
-      input [3:0] request,
-      output valid,
-      output [1:0] user
+      input wire [3:0] request,
+      output wire valid,
+      output wire [1:0] user
     );
       reg [1:0] user_reg;
       reg valid_reg;
@@ -436,10 +436,10 @@
     
     ```sv
     module rr_priority_encoder (
-      input [3:0] request,
-      input [1:0] last_user,
-      output valid,
-      output [1:0] user
+      input wire [3:0] request,
+      input wire [1:0] last_user,
+      output wire valid,
+      output wire [1:0] user
     );
       logic valid_comb;
       logic [1:0] user_comb;
@@ -542,12 +542,12 @@
     
     ```sv
     module rr_arbiter (
-      input clock,
-      input reset,
+      input wire clock,
+      input wire reset,
     
-      input [3:0] request,
-      output valid,
-      output [1:0] user
+      input wire [3:0] request,
+      output wire valid,
+      output wire [1:0] user
     );
       logic [1:0] user_reg;
       logic valid_reg;

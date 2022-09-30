@@ -120,9 +120,9 @@
     
     ```verilog
     module priority_encoder (
-      input [3:0] request,
-      output valid,
-      output [1:0] user
+      input wire [3:0] request,
+      output wire valid,
+      output wire [1:0] user
     );
       // TODO
     endmodule
@@ -181,9 +181,9 @@
     
     ```verilog
     module priority_encoder (
-      input [3:0] request,
-      output valid,
-      output [1:0] user
+      input wire [3:0] request,
+      output wire valid,
+      output wire [1:0] user
     );
       // TODO
     endmodule

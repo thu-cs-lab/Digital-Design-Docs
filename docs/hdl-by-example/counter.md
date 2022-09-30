@@ -305,10 +305,10 @@
     
     ```verilog
     module debouncer (
-      input clock,
-      input reset,
-      input button,
-      output button_debounced
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire button_debounced
     );
       reg last_button_reg;
       reg [15:0] counter_reg;
@@ -342,11 +342,11 @@
     
     ```verilog
     module counter (
-      input clock,
-      input reset,
-      input button_debounced,
-      output [3:0] ones,
-      output [3:0] tens
+      input wire clock,
+      input wire reset,
+      input wire button_debounced,
+      output wire [3:0] ones,
+      output wire [3:0] tens
     );
     
       reg [3:0] ones_reg;
@@ -382,11 +382,11 @@
     
     ```verilog
     module counter_top (
-      input clock,
-      input reset,
-      input button,
-      output [3:0] ones,
-      output [3:0] tens
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire [3:0] ones,
+      output wire [3:0] tens
     );
     
       wire button_debounced;
@@ -421,10 +421,10 @@
     
     ```sv
     module debouncer (
-      input clock,
-      input reset,
-      input button,
-      output button_debounced
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire button_debounced
     );
       logic last_button_reg;
       logic [15:0] counter_reg;
@@ -458,11 +458,11 @@
 
     ```sv
     module counter (
-      input clock,
-      input reset,
-      input button_debounced,
-      output [3:0] ones,
-      output [3:0] tens
+      input wire clock,
+      input wire reset,
+      input wire button_debounced,
+      output wire [3:0] ones,
+      output wire [3:0] tens
     );
 
       logic [3:0] ones_reg;
@@ -498,11 +498,11 @@
     
     ```sv
     module counter_top (
-      input clock,
-      input reset,
-      input button,
-      output [3:0] ones,
-      output [3:0] tens
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire [3:0] ones,
+      output wire [3:0] tens
     );
 
       wire button_debounced;
