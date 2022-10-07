@@ -42,6 +42,7 @@ nav:
     - 循环优先级仲裁器: hdl-by-example/rr_arbiter.md
     - 代码规范: hdl-by-example/coding_standard.md
     - 实验解析: hdl-by-example/labs.md
+    - 模型: hdl-by-example/model.md
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
