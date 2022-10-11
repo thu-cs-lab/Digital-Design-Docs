@@ -39,7 +39,7 @@
 
 ## 002 信号或寄存器应当仅在一个块中赋值
 
-在常用的数字逻辑中，所有的信号或寄存器都应当在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
+在常用的数字逻辑中，同一个信号或寄存器都应当仅在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
 
 === "VHDL"
     
@@ -107,6 +107,14 @@
     always @ (posedge clock) begin
       c_reg <= a - b;
     end
+
+    // GOOD
+    always @ (*) begin
+      c_comb = a + b;
+    end
+    always @ (posedge clock) begin
+      c_reg <= a + b;
+    end
     ```
     
 === "System Verilog"
@@ -136,6 +144,14 @@
     end
     always_ff @ (posedge clock) begin
       c_reg <= a - b;
+    end
+
+    // GOOD
+    always_comb begin
+      c_comb = a + b;
+    end
+    always_ff @ (posedge clock) begin
+      c_reg <= a + b;
     end
     ```
 
