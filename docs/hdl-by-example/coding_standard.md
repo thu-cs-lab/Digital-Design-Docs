@@ -715,7 +715,9 @@ end
 
 异步复位时，如果复位信号是高有效，那么敏感信号应该写 `posedge reset`，`if` 判断语句应该写 `if (reset)`；如果复位信号是低有效，那么敏感信号应该写 `negedge reset_n`，`if` 判断语句应该写 `if (~reset_n)`。
 
-判断是否复位的 `if` 语句应该是 `always` 块中的最顶层的第一个语句。如果没有判断复位的 `if` 语句，那么敏感信号中不应该出现复位信号。
+判断是否复位的 `if` 语句应该是 `always` 块中的最顶层的第一个语句，并且其余的逻辑放在 `else` 中。
+
+如果没有判断复位的 `if` 语句，那么敏感信号中不应该出现复位信号。
 
 === "Verilog"
  
@@ -763,6 +765,17 @@ end
         some_reg <= a + b;
       end else if (reset) begin
         some_reg <= 1'b0;
+      end
+    end
+
+    // BAD
+    reg some_reg;
+    always @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        some_reg <= 1'b0;
+      end
+      if (c) begin
+        some_reg <= a + b;
       end
     end
     ```
@@ -813,6 +826,17 @@ end
         some_reg <= a + b;
       end else if (reset) begin
         some_reg <= 1'b0;
+      end
+    end
+
+    // BAD
+    reg some_reg;
+    always_ff @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        some_reg <= 1'b0;
+      end
+      if (c) begin
+        some_reg <= a + b;
       end
     end
     ```
