@@ -181,6 +181,7 @@
       input wire reset,
       output wire [3:0] timer
     );
+      // TODO
     endmodule
     ```
     
@@ -233,6 +234,7 @@
       input wire reset,
       output wire [3:0] timer
     );
+      // TODO
     endmodule
     ```
     
