@@ -1,7 +1,7 @@
 site_name: 数字逻辑设计实验文档
 site_description: 'Documentation for labs of Digital Logic Design course'
 site_author: 'Digital Logic Design Course Team'
-copyright: 'Copyright &copy; 2020-2022 Department of Computer Science and Technology, Tsinghua University. All Rights Reserved.'
+copyright: 'Copyright &copy; 2020-2023 Department of Computer Science and Technology, Tsinghua University. All Rights Reserved.'
 
 theme: 
   name: 'material'
