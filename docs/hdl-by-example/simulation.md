@@ -214,7 +214,7 @@ always #10 clock = ~clock;
   signal:
     [
       { name: "clock", wave: "p.p.."},
-      { name: "reset", wave: "010.."},
+      { name: "reset", wave: "0hl.."},
       { name: "timer", wave: "x.0.."}
     ]
 }
