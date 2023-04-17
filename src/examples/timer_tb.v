@@ -12,19 +12,17 @@ module timer_tb ();
 
     #10;
 
-    clock <= 1'b0;
+    reset <= 1'b1;
 
     #10;
 
-    clock <= 1'b1;
+    reset <= 1'b0;
 
-    #10;
-
-    clock <= 1'b0;
-
-    #10;
-
+    #1000;
+    $finish;
   end
+
+  always #10 clock = ~clock;
 
   timer inst (
     .clock(clock),
