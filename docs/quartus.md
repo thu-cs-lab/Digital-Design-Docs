@@ -8,7 +8,7 @@
 
 <!-- 请从 [此处](static/digital-design-template.zip) 下载工程模板。解压后即可导入 Quartus 中，通常不需要更改任何设置即可使用。 -->
 
-工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2022-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
+工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2023-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
 
 !!! success "必须使用 Git"
     
