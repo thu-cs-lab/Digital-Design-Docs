@@ -4,7 +4,18 @@
 
 实验板上提供了 HDMI 视频输出接口，用于输出视频信号。该接口使用了 TFP410PAP 转换芯片，将标准的 VGA 时序视频信号，转换为 HDMI 数字视频。该芯片最高可支持 1080p 60Hz 24 位真彩色的视频信号。
 
-我们的工程模板中已经提供了输出视频的样例代码，其中使用的是 800x600 分辨率，75Hz 的视频格式，其他支持的视频格式，可参考 [芯片数据手册](https://www.ti.com/lit/ds/symlink/tfp410.pdf) 或 [VGA 时序列表](http://tinyvga.com/vga-timing)，注意修改分辨率时，需要同时修改 `vga` 模块例化中的时序参数，如无必要，不建议使用样例之外的时序格式。
+我们的工程模板中已经提供了输出视频的样例代码，其中使用的是 800x600 分辨率，72Hz 的视频格式，其他支持的视频格式，可参考 [芯片数据手册](https://www.ti.com/lit/ds/symlink/tfp410.pdf) 或 [VGA 时序列表](http://tinyvga.com/vga-timing)，注意修改分辨率时，需要同时修改 `vga` 模块例化中的时序参数，如无必要，不建议使用样例之外的时序格式。
+
+样例代码中使用了如下参数，和 [VESA Signal 800 x 600 @ 72 Hz](http://tinyvga.com/vga-timing/800x600@72Hz) 对应关系如下：
+
+- HSIZE: 800 (Visible Area)
+- HFP: 856 = 800 (Visible Area) + 56 (Front proch)
+- HSP: 976 = 856 + 120 (Sync pulse)
+- HMAX: 1040 (Whole line)
+- VSIZE: 600 (Visible Area)
+- VFP: 637 = 600 (Visible Area) + 37 (Front porch)
+- VSP: 643 = 637 + 6 (Sync pulse)
+- VMAX: 666 (Whole frame)
 
 !!! warning "使用显存"
 
