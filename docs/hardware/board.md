@@ -58,3 +58,18 @@
 !!! note "注意端序"
 
     该工具读写内存使用的是小端序，同时使用的地址单位为字节，而非 SRAM 的 32 位字。即 SRAM 每个地址读出的 32 位数据中，最低 8 位为写入的二进制文件靠前的字节，最高 8 位为写入的二进制文件靠后的字节，以此类推。
+
+## macOS 用户
+
+如果你使用 macOS，由于 Quartus 不支持 macOS，需要在虚拟机或者远程 Linux 环境下运行 Quartus，用 VSCode Remote 进行远程开发。生成 Bitstream .sof 文件后，可以转换为 .rbf 格式，复制到本地，再用 openFPGALoader 下载：
+
+```shell
+# in Linux
+quartus_cpf --option=bitstream_compression=off -c digital-design.sof digital-design.rbf
+# in macOS
+# brew install openfpgaloader
+scp linux:/path/to/digital-design.rbf .
+openFPGALoader -c usb-blaster --fpga-part ep4ce115 digital-design.rbf
+```
+
+此外，部分 macOS 系统无法连接到控制模块，可以使用 USB 直通到 Linux 虚拟机的方法。
