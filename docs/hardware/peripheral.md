@@ -67,22 +67,25 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 
 下面列出的模块适用于实验板的 Pmod 接口。如需其他模块，也可先在各类电商平台搜索，实验板可以支持几乎所有 Pmod 模块。
 
-| 功能         | 型号                        | 协议     | 简介                                            | 购买链接                                                    |
-| ---------- | ------------------------- | ------ | --------------------------------------------- | ------------------------------------------------------- |
-| 音频输入/输出    | WM8731                    | I2S    | 音频输入/输出模块                                     | 自制模块，请联系助教团队获取                                          |
-| 无线通信       | PSI-EMOD-BLUETOOTH        | UART   | 蓝牙串口传输模块，可与手机连接传输数据                           | https://item.taobao.com/item.htm?id=602102213182 （已下架）  |
-| 温度传感器      | PSI-EMOD-SENSOR-001       | 1-Wire | 基于 DS18B20 的温度传感器模块                           | https://item.taobao.com/item.htm?id=616627001082 （已下架）  |
-| EEPROM 存储器 | PSI-EMOD-MEMORY-001       | I2C    | 2K 字节 EEPROM 存储器，可方便地存储少量持久化数据                | https://item.taobao.com/item.htm?id=617136619926        |
-| 摄像头        | PSI-EMOD-OV7670           | 并行     | OV7670 摄像头模组，较低分辨率（30 万像素，640x480），适合 FPGA 使用 | https://item.taobao.com/item.htm?id=625385869412 （已下架）  |
-| 摄像头        | PMOD_CAM_5M               | 并行     | OV5640 摄像头模组，500 万像素（2592x1944）               | https://item.taobao.com/item.htm?id=524514493918        |
-| 摄像头        | PMOD-CAMERA               | 并行     | OV2640 摄像头模组，200 万像素（1622x1200）               | https://item.taobao.com/item.htm?id=710247485191        |
-| 颜色传感器      | PMOD COLOR MODULE TCS3472 | I2C    | TCS3472 颜色传感器                                 | https://item.taobao.com/item.htm?id=712469416493#detail |
+| 功能         | 型号                        | 协议             | 简介                                            | 购买链接                                                                                                                                             |
+| ---------- | ------------------------- | -------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 音频输入/输出    | WM8731                    | I2S            | 音频输入/输出模块                                     | 自制模块，请联系助教团队获取                                                                                                                                   |
+| 无线通信       | PSI-EMOD-BLUETOOTH        | UART           | 蓝牙串口传输模块，可与手机连接传输数据                           | https://item.taobao.com/item.htm?id=602102213182 （已下架）                                                                                           |
+| 无线通信       | PmodBT2                   | UART           | 蓝牙串口传输模块                                      | https://www.mouser.cn/ProductDetail/Digilent/410-214?qs=s%2FdyVPQMB4z05kZmem7h5Q%3D%3D                                                           |
+| 温度传感器      | PSI-EMOD-SENSOR-001       | 1-Wire         | 基于 DS18B20 的温度传感器模块                           | https://item.taobao.com/item.htm?id=616627001082 （已下架）                                                                                           |
+| EEPROM 存储器 | PSI-EMOD-MEMORY-001       | I2C            | 2K 字节 EEPROM 存储器，可方便地存储少量持久化数据                | https://item.taobao.com/item.htm?id=617136619926                                                                                                 |
+| 摄像头        | PSI-EMOD-OV7670           | 并行             | OV7670 摄像头模组，较低分辨率（30 万像素，640x480），适合 FPGA 使用 | https://item.taobao.com/item.htm?id=625385869412 （已下架）                                                                                           |
+| 摄像头        | PMOD_CAM_5M               | 并行             | OV5640 摄像头模组，500 万像素（2592x1944）               | https://item.taobao.com/item.htm?id=524514493918                                                                                                 |
+| 摄像头        | PMOD-CAMERA               | 并行             | OV2640 摄像头模组，200 万像素（1622x1200）               | https://item.taobao.com/item.htm?id=710247485191                                                                                                 |
+| 颜色传感器      | PMOD COLOR MODULE TCS3472 | I2C            | TCS3472 颜色传感器                                 | https://item.taobao.com/item.htm?id=712469416493#detail https://www.mouser.cn/ProductDetail/Digilent/410-348?qs=f9yNj16SXrJeCy%252BYmMCoTQ%3D%3D |
+| 旋钮         | PMOD ENC ROTARY ENCODER   | Rotary Encoder | N/A                                           | https://www.digikey.cn/en/products/detail/digilent-inc/410-117/4090075                                                                           |
 
 此外，可以前往以下店铺，尝试发现更多 Pmod 模块，注意其中部分模块的功能实验板已经内置，请勿重复购买。
 
 1. [PSI 皮赛电子](https://pisai.taobao.com/category-1478440875.htm)
 2. [Muse Lab](https://shop446922193.taobao.com/category-1573912201.htm)
 3. [迪芝伦](https://digilent.taobao.com/category-1636623609.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
+4. [迪芝伦国际站](https://digilent.com/shop/boards-and-components/system-board-expansion-modules/)（在模块页面下面找中国经销商购买，价格昂贵）
 
 ### 传感器类
 
