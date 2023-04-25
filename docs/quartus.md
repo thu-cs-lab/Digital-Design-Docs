@@ -10,6 +10,11 @@
 
 工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2023-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
 
+工程模板还提供了一些外设的样例：
+
+- [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet): 以太网 IP
+- [ps2_keyboard](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ps2_keyboard): PS/2 键盘
+
 !!! success "必须使用 Git"
     
     课程强制使用 Git 进行版本控制管理，而不是使用微信交换文件。助教提供的 `.gitignore` 文件可直接使用，用来忽略 Quartus 生成的中间文件。
