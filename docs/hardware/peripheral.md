@@ -18,6 +18,10 @@ Pmod（Peripheral Module Interface）是 Digilent 提出的，适用于各类开
 
 各种常用的通信协议都被 Pmod 标准所支持，当然用户也可以自行规定引脚含义。实验板上共提供了 8 个标准 12 Pin Pmod 接口，用于连接外设模块，其供电电压与 IO 电平均为 3.3V。同时，相邻的 Pmod 接口可以用于连接宽体的模块，以提供更多 IO 信号。
 
+![](pmod_io.png)
+
+在项目模板的 `io.tcl` 中定义了各个 Pmod 接口的引脚约束，其中 `pmod_io[0]` 到 `pmod_io[3]` 对应 Pmod 接口的 1-4 引脚，`pmod_io[4]` 到 `pmod_io[7]` 对应 Pmod 接口的 7-10 引脚，如上图。板子上的引脚旁标记了引脚编号，上面一排是 1-6，下面一排是 7-12。
+
 ### UART 协议
 
 通用非同步收发传输器（Universal Asynchronous Receiver/Transmitter），又称为“串口”，一般有两个引脚（`RX`、`TX`）。每个引脚负责一个方向，两个方向异步发送，传送时不包含时钟，速率需要事先协定好（称为波特率/Baud）。可参考实现：
