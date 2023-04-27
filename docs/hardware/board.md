@@ -23,7 +23,7 @@
 3. HDMI 视频接口：最高支持 1080P 24 位色，使用 VGA 时序，样例代码请参考工程模板；
 4. RS-232 串口：可连接使用 RS-232 电平的串口外设；
 5. USB 转 TTL 串口：连接电脑可用于 FPGA 的调试输出；
-6. SD 卡座：建议使用小容量低速 SD 卡，并通过 SPI 协议访问；按照标准，除了 SDUC 标准的 SD 卡都应该支持 SPI 协议，但有一些型号不支持，见 [1](https://forum.4dsystems.com.au/node/1869) 和 [2](https://github.com/MarlinFirmware/Marlin/issues/2082#issuecomment-102381964)；
+6. SD 卡座：建议使用小容量低速 SD 卡，并通过 SPI 协议访问；按照标准，除了 SDUC 以外，其他的 SD 卡都应该支持 SPI 协议，但一些 SD 卡型号违背了标准，不支持 SPI 协议，见 [来源 1](https://forum.4dsystems.com.au/node/1869) 和 [来源 2](https://github.com/MarlinFirmware/Marlin/issues/2082#issuecomment-102381964)；
 7. 8 位扫描式数码管：使用方法请参考工程模板；
 8. 32 位 LED 灯：用于调试，输出高电平时点亮；
 9. 4MB SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）；
