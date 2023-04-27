@@ -12,7 +12,7 @@
 
 工程模板还提供了一些外设的样例：
 
-- [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet): 以太网 IP，通过 SignalTap 抓取以太网 IP 输出的数据
+- [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet): 以太网 IP，收到的数据求和后显示在数码管上
 - [ps2_keyboard](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ps2_keyboard): PS/2 键盘，敲击键盘，键盘的 scancode 会显示在数码管上
 - [ps2_mouse](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ps2_mouse): PS/2 鼠标，数码管上会显示 XY 坐标和鼠标按键状态
 - [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
