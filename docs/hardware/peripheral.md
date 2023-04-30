@@ -91,6 +91,8 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 3. [迪芝伦](https://digilent.taobao.com/category-1636623609.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
 4. [迪芝伦国际站](https://digilent.com/shop/boards-and-components/system-board-expansion-modules/)（在模块页面下面找中国经销商购买，价格昂贵）
 
+一些 PMOD 模块在 PCB 上标明了引脚的信号名称。如果没有的话，可以询问商家获取文档，找到其中的原理图，根据原理图就可以知道 PMOD 各个引脚对应的信号名称。
+
 ### 传感器类
 
 下面的模块需要使用杜邦线，手工连接到实验板的 GPIO 接口上。
