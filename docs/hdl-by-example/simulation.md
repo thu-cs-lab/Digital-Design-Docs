@@ -41,8 +41,8 @@ module add2_tb ();
   wire [1:0] c;
 
   initial begin
-    a <= 2'b01;
-    b <= 2'b10;
+    a = 2'b01;
+    b = 2'b10;
     #1;
     $finish;
   end
@@ -80,7 +80,7 @@ endmodule
 
 - 声明信号，然后连接到被测试的模块的输入输出上，例如上面的 `a` `b` `c`。
 - 在 `initial` 块中编写仿真的过程。
-- 修改输入信号，直接赋值即可：`a <= 2'b01`。
+- 修改输入信号，直接赋值即可：`a = 2'b01`。
 - 等待一段时间，例如 `#1;`，结合最开头的 ``timescale 1ns/1ps`，就是等待 1ns 的意思。
 - 调用内置函数，如 `$finish;` 表示结束仿真。
 
@@ -139,20 +139,20 @@ endmodule
 
 ```verilog
 initial begin
-  reset <= 1'b0;
-  clock <= 1'b1;
+  reset = 1'b0;
+  clock = 1'b1;
 
   #10;
 
-  clock <= 1'b0;
+  clock = 1'b0;
 
   #10;
 
-  clock <= 1'b1;
+  clock = 1'b1;
 
   #10;
 
-  clock <= 1'b0;
+  clock = 1'b0;
 
   #10;
 
@@ -177,8 +177,8 @@ end
 
 ```verilog
 initial begin
-  reset <= 1'b0;
-  clock <= 1'b1;
+  reset = 1'b0;
+  clock = 1'b1;
 end
 
 always #10 clock = ~clock;
@@ -192,16 +192,16 @@ always #10 clock = ~clock;
 
 ```verilog
 initial begin
-  reset <= 1'b0;
-  clock <= 1'b1;
+  reset = 1'b0;
+  clock = 1'b1;
 
   #10;
 
-  reset <= 1'b1;
+  reset = 1'b1;
 
   #10;
 
-  reset <= 1'b0;
+  reset = 1'b0;
 end
 
 always #10 clock = ~clock;
@@ -226,13 +226,99 @@ always #10 clock = ~clock;
 
 学习到这里，就足够编写一些简单的仿真测试代码了。通常流程是，先设想要测试的情况，然后设计出波形，把波形里面的输入部分翻译成 Verilog 代码。启动仿真，然后在波形中观察输出是否符合自己的预期结果。
 
+## 构造输入
+
+目前的仿真顶层模块只提供了时钟信号和复位信号，没有提供要测试的模块的其他输入信号，那么如果仿真一些需要解析输入数据的模块，例如 PS/2 键盘控制器，只提供时钟和复位信号的情况下，测试不出输入部分的逻辑的问题。
+
+因此，仿真顶层模块还需要针对特定的协议，人为构造输入。具体做法和上面类似，只不过要修改的是协议相关的输入信号。下面以 PS/2 键盘控制器为例，例如如果要构造 `scancode=0xF0` 的输入，需要做哪些事情：
+
+首先，声明 ps2 相关的信号并连接到要测试的模块：
+
+```verilog
+reg ps2_clock;
+reg ps2_data;
+
+ps2_keyboard dut (
+  .clock(clock),
+  .reset(reset),
+
+  .ps2_clock(ps2_clock),
+  .ps2_data(ps2_data)
+);
+```
+
+接着，按照 PS/2 的协议，按一定的顺序给 ps2_clock 和 ps2_data 赋值，中间穿插着延迟语句，这样就构造了满足要求的输入：
+
+```verilog
+ps2_data = 1'b1;
+ps2_clock = 1'b1;
+#5;
+
+// start bit
+ps2_data = 1'b0;
+#5;
+ps2_clock = 1'b0;
+#5;
+ps2_clock = 1'b1;
+
+// scancode[0]=0
+ps2_data = 1'b0;
+#5;
+ps2_clock = 1'b0;
+#5;
+ps2_clock = 1'b1;
+
+// scancode[1]=0
+ps2_data = 1'b0;
+#5;
+ps2_clock = 1'b0;
+#5;
+ps2_clock = 1'b1;
+
+// omitted, repeat until scancode[7]
+
+// scancode[7]=1
+ps2_data = 1'b1;
+#5;
+ps2_clock = 1'b0;
+#5;
+ps2_clock = 1'b1;
+
+// parity=1
+ps2_data = 1'b1;
+#5;
+ps2_clock = 1'b0;
+#5;
+ps2_clock = 1'b1;
+
+// stop
+ps2_data = 1'b1;
+#5;
+ps2_clock = 1'b0;
+#5;
+ps2_clock = 1'b1;
+```
+
+类似地，其他协议也可以用类似的方法来构造。构造的时候，边改仿真代码，边观察仿真波形，直到实现想要的波形为止。需要注意延迟的时间，是否满足时钟频率的要求。
+
+更进一步，如果想要重复发送 scancode，只不过 scancode 的内容会更改，可以把这一个步骤封装成一个 task，完整写法见 [Tsinghua GitLab](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/blob/2076e9ffc1ff3e923365a9e79d6a944544a3b8e8/src/keyboard_tb.v#L12)。
+
+## 解析输出
+
+在上面的部分里，模块的输出的检查，需要人去观察波形，在大脑中和预期结果比对。实际上，也可以在仿真的顶层模块中，实现输出的解析，把内容打印到标准输出中，也可以将结果与预期值进行比对，减少了人的负担。
+
+在 Verilog 中，可以用 `$display` 命令进行打印。如果模块给出的结果与预期值不符，可以用 `$display` 命令输出错误信息，然后用 `$fatal` 命令来结束仿真。[Tsinghua GitLab](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/blob/647126c61870eede01e200844fb1c2d48f8acf31/src/sdcard_tb.v#L76) 中提供了一个解析 SPI SD 卡控制器输出的实现，可以打印出控制器发送的命令内容。
+
 ## 总结
 
 总结一下上面提到的如何编写用于仿真的 Verilog：
 
-- 单独写一个用于仿真的顶层模块，例化要测试的模块。
+- 单独写一个用于仿真的顶层模块，例化要测试的模块（Device Under Test）。
 - 把要测试的模块的输入输出都接到 `reg` 或者 `wire` 上。
 - 对于时序逻辑，在 `initial` 块开头初始化时钟信号，然后用 `always #10 clock = ~clock;` 代码来自动生成时钟信号。
 - 生成复位信号，在 `initial` 块内，模拟仿真信号由 0 变成 1，再由 1 变成 0 的过程。
 - 生成输入信号，在 `initial` 块内，对输入信号对应的 `reg` 信号进行赋值。
 - 在波形中观察模块输出和内部信号的变化。
+- 如果要测试的模块需要从外部获取数据，可以在仿真的顶层模块中按照协议，生成信号并输入到要测试的模块中。
+- 如果从波形上不容易看出数据，可以在仿真的顶层模块中进行解析和打印。
+- 可以用仿真来做单元测试，如果结果与预期不符，就用 `$fatal` 表示仿真失败。
