@@ -32,6 +32,7 @@ nav:
       - 外接外设: hardware/peripheral.md
     - Quartus 使用: quartus.md
     - 常用软件: software.md
+    - 常见问题: faq.md
   - 通过例子学硬件描述语言:
     - 总述: hdl-by-example/overview.md
     - 加法器: hdl-by-example/adder.md

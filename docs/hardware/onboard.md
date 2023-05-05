@@ -8,6 +8,7 @@
 
 样例代码中使用了如下参数，和 [VESA Signal 800 x 600 @ 72 Hz](http://tinyvga.com/vga-timing/800x600@72Hz) 对应关系如下：
 
+- Pixel clock: 50MHz
 - HSIZE: 800 (Visible Area)
 - HFP: 856 = 800 (Visible Area) + 56 (Front proch)
 - HSP: 976 = 856 + 120 (Sync pulse)
