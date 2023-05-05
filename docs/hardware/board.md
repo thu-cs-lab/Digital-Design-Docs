@@ -38,6 +38,14 @@
 
 另外，我们还提供了 8 个 Pmod 扩展接口，可连接兼容 Pmod 标准的外设模块，或使用杜邦线连接其他外设模块。具体使用方法参见 [常见外设](peripheral.md) 章节。
 
+FPGA 型号是 [EP4CE115F29I7](https://www.intel.com/content/www/us/en/products/sku/210467/cyclone-iv-ep4ce115-fpga/specifications.html)，内置资源有：
+
+- Logic Elements: 114000
+- M9K Memory Blocks: 432
+- Embedded Memory: 3.888 Mb
+- DSP Blocks(18x18 multipliers): 266
+- PLL: 4
+
 
 ## 控制模块使用方法
 
