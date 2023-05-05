@@ -4,6 +4,12 @@
 
 本实验使用的 EDA 软件为 Intel Quartus Prime Lite Edition，由于 20.1.1 版本存在一个 [bug](https://community.intel.com/t5/Intel-Quartus-Prime-Software/Error-suppressible-vsim-12110-The-novopt-option-has-no-effect-on/td-p/1195522)，我们建议下载 19.1 版本。同时需要安装 Cyclone IV 器件支持，以及 ModelSim IntelFPGA Starter Edition 仿真器，用于实验过程中的仿真。请保证硬盘至少有 50GB 的可用空间。
 
+!!! info "为什么不用新版本"
+
+    Quartus 从 21.1 版本开始，仿真器从 ModelSim 换成了 Questa，前者不需要 License 就可以使用，后者需要在 Intel 官网上注册，虽然也是免费，但是增加了学习成本。Quartus 20.1.1 又有 BUG，虽然可以解决，但是修改起来比较麻烦。最后就决定采用 19.1 版本。
+
+    如果你觉得上述问题可以解决，可以和同组同学协商，一起更新到新版本。
+
 ## 工程模板
 
 <!-- 请从 [此处](static/digital-design-template.zip) 下载工程模板。解压后即可导入 Quartus 中，通常不需要更改任何设置即可使用。 -->
