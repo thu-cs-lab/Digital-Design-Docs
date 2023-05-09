@@ -339,7 +339,7 @@ end
 下面讲述如何在命令行中运行仿真器，假设源代码包括 `a.v` 和 `b.v`，顶层模块名字为 `sim_top`：
 
 1. Icarus Verilog：
-    1. 运行 `iverilog -s sim_top a.v b.v -o sim`
+    1. 运行 `iverilog -s sim_top -o sim a.v b.v`
     2. 运行 `./sim`
 2. ModelSim：
     1. 把 ModelSim 的 bin 目录加到 PATH 中
