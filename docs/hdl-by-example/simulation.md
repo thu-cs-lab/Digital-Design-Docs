@@ -322,3 +322,28 @@ ps2_clock = 1'b1;
 - 如果要测试的模块需要从外部获取数据，可以在仿真的顶层模块中按照协议，生成信号并输入到要测试的模块中。
 - 如果从波形上不容易看出数据，可以在仿真的顶层模块中进行解析和打印。
 - 可以用仿真来做单元测试，如果结果与预期不符，就用 `$fatal` 表示仿真失败。
+
+## 命令行仿真
+
+上面的教程假设了你在 GUI 中仿真，可以直接看到仿真的波形。如果你希望在命令行中仿真，那么需要额外的工作来生成波形文件。一个比较通用的做法是，在 Verilog 中添加代码：
+
+```verilog
+initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0, top_module_name);
+end
+```
+
+意思是指定输出波形问题名为 `dump.vcd`，输出从模块 `top_module_name` 以下的所有信号。仿真完成后，可以用 gtkwave 打开 dump.vcd 查看生成的波形文件。
+
+下面讲述如何在命令行中运行仿真器，假设源代码包括 `a.v` 和 `b.v`，顶层模块名字为 `sim_top`：
+
+1. Icarus Verilog：
+    1. 运行 `iverilog -s sim_top a.v b.v -o sim`
+    2. 运行 `./sim`
+2. ModelSim：
+    1. 把 ModelSim 的 bin 目录加到 PATH 中
+    2. 运行 `vlib work`
+    3. 运行 `vlog a.v`
+    4. 运行 `vlog b.v`
+    5. 运行 `vsim -c work.sim_top -do "run -all"`
