@@ -353,3 +353,5 @@ end
     3. 运行 `xvlog b.v`
     4. 运行 `xelab -debug all --snapshot sim_top sim_top`
     5. 运行 `xsim sim_top`
+
+如果仿真的模块中包含由 Quartus 提供的 IP，那么仿真的时候，还需要把 quartus 安装目录下的 `quartus/eda/sim_lib/altera_mf.v` 文件也当成一个源代码，加入到上面的命令中。
