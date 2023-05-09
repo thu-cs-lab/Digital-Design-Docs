@@ -347,3 +347,9 @@ end
     3. 运行 `vlog a.v`
     4. 运行 `vlog b.v`
     5. 运行 `vsim -c work.sim_top -do "run -all"`
+3. Vivado:
+    1. 把 Vivado 的 bin 目录加到 PATH 中
+    2. 运行 `xvlog a.v`
+    3. 运行 `xvlog b.v`
+    4. 运行 `xelab -debug all --snapshot sim_top sim_top`
+    5. 运行 `xsim sim_top`
