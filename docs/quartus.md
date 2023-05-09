@@ -23,6 +23,8 @@
 - [ps2_mouse](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ps2_mouse): PS/2 鼠标，数码管上会显示 XY 坐标和鼠标按键状态
 - [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
 
+工程模板还提供了仿真脚本，用于在 Linux 命令行中运行仿真器：ModelSim 仿真脚本 `sim_modelsim.sh`，Vivado 仿真脚本 `sim_vivado.sh` 和 Icarus Verilog 仿真脚本 `sim_icarus.sh`。使用前，需要按照本地的安装路径修改脚本。
+
 !!! success "必须使用 Git"
     
     课程强制使用 Git 进行版本控制管理，而不是使用微信交换文件。助教提供的 `.gitignore` 文件可直接使用，用来忽略 Quartus 生成的中间文件。
