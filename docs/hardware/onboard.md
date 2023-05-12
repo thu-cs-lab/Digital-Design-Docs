@@ -53,3 +53,12 @@
 由于 Quartus 软件中提供的 Ethernet MAC IP 核需要专用的 license，助教团队使用 [verilog-ethernet](https://github.com/alexforencich/verilog-ethernet) 项目中，开源的 `eth_mac_1g_gmii` 模块进行了调试。该模块将 GMII 中到来的以太网帧，从 AXI Stream 接口中发出，该接口的位宽为 8bit，时钟频率为 125MHz。可以从 [此处](../static/ethernet-example.zip)（或者 [此处](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet)）下载样例工程，参考其中的使用方法。该项目中同时提供了带缓存的 `eth_mac_1g_gmii_fifo` 模块，如果需要对以太网帧进行短时间的 FIFO 缓存，可以将 MAC 替换为该模块。
 
 同时，针对 AXI Stream 协议，[verilog-axis](https://github.com/alexforencich/verilog-axis) 项目提供了许多有用的模块，例如 FIFO、数据宽度转换等，建议根据实际需要，使用其中的一些开源模块搭建项目。在此对这两个项目的作者 [Alex Forencich](https://github.com/alexforencich) 表示感谢，同学们也可以查看他编写的更多 Verilog 模块，从中获得启发。
+
+## SRAM
+
+实验板上提供了 4MB 的 SRAM，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）。
+
+SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如何编写 SRAM 控制器：
+
+- [计算机组成原理实验 4：总线实验之 SRAM 控制器实验](https://lab.cs.tsinghua.edu.cn/cod-lab-docs-2022/labs/lab4/sram/)
+- [异步 SRAM 的时序和控制器编写（进阶）](https://jia.je/hardware/2022/05/19/async-sram-timing/)
