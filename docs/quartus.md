@@ -23,6 +23,7 @@
 - [ps2_mouse](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ps2_mouse): PS/2 鼠标，数码管上会显示 XY 坐标和鼠标按键状态
 - [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
 - [sram](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/sram): SRAM，添加了 SRAM 仿真模型，没有附带 SRAM 控制器，在实验板子上不会有任何输出；可以在这个项目的基础上，测试自己编写的 SRAM 控制器代码
+- [i2c](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/i2c): 只实现了针对 WM8731 的 I2C 写入，没有处理 ACK；可以在这个项目的的基础上，修改引脚定义（`io.tcl`），修改写入的寄存器（`i2c.sv`），添加 ACK 判断等等
 
 工程模板还提供了仿真脚本，用于在 Linux 命令行中运行仿真器：ModelSim 仿真脚本 `sim_modelsim.sh`，Vivado 仿真脚本 `sim_vivado.sh` 和 Icarus Verilog 仿真脚本 `sim_icarus.sh`。使用前，需要按照本地的安装路径修改脚本。
 
