@@ -10,6 +10,8 @@
 
     如果你觉得上述问题可以解决，可以和同组同学协商，一起更新到新版本。
 
+Quartus 文档可以从 [Intel® Quartus® Prime Pro and Standard Software User Guides](https://www.intel.com/content/www/us/en/support/programmable/support-resources/design-software/user-guides.html) 下载。
+
 ## 工程模板
 
 <!-- 请从 [此处](static/digital-design-template.zip) 下载工程模板。解压后即可导入 Quartus 中，通常不需要更改任何设置即可使用。 -->
