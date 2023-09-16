@@ -21,7 +21,7 @@ IntelFPGA 上的 IP 使用的标准内存映射协议为 Avalon，详细说明�
 
 由 ARM 牵头定制的 AMBA (Advanced Microcontroller Bus Architecture) 规范中包含了名为 AXI 和 AXI-Lite 的内存映射协议，被 Xilinx 等平台广泛使用。其文档可见 [Xilinx UG761](https://www.xilinx.com/support/documentation/ip_documentation/ug761_axi_reference_guide.pdf)，以及 [AMBA 规范](https://developer.arm.com/documentation/ihi0022/hc) 的 Part A/B。
 
-在一些开源设计中，例如 Opencores 网站上的 IP，通常会使用 Wishbone 内存映射协议，它相对上面的两种协议来说比较简单，可以阅读 [计算机组成原理实验 4: Wishbone 总线协议](https://lab.cs.tsinghua.edu.cn/cod-lab-docs-2022/labs/lab4/wishbone/)、[Wishbone 总线协议介绍](https://jia.je/hardware/2022/06/19/wishbone/) 和 [Wishbone 总线协议标准](https://cdn.opencores.org/downloads/wbspec_b4.pdf)。
+在一些开源设计中，例如 Opencores 网站上的 IP，通常会使用 Wishbone 内存映射协议，它相对上面的两种协议来说比较简单，可以阅读 [计算机组成原理实验 4: Wishbone 总线协议](https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/lab4/wishbone/)、[Wishbone 总线协议介绍](https://jia.je/hardware/2022/06/19/wishbone/) 和 [Wishbone 总线协议标准](https://cdn.opencores.org/downloads/wbspec_b4.pdf)。
 
 在使用内存映射协议时，以下的 IP 可能会对设计有帮助：
 

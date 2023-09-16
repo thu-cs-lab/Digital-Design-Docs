@@ -64,5 +64,5 @@
 
 SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如何编写 SRAM 控制器：
 
-- [计算机组成原理实验 4：总线实验之 SRAM 控制器实验](https://lab.cs.tsinghua.edu.cn/cod-lab-docs-2022/labs/lab4/sram/)
+- [计算机组成原理实验 4：总线实验之 SRAM 控制器实验](https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/lab4/sram/)
 - [异步 SRAM 的时序和控制器编写（进阶）](https://jia.je/hardware/2022/05/19/async-sram-timing/)
