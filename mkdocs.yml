@@ -1,6 +1,7 @@
 site_name: 数字逻辑设计实验文档
 site_description: 'Documentation for labs of Digital Logic Design course'
 site_author: 'Digital Logic Design Course Team'
+site_url: https://lab.cs.tsinghua.edu.cn/digital-design/doc/
 copyright: 'Copyright &copy; 2020-2023 Department of Computer Science and Technology, Tsinghua University. All Rights Reserved.'
 
 theme: 
@@ -48,8 +49,6 @@ nav:
 
 extra_javascript:
   - 'https://cdn.jsdelivr.net/npm/mathjax@2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
-  - 'https://cdn.jsdelivr.net/npm/wavedrom@3.2.0/wavedrom.min.js'
-  - 'https://wavedrom.com/skins/default.js'
 
 plugins:
   - search
@@ -61,6 +60,9 @@ plugins:
       show_line_count: true
       count_empty_lines: true
       fallback_to_empty: false
+  - wavedrom:
+      embed_svg: true
+      pymdownx: true
 
 markdown_extensions:
   - admonition
@@ -84,7 +86,11 @@ markdown_extensions:
   - pymdownx.magiclink
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: wavedrom
+          class: wavedrom
+          format: !!python/name:markdownwavedrom.plugin.fence_wavedrom_format
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.tasklist:
