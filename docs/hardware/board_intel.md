@@ -6,13 +6,13 @@
 
     在开始进行你的实验之前，请务必仔细阅读本章，了解实验板各组件的功能，防止错误的硬件连接损坏实验板。
 
-《数字逻辑设计》课程所用的实验板外观如图：
+《数字逻辑设计》课程所用的实验板（Intel FPGA 版）外观如图：
 
-![Board](../img/board.png)
+![Board](../img/board_intel.png)
 
 实验时可能用到的组件标号如下图，具体描述及功能请阅读下一节了解。
 
-![Board with annotation](../img/board_anno.png)
+![Board with annotation](../img/board_intel_anno.png)
 
 ## 各组件说明
 

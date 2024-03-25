@@ -30,6 +30,8 @@ nav:
       - 调试相关: hdl/debug.md
       - 三态门: hdl/tri.md
     - 硬件相关:
+      - 实验板（Xilinx FPGA 版）: hardware/board_xilinx.md
+      - 板载外设（Xilinx FPGA 版）: hardware/onboard_xilinx.md
       - 实验板（Intel FPGA 版）: hardware/board_intel.md
       - 板载外设（Intel FPGA 版）: hardware/onboard_intel.md
       - 外接外设: hardware/peripheral.md

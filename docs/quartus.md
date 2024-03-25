@@ -1,5 +1,7 @@
 # Quartus 使用
 
+Quartus 是用于 Intel FPGA 的 EDA 开发工具。
+
 ## 下载安装
 
 本实验使用的 EDA 软件为 Intel Quartus Prime Lite Edition，由于 20.1.1 版本存在一个 [bug](https://community.intel.com/t5/Intel-Quartus-Prime-Software/Error-suppressible-vsim-12110-The-novopt-option-has-no-effect-on/td-p/1195522)，我们建议下载 19.1 版本。同时需要安装 Cyclone IV 器件支持，以及 ModelSim IntelFPGA Starter Edition 仿真器，用于实验过程中的仿真。请保证硬盘至少有 50GB 的可用空间。
