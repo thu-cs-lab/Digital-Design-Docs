@@ -28,12 +28,12 @@
 8. 32 位 LED 灯：用于调试，输出高电平时点亮；
 9. 8 位扫描式数码管：使用方法请参考工程模板；
 10. 512MB DDR3-1866 SDRAM 内存，512 Mb x 8，型号为 MT41K512M8RH-107IT；
-11. 4MB SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）；
+11. 4MB（并行）SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）；
 12. 16MB SPI NOR Flash：型号为 [W25Q128JVSIQTR](https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q128JV)；
 13. 8MB 串行 SRAM 内存：型号为 [VTI7064](https://www.lcsc.com/datasheet/lcsc_datasheet_1811151432_Vilsion-Tech-VTI7064MSME_C139966.pdf)；
-14. FPGA JTAG 调试接口：用于连接 USB Blaster 下载程序；
+14. FPGA JTAG 调试接口：用于连接 Xilinx 下载器下载程序；
 15. 2 个带去抖按键：自带硬件去抖电路，按下时为高电平；
-16. 4 个带去抖按键：自带硬件去抖电路，按下时为低电平；
+16. 4 个带去抖按键：自带硬件去抖电路，按下时为高电平；
 17. 16 位拨码开关：拨上时为低电平；
 18. 电源输出接口：可用于给外设模块供电，支持 5V 和 3.3V 两种电压；
 19. 电源输入接口：**只允许** 连接提供的 12V 直流电源，用于给实验板供电。
@@ -48,4 +48,24 @@ FPGA 型号是 [XC7A200T-2FBG484I](https://docs.amd.com/v/u/en-US/7-series-produ
 - DSP Slices: 740
 - PLL: 10
 
+## 控制模块使用方法
+
 TODO
+
+### SRAM 读写操作
+
+TODO
+
+## macOS 用户
+
+TODO
+
+## 与 Intel FPGA 版实验板的区别
+
+Xilinx FPGA 版实验板是 2023 年新设计的数字逻辑设计实验开发板，相比上一个 Intel FPGA 版实验板，做出了如下的改变：
+
+1. FPGA 从 Intel 的 EP4CE115F29I7 换为 Xilinx 的 XC7A200T-2FBG484I，新旧 FPGA 对比，制程从 60nm 提升到 28nm，同时逻辑单元数量提升到 2 倍，内置的 Block RAM 容量提升到 3 倍，可以给同学的设计留下更充足的空间；
+2. 将 32MB SDR SDRAM 内存升级到 512MB DDR3 SDRAM 内存，在速度和容量上获得了巨大的提升；
+3. 把 PS/2 接口扩展到两个，不再需要鼠标键盘二选一，可以全都要；
+4. 由于引脚个数限制，减少了 PMOD 扩展接口的个数：从 8 减少到 5，不过不用担心，根据往年的经验，5 个也是用不完的；
+5. 由于引脚个数限制，减少了一组 SRAM，只剩下了一组（并行）SRAM，不过作为补偿，添加了 16MB 的 SPI NOR Flash 和 8MB 串行 SRAM 内存。
