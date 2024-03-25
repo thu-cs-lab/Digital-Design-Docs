@@ -30,9 +30,10 @@ nav:
       - 调试相关: hdl/debug.md
       - 三态门: hdl/tri.md
     - 硬件相关:
-      - 实验板: hardware/board.md
-      - 板载外设: hardware/onboard.md
+      - 实验板（Intel FPGA 版）: hardware/board_intel.md
+      - 板载外设（Intel FPGA 版）: hardware/onboard_intel.md
       - 外接外设: hardware/peripheral.md
+    - Vivado 使用: vivado.md
     - Quartus 使用: quartus.md
     - 常用软件: software.md
     - 常见问题: faq.md
