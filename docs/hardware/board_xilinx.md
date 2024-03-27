@@ -18,7 +18,7 @@
 
 图片中标注的组件描述如下：
 
-1. 千兆 RJ45 以太网接口（LAB\_ETH）：使用 RTL8211 PHY 芯片，通过 GMII 总线与 FPGA 相连；
+1. 千兆 RJ45 以太网接口（LAB\_ETH）：使用 RTL8211 PHY 芯片，通过 RGMII 总线与 FPGA 相连；
 2. PS/2 鼠标接口（LAB\_MOUSE）；
 3. PS/2 键盘接口（LAB\_KBD）；
 4. HDMI 视频接口（LAB\_HDMI）：最高支持 1080P 24 位色，样例代码请参考工程模板；
