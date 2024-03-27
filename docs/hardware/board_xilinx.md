@@ -25,9 +25,9 @@
 5. RS-232 串口（LAB\_RS232）：可连接使用 RS-232 电平的串口外设；
 6. USB 转 TTL 串口（LAB\_UART）：连接电脑可用于 FPGA 的调试输出；
 7. SD 卡座（LAB\_SD）：建议使用小容量低速 SD 卡，并通过 SPI 协议访问；按照标准，除了 SDUC 以外，其他的 SD 卡都应该支持 SPI 协议，但一些 SD 卡型号违背了标准，不支持 SPI 协议，见 [来源 1](https://forum.4dsystems.com.au/node/1869) 和 [来源 2](https://github.com/MarlinFirmware/Marlin/issues/2082#issuecomment-102381964)；
-8. 32 位 LED 灯：用于调试，输出高电平时点亮；
+8. 32 位 LED 灯：用于调试，使用方法请参考工程模板；
 9. 8 位扫描式数码管（DPY1-2）：使用方法请参考工程模板；
-10. 512MB DDR3-1866 SDRAM 内存：512 Mb x 8，型号为 MT41K512M8RH-107IT；
+10. 512MB DDR3-1866 SDRAM 内存：512 Mb x 8，型号为 [MT41K512M8RH-107IT](https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/dram/ddr3/4gb_automotive_ddr3l.pdf)；
 11. 4MB（并行）SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）；
 12. 16MB SPI NOR Flash：型号为 [W25Q128JVSIQTR](https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q128JV)；
 13. 8MB 串行 SRAM 内存：型号为 [VTI7064](https://www.lcsc.com/datasheet/lcsc_datasheet_1811151432_Vilsion-Tech-VTI7064MSME_C139966.pdf)；
