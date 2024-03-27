@@ -19,21 +19,23 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
 工程模板还提供了一些外设的样例：
 
 - [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet): 以太网 IP，收到的数据求和后显示在数码管上
-    - 把 verilog-ethernet 作为 git submodule 加入到 git 仓库中，并把需要用到的文件加入到 vivado 项目
-    - 修改 `io.xdc`，取消涉及到 rgmii 部分约束的注释
-    - 修改 `mod_top.sv`，添加 rgmii 的顶层信号，例化 `eth_mac_1g_rgmii_fifo` 模块
+    - 把 [verilog-ethernet](https://github.com/alexforencich/verilog-ethernet) 作为 git submodule 加入到 git 仓库中，并把需要用到的文件加入到 vivado 项目
+    - 修改 `io.xdc`，取消涉及到 RGMII 部分约束的注释
+    - 修改 `mod_top.sv`，添加 RGMII 的顶层信号，例化 `eth_mac_1g_rgmii_fifo` 模块
     - 修改 `ip_pll` 设置，添加两个额外的时钟输出：第一个是 125MHz 时钟，第二个是带 90 度相位差的 125 MHz 时钟
 - [ps2_keyboard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ps2_keyboard): PS/2 键盘，敲击键盘，键盘的 scancode 会显示在数码管上
-    - 修改 `io.xdc`，取消涉及到 ps2 keyboard 部分约束的注释
-    - 修改 `mod_top.sv`，添加 ps2 keyboard 的顶层信号，例化 `ps2_keyboard` 模块
-    - 在 `ps2_keyboard.sv` 中实现 ps2 keyboard 控制器的逻辑
-    - 修改 `mod_top_tb.v` ，在仿真环境中验证 ps2 keyboard 控制器的正确性
+    - 修改 `io.xdc`，取消涉及到 PS/2 Keyboard 部分约束的注释
+    - 修改 `mod_top.sv`，添加 PS/2 Keyboard 的顶层信号，例化 `ps2_keyboard` 模块
+    - 在 `ps2_keyboard.sv` 中实现 PS/2 Keyboard 控制器的逻辑
+    - 修改 `mod_top_tb.v` ，在仿真环境中验证 PS/2 Keyboard 控制器的正确性
 - [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
-    - 修改 `io.xdc`，取消涉及到 sdcard spi 部分约束的注释
-    - 修改 `mod_top.sv`，添加 sdcard spi 的顶层信号，例化 `sd_controller` 模块
-    - 在 `sd_controller.sv` 中实现 sdcard spi 控制器的逻辑
+    - 修改 `io.xdc`，取消涉及到 SDCard SPI 部分约束的注释
+    - 修改 `mod_top.sv`，添加 SDCard SPI 的顶层信号，例化 `sd_controller` 模块
+    - 在 `sd_controller.sv` 中实现 SDCard SPI 控制器的逻辑
     - 修改 `ip_pll` 设置，添加一个额外的 5MHz 时钟输出用于 SPI 协议
-    - 修改 `mod_top_tb.v` ，在仿真环境中验证 sdcard spi 控制器的正确性
+    - 修改 `mod_top_tb.v` ，在仿真环境中验证 SDCard SPI 控制器的正确性
+
+注：切换分支的时候如果 Vivado 已经打开了项目，那么 Vivado 是不会自动从硬盘读取新的项目文件的，因此建议用 Viado 重新打开一次项目。
 
 !!! success "必须使用 Git"
     
