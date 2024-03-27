@@ -38,12 +38,23 @@
 
 ## SDRAM 内存
 
+实验板上提供了 512MB 容量的 DDR3 SDRAM 内存，型号为 MT41K512M8RH-107IT，关于它的特性可参考 [数据手册](https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/dram/ddr3/4gb_automotive_ddr3l.pdf)。SDRAM 采用较为复杂的同步访问时序，可以支持更高的时钟频率，但需要使用多个周期，并且通过专用的控制器进行访问，有关它与 SRAM 内存的区别，请参考 [文章](http://www.differencebetween.net/object/difference-between-sram-and-sdram/)。
+
 TODO
 
 ## 千兆以太网
 
-TODO
+实验板上提供了千兆以太网 PHY 芯片，其型号为 RTL8211。我们将其配置成了 RGMII 接口，与实验 FPGA 相连。我们的 FPGA 同时扮演了“CPU”和 MAC 芯片的角色。PHY 芯片将网线上的比特流进行接收，通过 RGMII 接口发送至 FPGA；FPGA 中实现的 MAC 模块将其进行解析后，将原始的以太网帧通过各类流式总线发送至 FPGA 中的其他逻辑，即可完成各类处理。
+
+由于 Vivado 软件中提供的 Tri Mode Ethernet MAC IP 核需要专用的 license，助教团队使用 [verilog-ethernet](https://github.com/alexforencich/verilog-ethernet) 项目中，开源的 `eth_mac_1g_rgmii` 模块进行了调试。该模块将 RGMII 中到来的以太网帧，从 AXI Stream 接口中发出，该接口的位宽为 8bit，时钟频率为 125MHz。可以从 [TODO](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ethernet) 找到样例工程，参考其中的使用方法。该项目中同时提供了带缓存的 `eth_mac_1g_rgmii_fifo` 模块，如果需要对以太网帧进行短时间的 FIFO 缓存，可以将 MAC 替换为该模块。
+
+同时，针对 AXI Stream 协议，[verilog-axis](https://github.com/alexforencich/verilog-axis) 项目提供了许多有用的模块，例如 FIFO、数据宽度转换等，建议根据实际需要，使用其中的一些开源模块搭建项目。在此对这两个项目的作者 [Alex Forencich](https://github.com/alexforencich) 表示感谢，同学们也可以查看他编写的更多 Verilog 模块，从中获得启发。
 
 ## SRAM
 
-TODO
+实验板上提供了 4MB 的 SRAM，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）。
+
+SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如何编写 SRAM 控制器：
+
+- [计算机组成原理实验 4：总线实验之 SRAM 控制器实验](https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/lab4/sram/)
+- [异步 SRAM 的时序和控制器编写（进阶）](https://jia.je/hardware/2022/05/19/async-sram-timing/)

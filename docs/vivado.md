@@ -18,7 +18,8 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
 
 工程模板还提供了一些外设的样例：
 
-TODO
+- [ps2_keyboard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ps2_keyboard): PS/2 键盘，敲击键盘，键盘的 scancode 会显示在数码管上
+- [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
 
 !!! success "必须使用 Git"
     
@@ -44,7 +45,15 @@ TODO
 
 模板中的重要文件和目录包括：
 
-TODO
+* `project-template-xilinx.xpr`：Vivado 项目文件，可以在 Vivado 中通过 File → Project → Open... 打开
+* `project-template-xilinx.srcs/constrs_1/new/io.xdc`：IO 管脚绑定约束
+* `project-template-xilinx.srcs/sources_1/new/`：放置你编写的 RTL 代码
+    * `mod_top.sv`：顶层模块，请根据需要取消信号列表中的注释，注意列表末尾的逗号
+    * `dpy_scan.sv`：数码管扫描、译码模块
+    * `led_scan.sv`：LED 扫描模块
+    * `video.sv`：使用 VGA 时序驱动 HDMI 接口的样例
+* `ip/`：用于放置 Quartus 生成的各类 IP
+    * `pll`：预生成的 PLL 模块，用于从输入的 100M 时钟生成 50M 时钟提供给 VGA 模块
 
 在新建文件时，你也应当遵循这一规范，合理放置文件。
 
@@ -63,10 +72,25 @@ RTL 代码应该具有良好的风格，如规范的缩进、清晰的命名和�
 
 为了正确地使用外设，需要配置顶层模块的输入/输出信号对应的 FPGA 管脚，此部分内容都包含在 `io.xdc` 中。由于顶层模块中没有声明所有的信号，有部分约束被注释了，包括：
 
-TODO
+- PS/2 键盘和鼠标
+- UART/RS232 串口
+- DDR3 SDRAM
+- BaseRAM（SRAM）
+- 所有的 PMOD 接口
+- 以太网 RGMI
+- QSPI NOR Flash
+- QSPI PSRAM
+- SDCard 的 SD/SPI 模式
 
 在使用时，请根据需要修改此文件，但 **不要随意修改管脚名**。
 
 ### IP 使用
 
-TODO
+Vivado 提供了丰富的 IP Core，你可以根据需要自由生成和选用（在 Vivado 的 IP Catalog 中选择）。一些常用的 IP Core 包括：
+
+* RAM / ROM
+* FIFO（用于时钟域同步或者任务队列）
+* 各类 DSP（乘除法、开方、乘方、三角函数等数学运算）
+* Tri Mode Ethernet MAC（用于驱动 RGMII 以太网 PHY）
+
+在使用任何 IP 前，请 **完整阅读** 它的使用手册（通常 Vivado 自带，或可以从 Xilinx(AMD) 官网获取）。如果部分 IP 不包含在基础版本的 Vivado 软件中，请联系助教团队寻求帮助。
