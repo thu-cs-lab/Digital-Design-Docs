@@ -58,7 +58,26 @@ TODO
 
 ## macOS 用户
 
-TODO
+如果你使用 macOS，由于 Vivado 不支持 macOS，需要在虚拟机或者远程 Linux 环境下运行 Vivado，用 VSCode Remote 进行远程开发。生成 Bitstream .bit 文件后（路径为项目目录下的 `project-template-xilinx.runs/impl_1/mod_top.bit`），复制到本地，再用 openFPGALoader 下载：
+
+```shell
+# in macOS
+$ brew install openfpgaloader
+$ openFPGALoader -c ft2232 --detect
+empty
+Jtag frequency : requested 6.00MHz   -> real 6.00MHz
+index 0:
+        idcode 0x3636093
+        manufacturer xilinx
+        family artix a7 200t
+        model  xc7a200
+        irlength 6
+$ scp linux:/path/to/mod_top.bit .
+$ openFPGALoader -c ft2232 --fpga-part xc7a200t mod_top.bit
+```
+
+此外，部分 macOS 系统无法连接到控制模块，可以使用 USB 直通到 Linux 虚拟机的方法。
+
 
 ## 与 Intel FPGA 版实验板的区别
 
