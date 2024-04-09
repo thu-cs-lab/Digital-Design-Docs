@@ -43,6 +43,10 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     - 在 `sd_controller.sv` 中实现 SDCard SPI 控制器的逻辑
     - 修改 `ip_pll` 设置，添加一个额外的 5MHz 时钟输出用于 SPI 协议
     - 修改 `mod_top_tb.v` ，在仿真环境中验证 SDCard SPI 控制器的正确性
+- [sram](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/sram) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...sram): SRAM，添加了 SRAM 仿真模型，没有附带 SRAM 控制器，在实验板子上不会有任何输出；可以在这个项目的基础上，测试自己编写的 SRAM 控制器代码
+    - 修改 `io.xdc`，取消涉及到 Base RAM 部分约束的注释
+    - 修改 `mod_top.sv`，取消 SDCard SPI 的顶层信号的注释
+    - 修改 `mod_top_tb.v` ，在仿真环境中添加 SRAM 仿真模型
 
 注：切换分支的时候如果 Vivado 已经打开了项目，那么 Vivado 是不会自动从硬盘读取新的项目文件的，因此建议用 Viado 重新打开一次项目。
 
