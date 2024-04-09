@@ -13,7 +13,6 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     - Vivado 2019.2: 22 GB
     - Vivado 2020.2: 33 GB
     - Vivado 2022.1: 69 GB
-    - Vivado 2023.1: 32 GB
 
     如果你觉得上述问题可以解决，可以和同组同学协商，一起更新到新版本。
 
