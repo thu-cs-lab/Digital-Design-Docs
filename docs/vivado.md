@@ -22,22 +22,22 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
 
 工程模板还提供了一些外设的样例，下面描述了这些样例的功能，以及这些样例大概做了哪些改动：
 
-- [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet): 以太网 IP，收到的数据求和后显示在数码管上
+- [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...ethernet): 以太网 IP，收到的数据求和后显示在数码管上
     - 把 [verilog-ethernet](https://github.com/alexforencich/verilog-ethernet) 作为 git submodule 加入到 git 仓库中，并把需要用到的文件加入到 vivado 项目
     - 修改 `io.xdc`，取消涉及到 RGMII 部分约束的注释
     - 修改 `mod_top.sv`，取消 RGMII 的顶层信号的注释，例化 `eth_mac_1g_rgmii_fifo` 模块
     - 修改 `ip_pll` 设置，添加两个额外的时钟输出：第一个是 125MHz 时钟，第二个是带 90 度相位差的 125 MHz 时钟
-- [ps2_keyboard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ps2_keyboard): PS/2 键盘，敲击键盘，键盘的 scancode 会显示在数码管上
+- [ps2_keyboard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ps2_keyboard) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...ps2_keyboard): PS/2 键盘，敲击键盘，键盘的 scancode 会显示在数码管上
     - 修改 `io.xdc`，取消涉及到 PS/2 Keyboard 部分约束的注释
     - 修改 `mod_top.sv`，取消 PS/2 Keyboard 的顶层信号的注释，例化 `ps2_keyboard` 模块
     - 在 `ps2_keyboard.sv` 中实现 PS/2 Keyboard 控制器的逻辑
     - 修改 `mod_top_tb.v` ，在仿真环境中验证 PS/2 Keyboard 控制器的正确性
-- [ps2_mouse](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ps2_mouse): PS/2 鼠标，移动鼠标，鼠标的 x-y 坐标会显示在数码管上
+- [ps2_mouse](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/ps2_mouse) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...ps2_mouse): PS/2 鼠标，移动鼠标，鼠标的 x-y 坐标会显示在数码管上
     - 修改 `io.xdc`，取消涉及到 PS/2 Mouse 部分约束的注释
     - 修改 `mod_top.sv`，取消 PS/2 Mouse 的顶层信号的注释，例化 `ps2_mouse` 模块
     - 在 `ps2_mouse.sv` 中基于 [PS/2 控制器 IP](https://github.com/jiegec/ps2) 实现 PS/2 Mouse 控制器的逻辑
     - 修改 `mod_top_tb.v` ，在仿真环境中验证 PS/2 Mouse 控制器的正确性
-- [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
+- [sdcard](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/tree/sdcard) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...sdcard): SD 卡，读取 SD 卡的第一个扇区的内容，滚动显示在数码管上
     - 修改 `io.xdc`，取消涉及到 SDCard SPI 部分约束的注释
     - 修改 `mod_top.sv`，取消 SDCard SPI 的顶层信号的注释，例化 `sd_controller` 模块
     - 在 `sd_controller.sv` 中实现 SDCard SPI 控制器的逻辑
