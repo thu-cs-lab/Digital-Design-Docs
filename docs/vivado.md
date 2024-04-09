@@ -51,6 +51,11 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     - 修改 `io.xdc`，复制 PMOD 的 IO 约束，把信号名称改为 I2C 的信号
     - 修改 `mod_top.sv`，添加 I2C 的顶层信号，例化 I2C 控制器 `i2c.sv`
     - 在 `i2c.sv` 中实现 I2C 控制器的逻辑
+- [ila](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ila) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...ila): 使用 Vivado 提供的内嵌逻辑分析仪（ILA），实时观察 FPGA 内部信号的取值
+    - 在源码中对要进行调试的信号添加 `(* mark_debug = "true" *)`，点击 `Run Synthesis` 开始综合
+    - 综合完成后，点击 `Open Synthesized Design`，点击 `Set Up Debug`，按照提示，把信号加入到 ILA 中，设置好对应的时钟域
+    - 点击保存，把更新后的约束保存在 debug.xdc 中，重新 `Generate Bitstream`
+    - 在 `Program Device` 之后，就可以观察到 ILA 的界面，进而观察到 FPGA 内部的信号
 
 注：切换分支的时候如果 Vivado 已经打开了项目，那么 Vivado 是不会自动从硬盘读取新的项目文件的，因此建议用 Viado 重新打开一次项目。
 
