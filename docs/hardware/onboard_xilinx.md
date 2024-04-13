@@ -40,7 +40,16 @@
 
 实验板上提供了 512MB 容量的 DDR3 SDRAM 内存，型号为 MT41K512M8RH-107IT，关于它的特性可参考 [数据手册](https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/dram/ddr3/4gb_automotive_ddr3l.pdf)。SDRAM 采用较为复杂的同步访问时序，可以支持更高的时钟频率，但需要使用多个周期，并且通过专用的控制器进行访问，有关它与 SRAM 内存的区别，请参考 [文章](http://www.differencebetween.net/object/difference-between-sram-and-sdram/)。
 
-TODO
+在实验框架的 `sdram` 分支中，已经给出了一个 SDRAM 内存的访问示例，它例化了 Xilinx Vivado 提供的 MIG IP，通过它的 User Interface 接口读写 SDRAM 内存，这个接口分为三部分：
+
+1. Command：把 Command 以及内存地址传给 MIG，Command 可以是读或者写
+2. Write Data：把要写入的数据传给 MIG
+3. Read Data：MIG 会输出从 SDRAM 读取到的内存数据
+
+因此，要完成一次写操作，要在 Command 接口上发送写命令，并且在 Write Data 接口上传要写入的数据；要完成一次读操作，要在 Command 接口上发送读命令，在 Read Data 接口上等待读取完成并获取数据。
+
+完整的接口描述，请阅读 [Zynq-7000 SoC and 7 Series Devices Memory Interface Solutions](https://docs.amd.com/v/u/en-US/ug586_7Series_MIS) 第一章中相关内容。
+
 
 ## 千兆以太网
 
