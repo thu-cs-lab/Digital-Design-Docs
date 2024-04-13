@@ -88,3 +88,16 @@ Xilinx FPGA 版实验板是 2023 年新设计的数字逻辑设计实验开发�
 3. 把 PS/2 接口扩展到两个，不再需要鼠标键盘二选一，可以全都要；
 4. 由于引脚个数限制，减少了 PMOD 扩展接口的个数：从 8 减少到 5，不过不用担心，根据往年的经验，5 个也是用不完的；
 5. 由于引脚个数限制，减少了一组 SRAM，只剩下了一组（并行）SRAM，不过作为补偿，添加了 16MB 的 SPI NOR Flash 和 8MB 串行 SRAM 内存。
+
+备注：XC7A200T 是 Xilinx Artix 7 系列里最高端的一款 FPGA。Xilinx(AMD) FPGA 一共有这些产品系列：
+
+1. Spartan-6：45nm
+2. 7 Series：28nm，从低端到高端依次是 Spartan 7，Artix 7，Kintex 7，Virtex 7
+3. UltraScale：20nm，从低端到高端依次是 Kintex UltraScale，Virtex UltraScale
+4. UltraScale+：16nm，从低端到高端依次是 Spartan UltraScale+，Artix UltraScale+，Kintex UltraScale+，Virtex UltraScale+
+
+此外，Xilinx(AMD) 还有系列 SoC 产品，它在 FPGA 旁边还加入了 ARM 处理器核心，有这些产品系列：
+
+1. Zynq 7000：对应 7 Series，28nm
+2. Zynq UltraScale+ MPSoC/RFSoC：对应 UltraScale+，16nm
+3. Versal：7nm
