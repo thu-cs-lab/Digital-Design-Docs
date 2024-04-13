@@ -137,3 +137,7 @@ Vivado 提供了丰富的 IP Core，你可以根据需要自由生成和选用�
 * Tri Mode Ethernet MAC（用于驱动 RGMII 以太网 PHY）
 
 在使用任何 IP 前，请 **完整阅读** 它的使用手册（通常 Vivado 自带，或可以从 Xilinx(AMD) 官网获取）。如果部分 IP 不包含在基础版本的 Vivado 软件中，请联系助教团队寻求帮助。
+
+## 连接到 FPGA
+
+将发给同学的 Xilinx Cable 的 USB 端插到电脑上，另一端插到实验板的 LAB_JTAG 上，就可以在 Vivado 中，点击 `Open Hardware Manager`，连接到 FPGA。检测到 FPGA 后，可以把编译出来的 bitstream 烧写到 FPGA 中，如果配置了 ILA，还可以使用 ILA 观察 FPGA 内部信号的状态。
