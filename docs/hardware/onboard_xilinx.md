@@ -71,3 +71,7 @@ SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如
 ## SPI NOR Flash
 
 实验板子还提供了 16MB 的 SPI NOR Flash，型号为 [W25Q128JVSIQTR](https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q128JV)。它是一片非易失的 Flash 存储，可以用来保存自己的数据。FPGA 通过 SPI 或者 QSPI 接口，可以快速地随机访问 SPI NOR Flash 的内容。Flash 写入时，需要先擦除，再写入新的数据。
+
+## SPI SRAM
+
+实验板子还提供了 8MB SPI SRAM 内存，型号为 [VTI7064](https://www.lcsc.com/datasheet/lcsc_datasheet_1811151432_Vilsion-Tech-VTI7064MSME_C139966.pdf)。它和前面所述的（并行）SRAM 的区别主要是接口不同，这里的 SPI SRAM 接口需要通过 SPI 接口访问，实现更简单，速度会慢一些，但是容量更大。
