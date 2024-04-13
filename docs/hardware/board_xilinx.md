@@ -30,7 +30,7 @@
 10. 512MB DDR3-1866 SDRAM 内存：512 Mb x 8，型号为 [MT41K512M8RH-107IT](https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/dram/ddr3/4gb_automotive_ddr3l.pdf)；
 11. 4MB（并行）SRAM 内存：32 位宽，理论延迟为 10ns，是两片型号为 [IS61WV102416BLL-10TLI](https://www.issi.com/WW/pdf/61WV102416ALL.pdf) 各 2MB 的 SRAM 数据线并联而成（两组 SRAM 连接同样的 `addr` `ce_n` `we_n` `oe_n` 信号，两组 `data` 拼接成为 32 位，两对 `ub_n` `lb_n` 组合成了 4 位的 `be_n`）；
 12. 16MB SPI NOR Flash：型号为 [W25Q128JVSIQTR](https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q128JV)；
-13. 8MB 串行 SRAM 内存：型号为 [VTI7064](https://www.lcsc.com/datasheet/lcsc_datasheet_1811151432_Vilsion-Tech-VTI7064MSME_C139966.pdf)；
+13. 8MB SPI SRAM 内存：型号为 [VTI7064](https://www.lcsc.com/datasheet/lcsc_datasheet_1811151432_Vilsion-Tech-VTI7064MSME_C139966.pdf)；
 14. FPGA JTAG 调试接口（LAB\_JTAG）：用于连接 Xilinx 下载器下载程序；
 15. 2 个带去抖按键（CLK、RST）：自带硬件去抖电路，按下时为高电平；
 16. 4 个带去抖按键（KEY1-4）：自带硬件去抖电路，按下时为高电平；

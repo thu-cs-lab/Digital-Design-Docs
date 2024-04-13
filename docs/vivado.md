@@ -56,6 +56,11 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     - 综合完成后，点击 `Open Synthesized Design`，点击 `Set Up Debug`，按照提示，把信号加入到 ILA 中，设置好对应的时钟域
     - 点击保存，把更新后的约束保存在 debug.xdc 中，重新 `Generate Bitstream`
     - 在 `Program Device` 之后，就可以观察到 ILA 的界面，进而观察到 FPGA 内部的信号
+- [sdram](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/sdram) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...sdram): 向 DDR3 SDRAM 写入数据，再读出来，显示在数码管上
+    - 例化 MIG（Memory Interface Generator），作为 DDR3 SDRAM 内存控制器
+    - 不需要修改 `io.xdc`，因为 MIG 会自己生成一份约束文件
+    - 修改 `mod_top.sv`，添加 DDR3 SDRAM 的顶层信号，例化 DDR3 SDRAM 控制器
+    - 在 `mod_top.sv` 中实现通过 MIG 的接口读写 DDR3 SDRAM 的逻辑
 
 注：切换分支的时候如果 Vivado 已经打开了项目，那么 Vivado 是不会自动从硬盘读取新的项目文件的，因此建议用 Viado 重新打开一次项目。
 
