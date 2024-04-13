@@ -71,23 +71,26 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 
 下面列出的模块适用于实验板的 Pmod 接口。如需其他模块，也可先在各类电商平台搜索，实验板可以支持几乎所有 Pmod 模块。
 
-| 功能         | 型号                        | 协议             | 简介                                            | 购买链接                                                                                                                                             |
-| ---------- | ------------------------- | -------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 音频输入/输出    | WM8731                    | I2S            | 音频输入/输出模块                                     | 自制模块，请联系助教团队获取                                                                                                                                   |
-| NOR Flash         | PMOD-SPI-NOR-FLASH   | SPI | 16MB NOR Flash，可以用来存储数据                                           | 自制模块，请联系助教团队获取                                                                           |
-| 无线通信       | PSI-EMOD-BLUETOOTH        | UART           | 蓝牙串口传输模块，可与手机连接传输数据                           | https://item.taobao.com/item.htm?id=602102213182 （已下架）                                                                                           |
-| 无线通信       | PmodBT2                   | UART           | 蓝牙串口传输模块                                      | https://www.mouser.cn/ProductDetail/Digilent/410-214?qs=s%2FdyVPQMB4z05kZmem7h5Q%3D%3D                                                           |
-| 温度传感器      | PSI-EMOD-SENSOR-001       | 1-Wire         | 基于 DS18B20 的温度传感器模块                           | https://item.taobao.com/item.htm?id=616627001082 （已下架）                                                                                           |
-| EEPROM 存储器 | PSI-EMOD-MEMORY-001       | I2C            | 2K 字节 EEPROM 存储器，可方便地存储少量持久化数据                | https://item.taobao.com/item.htm?id=617136619926                                                                                                 |
-| 摄像头        | PSI-EMOD-OV7670           | 并行             | OV7670 摄像头模组，较低分辨率（30 万像素，640x480），适合 FPGA 使用 | https://item.taobao.com/item.htm?id=625385869412 （已下架）                                                                                           |
-| 摄像头        | PMOD_CAM_5M               | 并行             | OV5640 摄像头模组，500 万像素（2592x1944）               | https://item.taobao.com/item.htm?id=524514493918                                                                                                 |
-| 摄像头        | PMOD-CAMERA               | 并行             | OV2640 摄像头模组，200 万像素（1622x1200）               | https://item.taobao.com/item.htm?id=710247485191                                                                                                 |
-| 颜色传感器      | PMOD COLOR MODULE TCS3472 | I2C            | TCS3472 颜色传感器                                 | https://item.taobao.com/item.htm?id=712469416493#detail https://www.mouser.cn/ProductDetail/Digilent/410-348?qs=f9yNj16SXrJeCy%252BYmMCoTQ%3D%3D |
-| 旋钮         | PMOD ENC ROTARY ENCODER   | Rotary Encoder | N/A                                           | https://www.digikey.cn/en/products/detail/digilent-inc/410-117/4090075                                                                           |
+| 功能          | 型号                       | 协议           | 简介                                                           | 购买链接                                                                                                                                                  |
+|---------------|----------------------------|----------------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 音频输入/输出 | WM8731                     | I2S            | 音频输入/输出模块                                              | 自制模块，请联系助教团队获取                                                                                                                               |
+| 音频输入/输出 | MES-Linein-MIC/MES-Speaker | I2S            | 音频输入/输出模块                                              | https://item.taobao.com/item.htm?id=762086873533                                                                                                          |
+| 音频输入/输出 | PSI-PMOD-AUDIO-001         | AC97           | 音频输入/输出模块                                              | https://item.taobao.com/item.htm?id=616327384190                                                                                                          |
+| 音频输出      | PMOD-AUDIO                 | I2S            | 音频输出模块                                                   | https://item.taobao.com/item.htm?id=617206846401                                                                                                          |
+| NOR Flash     | PMOD-SPI-NOR-FLASH         | SPI            | 16MB NOR Flash，可以用来存储数据                                | 自制模块，请联系助教团队获取                                                                                                                               |
+| 无线通信      | PSI-EMOD-BLUETOOTH         | UART           | 蓝牙串口传输模块，可与手机连接传输数据                          | https://item.taobao.com/item.htm?id=602102213182 （已下架）                                                                                                 |
+| 无线通信      | PmodBT2                    | UART           | 蓝牙串口传输模块                                               | https://www.mouser.cn/ProductDetail/Digilent/410-214?qs=s%2FdyVPQMB4z05kZmem7h5Q%3D%3D                                                                    |
+| 温度传感器    | PSI-EMOD-SENSOR-001        | 1-Wire         | 基于 DS18B20 的温度传感器模块                                  | https://item.taobao.com/item.htm?id=616627001082 （已下架）                                                                                                 |
+| EEPROM 存储器 | PSI-EMOD-MEMORY-001        | I2C            | 2K 字节 EEPROM 存储器，可方便地存储少量持久化数据               | https://item.taobao.com/item.htm?id=617136619926                                                                                                          |
+| 摄像头        | PSI-EMOD-OV7670            | 并行           | OV7670 摄像头模组，较低分辨率（30 万像素，640x480），适合 FPGA 使用 | https://item.taobao.com/item.htm?id=625385869412 （已下架）                                                                                                 |
+| 摄像头        | PMOD_CAM_5M                | 并行           | OV5640 摄像头模组，500 万像素（2592x1944）                        | https://item.taobao.com/item.htm?id=524514493918（已下架）                                                                                                  |
+| 摄像头        | PMOD-CAMERA                | 并行           | OV2640 摄像头模组，200 万像素（1622x1200）                        | https://item.taobao.com/item.htm?id=710247485191                                                                                                          |
+| 颜色传感器    | PMOD COLOR MODULE TCS3472  | I2C            | TCS3472 颜色传感器                                             | https://item.taobao.com/item.htm?id=712469416493#detail（已下架）  https://www.mouser.cn/ProductDetail/Digilent/410-348?qs=f9yNj16SXrJeCy%252BYmMCoTQ%3D%3D |
+| 旋钮          | PMOD ENC ROTARY ENCODER    | Rotary Encoder | N/A                                                            | https://www.digikey.cn/en/products/detail/digilent-inc/410-117/4090075                                                                                    |
 
 此外，可以前往以下店铺，尝试发现更多 Pmod 模块，注意其中部分模块的功能实验板已经内置，请勿重复购买。
 
-1. [PSI 皮赛电子](https://pisai.taobao.com/category-1478440875.htm)
+1. [PSI 皮赛电子](https://pisai.taobao.com/category-1731295189.htm)
 2. [Muse Lab](https://shop446922193.taobao.com/category-1573912201.htm)
 3. [迪芝伦](https://digilent.taobao.com/category-1636623609.htm)（模块种类极为丰富，但价格昂贵，购买前请尽量寻找替代方案，或使用学术优惠价格）
 4. [迪芝伦国际站](https://digilent.com/shop/boards-and-components/system-board-expansion-modules/)（在模块页面下面找中国经销商购买，价格昂贵）
@@ -98,23 +101,23 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 
 下面的模块需要使用杜邦线，手工连接到实验板的 GPIO 接口上。
 
-| 功能       | 型号        | 接口   | 简介                                   | 购买链接                                                                  |
-| -------- | --------- | ---- | ------------------------------------ | --------------------------------------------------------------------- |
-| 运动、姿态传感器 | JY901S    | UART | 三轴向加速度、陀螺仪、角度、绝对方向传感器，自带滤波           | https://item.taobao.com/item.htm?id=634627673077 购买时联系卖家焊好排针          |
-| 激光测距     | VL53L0X   | I2C  | 激光 ToF 测距，量程 3~200cm，精度 3%，测量时间 20ms | https://detail.tmall.com/item.htm?id=609293677802                     |
-| 超声测距     | ——        | 脉冲   | 精度较低，量程大，可根据需求选择型号                   | https://detail.tmall.com/item.htm?id=12632417946                      |
-| 手势传感     | PAJ7620U2 | I2C  | 可识别上下左右挥动、顺时针、逆时针旋转等手势               | https://detail.tmall.com/item.htm?id=569499698342&skuId=4401524435517 |
+| 功能            | 型号      | 接口 | 简介                                             | 购买链接                                                                |
+|---------------|-----------|------|------------------------------------------------|-------------------------------------------------------------------------|
+| 运动、姿态传感器 | JY901S    | UART | 三轴向加速度、陀螺仪、角度、绝对方向传感器，自带滤波 | https://item.taobao.com/item.htm?id=634627673077 购买时联系卖家焊好排针 |
+| 激光测距        | VL53L0X   | I2C  | 激光 ToF 测距，量程 3~200cm，精度 3%，测量时间 20ms | https://detail.tmall.com/item.htm?id=609293677802                       |
+| 超声测距        | ——        | 脉冲 | 精度较低，量程大，可根据需求选择型号               | https://detail.tmall.com/item.htm?id=12632417946                        |
+| 手势传感        | PAJ7620U2 | I2C  | 可识别上下左右挥动、顺时针、逆时针旋转等手势       | https://detail.tmall.com/item.htm?id=569499698342&skuId=4401524435517   |
 
 ### 模拟接口类
 
 下面列出一些常用的模拟接口，主要为音频输入、输出相关模块。
 
-| 功能   | 型号         | 接口   | 简介                                       | 购买链接                                                          |
-| ---- | ---------- | ---- | ---------------------------------------- | ------------------------------------------------------------- |
-| 蜂鸣器  | ——         | ——   | 无源蜂鸣器，可以直接用 FPGA IO 引脚播放简单的频率，产生音乐       | https://item.taobao.com/item.htm?id=12773366240               |
-| 音频播放 | VS1053B    | SPI  | 自带 TF 卡槽，可以由 SPI 控制，播放其中的 mp3 音乐，或录制一段音频 | https://detail.tmall.com/item.htm?id=604374710689             |
-| 音频播放 | MP3-TF-16P | UART | 自带 TF 卡槽，由串口控制播放音乐                       | https://item.taobao.com/item.htm?id=555798813610              |
-| 小喇叭  | ——         | ——   | 配合上面的音频播放模块一起购买                          | https://item.taobao.com/item.htm?id=542182665254 联系卖家，接口改成杜邦线 |
+| 功能     | 型号       | 接口 | 简介                                                            | 购买链接                                                                 |
+|--------|------------|------|---------------------------------------------------------------|--------------------------------------------------------------------------|
+| 蜂鸣器   | ——         | ——   | 无源蜂鸣器，可以直接用 FPGA IO 引脚播放简单的频率，产生音乐       | https://item.taobao.com/item.htm?id=12773366240                          |
+| 音频播放 | VS1053B    | SPI  | 自带 TF 卡槽，可以由 SPI 控制，播放其中的 mp3 音乐，或录制一段音频 | https://detail.tmall.com/item.htm?id=604374710689                        |
+| 音频播放 | MP3-TF-16P | UART | 自带 TF 卡槽，由串口控制播放音乐                                 | https://item.taobao.com/item.htm?id=555798813610                         |
+| 小喇叭   | ——         | ——   | 配合上面的音频播放模块一起购买                                  | https://item.taobao.com/item.htm?id=542182665254 联系卖家，接口改成杜邦线 |
 
 ### 无线通信
 
