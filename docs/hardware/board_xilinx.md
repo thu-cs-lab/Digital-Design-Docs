@@ -76,6 +76,8 @@ $ scp linux:/path/to/mod_top.bit .
 $ openFPGALoader -c ft2232 --fpga-part xc7a200t mod_top.bit
 ```
 
+另一种办法是，在 macOS 上运行 jtag-remote-server，通过 xvc 协议暴露出 FPGA 的 JTAG 接口，通过网络转发到 Linux 机器上，再让 Vivado 通过 xvc 连接 FPGA。这样的好处是 ILA 等功能也可以正常使用，缺点是受网络延迟和带宽影响比较大。
+
 此外，部分 macOS 系统无法连接到控制模块，可以使用 USB 直通到 Linux 虚拟机的方法。
 
 
