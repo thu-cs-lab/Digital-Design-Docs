@@ -4,11 +4,35 @@
 
 ## 001 通过命名来区分寄存器和信号
 
-在实现的过程中，模块内部经常需要声明一些变量，但是这些变量（例如 VHDL 的 `signal`，Verilog 的 `reg` 和 SystemVerilog 的 `logic`）在硬件中，可能对应了时序逻辑（寄存器），也可能对应了组合逻辑（信号），为了区分二者，我们推荐：
+在实现的过程中，模块内部经常需要声明一些变量，但是这些变量（例如 VHDL 的 `signal`，Verilog 的 `reg` 和 SystemVerilog 的 `logic/reg`）在硬件中，可能对应了时序逻辑（寄存器），也可能对应了组合逻辑（信号），为了区分二者，我们推荐：
 
 1. 所有的寄存器命名添加 `_reg` 后缀
 2. 所有的组合逻辑信号命名添加 `_comb` 后缀
 3. 模块的输入输出信号不添加 `_reg` 或 `_comb` 后缀
+
+=== "System Verilog"
+    
+    ```sv
+    // GOOD
+    logic light_reg;
+    logic [1:0] user_reg;
+    logic priority_encoder_valid_comb;
+
+    // GOOD
+    reg light_reg;
+    reg [1:0] user_reg;
+    reg priority_encoder_valid_comb;
+    ```
+
+=== "Verilog"
+    
+    ```verilog
+    // GOOD
+    reg light_reg;
+    reg [1:0] user_reg;
+    reg priority_encoder_valid_comb;
+    ```
+
 
 === "VHDL"
 
@@ -19,27 +43,87 @@
     signal priority_encoder_valid_comb : STD_LOGIC;
     ```
     
-=== "Verilog"
-    
-    ```verilog
-    // GOOD
-    reg light_reg;
-    reg [1:0] user_reg;
-    reg priority_encoder_valid_comb;
-    ```
+
+## 002 信号或寄存器应当仅在一个块中赋值
+
+在常用的数字逻辑中，同一个信号或寄存器都应当仅在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
 
 === "System Verilog"
     
     ```sv
     // GOOD
-    logic light_reg;
-    logic [1:0] user_reg;
-    logic priority_encoder_valid_comb;
+    always_comb begin
+      c_comb = a + b;
+    end
+    
+    // BAD
+    always_comb begin
+      c_comb = a;
+    end
+    always_comb begin
+      c_comb = b;
+    end
+    
+    // GOOD
+    always_ff @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    
+    // BAD
+    always_ff @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    always_ff @ (posedge clock) begin
+      c_reg <= a - b;
+    end
+
+    // GOOD
+    always_comb begin
+      c_comb = a + b;
+    end
+    always_ff @ (posedge clock) begin
+      c_reg <= a + b;
+    end
     ```
 
-## 002 信号或寄存器应当仅在一个块中赋值
 
-在常用的数字逻辑中，同一个信号或寄存器都应当仅在一个块（VHDL 是 `process`，Verilog 是 `always`）中赋值。
+=== "Verilog"
+    
+    ```verilog
+    // GOOD
+    always @ (*) begin
+      c_comb = a + b;
+    end
+    
+    // BAD
+    always @ (*) begin
+      c_comb = a;
+    end
+    always @ (*) begin
+      c_comb = b;
+    end
+    
+    // GOOD
+    always @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    
+    // BAD
+    always @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    always @ (posedge clock) begin
+      c_reg <= a - b;
+    end
+
+    // GOOD
+    always @ (*) begin
+      c_comb = a + b;
+    end
+    always @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    ```
 
 === "VHDL"
     
@@ -79,85 +163,37 @@
     end process;
     ```
     
-=== "Verilog"
     
-    ```verilog
-    // GOOD
-    always @ (*) begin
-      c_comb = a + b;
-    end
-    
-    // BAD
-    always @ (*) begin
-      c_comb = a;
-    end
-    always @ (*) begin
-      c_comb = b;
-    end
-    
-    // GOOD
-    always @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    
-    // BAD
-    always @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    always @ (posedge clock) begin
-      c_reg <= a - b;
-    end
-
-    // GOOD
-    always @ (*) begin
-      c_comb = a + b;
-    end
-    always @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    ```
-    
-=== "System Verilog"
-    
-    ```sv
-    // GOOD
-    always_comb begin
-      c_comb = a + b;
-    end
-    
-    // BAD
-    always_comb begin
-      c_comb = a;
-    end
-    always_comb begin
-      c_comb = b;
-    end
-    
-    // GOOD
-    always_ff @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    
-    // BAD
-    always_ff @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    always_ff @ (posedge clock) begin
-      c_reg <= a - b;
-    end
-
-    // GOOD
-    always_comb begin
-      c_comb = a + b;
-    end
-    always_ff @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    ```
-
 ## 003 将时序逻辑和组合逻辑写在不同的块中
 
 通常，我们会将代码组织为时序逻辑和组合逻辑两部分，比如先写时序逻辑，再写组合逻辑，而不会混在一起编写。
+
+=== "System Verilog"
+
+    ```sv
+    // GOOD
+    always_ff @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    
+    always_comb begin
+      d_comb = a - b;
+    end
+    ```
+
+
+=== "Verilog"
+
+    ```verilog
+    // GOOD
+    always @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    
+    always @ (*) begin
+      d_comb = a - b;
+    end
+    ```
 
 === "VHDL"
     
@@ -182,78 +218,10 @@
       d_comb <= a - b;
     end process;
     ```
-=== "Verilog"
-
-    ```verilog
-    // GOOD
-    always @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    
-    always @ (*) begin
-      d_comb = a - b;
-    end
-    ```
-
-=== "System Verilog"
-
-    ```sv
-    // GOOD
-    always_ff @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    
-    always_comb begin
-      d_comb = a - b;
-    end
-    ```
 
 ## 004 每个寄存器应当只在一个时钟上升沿触发
 
 由于 D 触发器只有一个时钟输入，并在时钟的上升沿触发更新，因此不能有超过一个时钟输入；此外，在目前学习的数字电路中，推荐统一使用上升沿触发，不使用下降沿触发。
-
-=== "VHDL"
-
-    ```vhdl
-    -- GOOD
-    process (clock) begin
-      if rising_edge(clock) then
-        c_reg <= a + b;
-      end if;
-    end process;
-    
-    -- BAD
-    process (clock1, clock2) begin
-      if rising_edge(clock1) then
-        c_reg <= a + b;
-      end if;
-      if rising_edge(clock2) then
-        c_reg <= a - b;
-      end if;
-    end
-    ```
-
-=== "Verilog"
-
-    ```verilog
-    // GOOD
-    always @ (posedge clock) begin
-      c_reg <= a + b;
-    end
-    
-    // BAD
-    always @ (posedge clock1) begin
-      c_reg <= a + b;
-    end
-    always @ (posedge clock2) begin
-      c_reg <= a - b;
-    end
-    
-    // BAD
-    always @ (posedge clock1, posedge clock2) begin
-      c_reg <= a + b;
-    end
-    ```
 
 === "System Verilog"
  
@@ -277,11 +245,125 @@
     end
     ```
 
+
+=== "Verilog"
+
+    ```verilog
+    // GOOD
+    always @ (posedge clock) begin
+      c_reg <= a + b;
+    end
+    
+    // BAD
+    always @ (posedge clock1) begin
+      c_reg <= a + b;
+    end
+    always @ (posedge clock2) begin
+      c_reg <= a - b;
+    end
+    
+    // BAD
+    always @ (posedge clock1, posedge clock2) begin
+      c_reg <= a + b;
+    end
+    ```
+
+=== "VHDL"
+
+    ```vhdl
+    -- GOOD
+    process (clock) begin
+      if rising_edge(clock) then
+        c_reg <= a + b;
+      end if;
+    end process;
+    
+    -- BAD
+    process (clock1, clock2) begin
+      if rising_edge(clock1) then
+        c_reg <= a + b;
+      end if;
+      if rising_edge(clock2) then
+        c_reg <= a - b;
+      end if;
+    end
+    ```
+
 ## 005 寄存器应该实现复位逻辑，并且复位到常量
 
 对于使用到的寄存器，都应当实现相应的复位逻辑，并且应当复位到常量。实现时，可以采用同步复位或者异步复位的方式。
 
 如果编写的硬件逻辑面向的是 Xilinx FPGA，建议采用同步复位的方法。
+
+=== "System Verilog"
+
+    需要注意的是，虽然编写的时候是 `posedge reset`，但实际上这里的 `reset` 是电平触发。
+    
+    ```sv
+    // GOOD
+    // sync reset
+    always_ff @ (posedge clock) begin
+      if (reset) begin
+        c_reg <= 1'b0;
+      end else begin
+        c_reg <= a + b;
+      end
+    end
+    
+    // GOOD
+    // async reset
+    always_ff @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        c_reg <= 1'b0;
+      end else begin
+        c_reg <= a + b;
+      end
+    end
+    
+    // BAD
+    always_ff @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        c_reg <= a - b;
+      end else begin
+        c_reg <= a + b;
+      end
+    end
+    ```
+
+=== "Verilog"
+
+    需要注意的是，虽然编写的时候是 `posedge reset`，但实际上这里的 `reset` 是电平触发。
+
+    ```verilog
+    // GOOD
+    // sync reset
+    always @ (posedge clock) begin
+      if (reset) begin
+        c_reg <= 1'b0;
+      end else begin
+        c_reg <= a + b;
+      end
+    end
+    
+    // GOOD
+    // async reset
+    always @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        c_reg <= 1'b0;
+      end else begin
+        c_reg <= a + b;
+      end
+    end
+    
+    // BAD
+    always @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        c_reg <= a - b;
+      end else begin
+        c_reg <= a + b;
+      end
+    end
+    ```
 
 === "VHDL"
 
@@ -327,81 +409,77 @@
     end process;
     ```
 
-=== "Verilog"
-
-    需要注意的是，虽然编写的时候是 `posedge reset`，但实际上这里的 `reset` 是电平触发。
-
-    ```verilog
-    // GOOD
-    // sync reset
-    always @ (posedge clock) begin
-      if (reset) begin
-        c_reg <= 1'b0;
-      end else begin
-        c_reg <= a + b;
-      end
-    end
-    
-    // GOOD
-    // async reset
-    always @ (posedge clock, posedge reset) begin
-      if (reset) begin
-        c_reg <= 1'b0;
-      end else begin
-        c_reg <= a + b;
-      end
-    end
-    
-    // BAD
-    always @ (posedge clock, posedge reset) begin
-      if (reset) begin
-        c_reg <= a - b;
-      end else begin
-        c_reg <= a + b;
-      end
-    end
-    ```
-
-=== "System Verilog"
-
-    需要注意的是，虽然编写的时候是 `posedge reset`，但实际上这里的 `reset` 是电平触发。
-    
-    ```sv
-    // GOOD
-    // sync reset
-    always_ff @ (posedge clock) begin
-      if (reset) begin
-        c_reg <= 1'b0;
-      end else begin
-        c_reg <= a + b;
-      end
-    end
-    
-    // GOOD
-    // async reset
-    always_ff @ (posedge clock, posedge reset) begin
-      if (reset) begin
-        c_reg <= 1'b0;
-      end else begin
-        c_reg <= a + b;
-      end
-    end
-    
-    // BAD
-    always_ff @ (posedge clock, posedge reset) begin
-      if (reset) begin
-        c_reg <= a - b;
-      end else begin
-        c_reg <= a + b;
-      end
-    end
-    ```
-
 ## 006 组合逻辑需要保证每个分支下每个信号都有赋值
 
 在实现比较复杂的组合逻辑的时候，通常会用一些 `if-then-else` 的语句来实现，但此时很容易在一些分支下遗忘了对组合逻辑信号的赋值，此时就会产生锁存器（latch），可能会导致电路与预期效果不符。目前的数字电路学习中，不需要使用锁存器。
 
 为了防止自己遗忘，可以在分支开头设置一个默认值。
+
+=== "System Verilog"
+ 
+    ```sv
+    // GOOD
+    always_comb begin
+      if (!a) begin
+        d_comb = b + c;
+      end else begin
+        d_comb = b - c;
+      end
+    end
+ 
+    // BAD
+    always_comb begin
+      if (!a) begin
+        d_comb = b + c;
+      end else if (!b) begin
+        d_comb = b - c;
+      end
+    end
+ 
+    // GOOD
+    always_comb begin
+      d_comb = c;
+      if (!a) begin
+        d_comb = b + c;
+      end else if (!b) begin
+        d_comb = b - c;
+      end
+    end
+    ```
+
+
+=== "Verilog"
+ 
+    ```verilog
+    // GOOD
+    always @ (*) begin
+      if (!a) begin
+        d_comb = b + c;
+      end else begin
+        d_comb = b - c;
+      end
+    end
+ 
+    // BAD
+    always @ (*) begin
+      if (!a) begin
+        d_comb = b + c;
+      end else if (!b) begin
+        d_comb = b - c;
+      end
+    end
+ 
+    // GOOD
+    always @ (*) begin
+      d_comb = c;
+      if (!a) begin
+        d_comb = b + c;
+      end else if (!b) begin
+        d_comb = b - c;
+      end
+    end
+    ```
+
 
 === "VHDL"
  
@@ -435,75 +513,55 @@
     end process;
     ```
 
-=== "Verilog"
- 
-    ```verilog
-    // GOOD
-    always @ (*) begin
-      if (!a) begin
-        d_comb = b + c;
-      end else begin
-        d_comb = b - c;
-      end
-    end
- 
-    // BAD
-    always @ (*) begin
-      if (!a) begin
-        d_comb = b + c;
-      end else if (!b) begin
-        d_comb = b - c;
-      end
-    end
- 
-    // GOOD
-    always @ (*) begin
-      d_comb = c;
-      if (!a) begin
-        d_comb = b + c;
-      end else if (!b) begin
-        d_comb = b - c;
-      end
-    end
-    ```
-
-=== "System Verilog"
- 
-    ```sv
-    // GOOD
-    always_comb begin
-      if (!a) begin
-        d_comb = b + c;
-      end else begin
-        d_comb = b - c;
-      end
-    end
- 
-    // BAD
-    always_comb begin
-      if (!a) begin
-        d_comb = b + c;
-      end else if (!b) begin
-        d_comb = b - c;
-      end
-    end
- 
-    // GOOD
-    always_comb begin
-      d_comb = c;
-      if (!a) begin
-        d_comb = b + c;
-      end else if (!b) begin
-        d_comb = b - c;
-      end
-    end
-    ```
-
 ## 007 如有必要可以对寄存器设置 FPGA 启动初始值
 
 当 FPGA 初始化的时候，寄存器也有一个启动初始值，它与复位不同，FPGA 在加载 bitstream 的时候，会按照启动初始值来设置寄存器的取值。这个方法用的比较少，通常来说并不需要使用这个功能，但是在一些情况下，例如对于外设的访问，如果按照默认初始值，可能还没来得及复位，就对外设进行了非预期的操作，这时候就需要设置寄存器的 FPGA 启动初始值。但是这种方法只对 FPGA 和仿真环境有效，而 ASIC 无效。
 
 设置启动初始值不能代替复位的功能，不能偷懒，必须都实现。不可以对组合逻辑使用。
+
+=== "System Verilog"
+ 
+    ```sv
+    // GOOD
+    logic some_reg;
+    initial begin
+      some_reg = 1'b0;
+    end
+ 
+    // GOOD
+    logic some_reg;
+    initial some_reg = 1'b0;
+
+    // BAD
+    wire some_comb = 1'b0;
+
+    // BAD
+    wire some_comb;
+    initial some_comb = 1'b0;
+    ```
+
+
+=== "Verilog"
+ 
+    ```verilog
+    // GOOD
+    reg some_reg;
+    initial begin
+      some_reg = 1'b0;
+    end
+ 
+    // GOOD
+    reg some_reg;
+    initial some_reg = 1'b0;
+
+    // BAD
+    wire some_comb = 1'b0;
+
+    // BAD
+    wire some_comb;
+    initial some_comb = 1'b0;
+    ```
+
 
 === "VHDL"
  
@@ -521,51 +579,41 @@
     end behavior;
     ```
 
-=== "Verilog"
- 
-    ```verilog
-    // GOOD
-    reg some_reg;
-    initial begin
-      some_reg = 1'b0;
-    end
- 
-    // GOOD
-    reg some_reg;
-    initial some_reg = 1'b0;
-
-    // BAD
-    wire some_comb = 1'b0;
-
-    // BAD
-    wire some_comb;
-    initial some_comb = 1'b0;
-    ```
-
-=== "System Verilog"
- 
-    ```sv
-    // GOOD
-    logic some_reg;
-    initial begin
-      some_reg = 1'b0;
-    end
- 
-    // GOOD
-    logic some_reg;
-    initial some_reg = 1'b0;
-
-    // BAD
-    wire some_comb = 1'b0;
-
-    // BAD
-    wire some_comb;
-    initial some_comb = 1'b0;
-    ```
-
 ## 008 组合逻辑块中的赋值语句之间若有依赖则需要保证赋值顺序
 
 如果在一个组合逻辑块中，赋值的变量又会参与到同一个组合逻辑块的其他变量的赋值当中，那么需要保证赋值的顺序，即被依赖的赋值要写在前面。
+
+=== "System Verilog"
+    
+    ```sv
+    // GOOD
+    always_comb begin
+      c_comb = a + b;
+      d_comb = c_comb;
+    end
+
+    // BAD
+    always_comb begin
+      d_comb = c_comb;
+      c_comb = a + b;
+    end
+    ```
+
+=== "Verilog"
+    
+    ```verilog
+    // GOOD
+    always @(*) begin
+      c_comb = a + b;
+      d_comb = c_comb;
+    end
+
+    // BAD
+    always @(*) begin
+      d_comb = c_comb;
+      c_comb = a + b;
+    end
+    ```
 
 === "VHDL"
     
@@ -583,37 +631,6 @@
     end process;
     ```
 
-=== "Verilog"
-    
-    ```verilog
-    // GOOD
-    always @(*) begin
-      c_comb = a + b;
-      d_comb = c_comb;
-    end
-
-    // BAD
-    always @(*) begin
-      d_comb = c_comb;
-      c_comb = a + b;
-    end
-    ```
-
-=== "System Verilog"
-    
-    ```sv
-    // GOOD
-    always_comb begin
-      c_comb = a + b;
-      d_comb = c_comb;
-    end
-
-    // BAD
-    always_comb begin
-      d_comb = c_comb;
-      c_comb = a + b;
-    end
-    ```
 
 
 ## V-001（仅 Verilog）组合逻辑的敏感信号应当用隐式列表（`@(*)`）

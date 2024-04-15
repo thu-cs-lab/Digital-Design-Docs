@@ -1,6 +1,6 @@
 # 通过例子学硬件描述语言
 
-本章通过一系列的 HDL 设计的例子来告诉大家如何用 VHDL/Verilog/System Verilog 编写数字逻辑电路。
+本章通过一系列的 HDL 设计的例子来告诉大家如何用 Verilog/System Verilog/VHDL 编写数字逻辑电路。
 
 每一个例子都是按照如下四步进行设计的：
 

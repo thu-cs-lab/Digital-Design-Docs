@@ -99,6 +99,114 @@
 
 最后再用 HDL 来实现如上的功能。
 
+=== "System Verilog"
+    
+    首先，还是根据前面确定的输出信号编写 `module`：
+    
+    ```verilog
+    module timer (
+      input wire clock,
+      input wire reset,
+      output wire [3:0] timer
+    );
+      // TODO
+    endmodule
+    ```
+    
+    接着，我们把电路实现放在 `module` 中。首先，声明我们需要用到的两个寄存器：
+    
+    ```sv
+      logic [3:0] timer_reg;
+      logic [19:0] counter_reg;
+    ```
+    
+    接下来按照上面的思路来实现 `timer_reg` 和 `counter_reg` 的逻辑：
+    
+    1. 在 `clock` 的上升沿触发
+    2. 判断 `reset`
+    3. 判断 `counter_reg = 999999`
+    
+    由于二者的判断是类似的，我们可以直接合并起来写：
+    
+    ```sv
+      // sequential
+      always_ff @ (posedge clock) begin
+        if (reset) begin
+          timer_reg <= 4'b0;
+          counter_reg <= 20'b0;
+        end else begin
+          if (counter_reg == 20'd999999) begin
+            timer_reg <= timer_reg + 4'b1;
+            counter_reg <= 20'b0;
+          end else begin
+            counter_reg <= counter_reg + 20'b1;
+          end
+        end
+      end
+    
+      // combinatorial
+      assign timer = timer_reg;
+    ```
+    
+    在这里，我们再次采用了 `always_ff @ (posedge clock)` 的写法，这意味着内部的逻辑是时序逻辑，触发条件是 `clock` 的上升沿。同时，在 `always_ff` 块内部可以看到比较复杂的 `if-then-else` 逻辑的使用。在上面的代码中，语义上是 **当 XX 条件发生的时候，向 YY 寄存器写入 ZZ**，实际上的电路则是 `ZZ <= XX ? YY : ZZ`，如果所有写入的条件都不满足，则保留原来的状态。所以你会发现 `timer_reg` 在最后一个 `else` 中没有赋值，那么它就会保持不变。可以尝试想象一下，如果你要实现一个综合器，要如何把一系列的 `if-then-else` 语句，翻译成类似 `ZZ <= XX ? YY : ZZ` 的电路。
+    
+    最后再把 `timer_reg` 连接到输出 `timer` 即可。
+
+
+=== "Verilog"
+    
+    首先，还是根据前面确定的输出信号编写 `module`：
+    
+    ```verilog
+    module timer (
+      input wire clock,
+      input wire reset,
+      output wire [3:0] timer
+    );
+      // TODO
+    endmodule
+    ```
+    
+    接着，我们把电路实现放在 `module` 中。首先，声明我们需要用到的两个寄存器：
+    
+    ```verilog
+      reg [3:0] timer_reg;
+      reg [19:0] counter_reg;
+    ```
+    
+    接下来按照上面的思路来实现 `timer_reg` 和 `counter_reg` 的逻辑：
+    
+    1. 在 `clock` 的上升沿触发
+    2. 判断 `reset`
+    3. 判断 `counter_reg = 999999`
+    
+    由于二者的判断是类似的，我们可以直接合并起来写：
+    
+    ```verilog
+      // sequential
+      always @ (posedge clock) begin
+        if (reset) begin
+          timer_reg <= 4'b0;
+          counter_reg <= 20'b0;
+        end else begin
+          if (counter_reg == 20'd999999) begin
+            timer_reg <= timer_reg + 4'b1;
+            counter_reg <= 20'b0;
+          end else begin
+            counter_reg <= counter_reg + 20'b1;
+          end
+        end
+      end
+    
+      // combinatorial
+      assign timer = timer_reg;
+    ```
+    
+    在这里，我们再次采用了 `always @ (posedge clock)` 的写法，这意味着内部的逻辑是时序逻辑，触发条件是 `clock` 的上升沿。同时，在 `always` 块内部可以看到比较复杂的 `if-then-else` 逻辑的使用。在上面的代码中，语义上是 **当 XX 条件发生的时候，向 YY 寄存器写入 ZZ**，实际上的电路则是 `ZZ <= XX ? YY : ZZ`，如果所有写入的条件都不满足，则保留原来的状态。所以你会发现 `timer_reg` 在最后一个 `else` 中没有赋值，那么它就会保持不变。可以尝试想象一下，如果你要实现一个综合器，要如何把一系列的 `if-then-else` 语句，翻译成类似 `ZZ <= XX ? YY : ZZ` 的电路。
+    
+    最后再把 `timer_reg` 连接到输出 `timer` 即可。
+    
+
 === "VHDL"
     
     首先，还是根据前面确定的输出信号编写 `entity`：
@@ -171,112 +279,6 @@
     
     最后再把 `timer_reg` 连接到输出 `timer` 即可。
     
-=== "Verilog"
-    
-    首先，还是根据前面确定的输出信号编写 `module`：
-    
-    ```verilog
-    module timer (
-      input wire clock,
-      input wire reset,
-      output wire [3:0] timer
-    );
-      // TODO
-    endmodule
-    ```
-    
-    接着，我们把电路实现放在 `module` 中。首先，声明我们需要用到的两个寄存器：
-    
-    ```verilog
-      reg [3:0] timer_reg;
-      reg [19:0] counter_reg;
-    ```
-    
-    接下来按照上面的思路来实现 `timer_reg` 和 `counter_reg` 的逻辑：
-    
-    1. 在 `clock` 的上升沿触发
-    2. 判断 `reset`
-    3. 判断 `counter_reg = 999999`
-    
-    由于二者的判断是类似的，我们可以直接合并起来写：
-    
-    ```verilog
-      // sequential
-      always @ (posedge clock) begin
-        if (reset) begin
-          timer_reg <= 4'b0;
-          counter_reg <= 20'b0;
-        end else begin
-          if (counter_reg == 20'd999999) begin
-            timer_reg <= timer_reg + 4'b1;
-            counter_reg <= 20'b0;
-          end else begin
-            counter_reg <= counter_reg + 20'b1;
-          end
-        end
-      end
-    
-      // combinatorial
-      assign timer = timer_reg;
-    ```
-    
-    在这里，我们再次采用了 `always @ (posedge clock)` 的写法，这意味着内部的逻辑是时序逻辑，触发条件是 `clock` 的上升沿。同时，在 `always` 块内部可以看到比较复杂的 `if-then-else` 逻辑的使用。在上面的代码中，语义上是 **当 XX 条件发生的时候，向 YY 寄存器写入 ZZ**，实际上的电路则是 `ZZ <= XX ? YY : ZZ`，如果所有写入的条件都不满足，则保留原来的状态。所以你会发现 `timer_reg` 在最后一个 `else` 中没有赋值，那么它就会保持不变。可以尝试想象一下，如果你要实现一个综合器，要如何把一系列的 `if-then-else` 语句，翻译成类似 `ZZ <= XX ? YY : ZZ` 的电路。
-    
-    最后再把 `timer_reg` 连接到输出 `timer` 即可。
-    
-=== "System Verilog"
-    
-    首先，还是根据前面确定的输出信号编写 `module`：
-    
-    ```verilog
-    module timer (
-      input wire clock,
-      input wire reset,
-      output wire [3:0] timer
-    );
-      // TODO
-    endmodule
-    ```
-    
-    接着，我们把电路实现放在 `module` 中。首先，声明我们需要用到的两个寄存器：
-    
-    ```sv
-      logic [3:0] timer_reg;
-      logic [19:0] counter_reg;
-    ```
-    
-    接下来按照上面的思路来实现 `timer_reg` 和 `counter_reg` 的逻辑：
-    
-    1. 在 `clock` 的上升沿触发
-    2. 判断 `reset`
-    3. 判断 `counter_reg = 999999`
-    
-    由于二者的判断是类似的，我们可以直接合并起来写：
-    
-    ```sv
-      // sequential
-      always_ff @ (posedge clock) begin
-        if (reset) begin
-          timer_reg <= 4'b0;
-          counter_reg <= 20'b0;
-        end else begin
-          if (counter_reg == 20'd999999) begin
-            timer_reg <= timer_reg + 4'b1;
-            counter_reg <= 20'b0;
-          end else begin
-            counter_reg <= counter_reg + 20'b1;
-          end
-        end
-      end
-    
-      // combinatorial
-      assign timer = timer_reg;
-    ```
-    
-    在这里，我们再次采用了 `always_ff @ (posedge clock)` 的写法，这意味着内部的逻辑是时序逻辑，触发条件是 `clock` 的上升沿。同时，在 `always_ff` 块内部可以看到比较复杂的 `if-then-else` 逻辑的使用。在上面的代码中，语义上是 **当 XX 条件发生的时候，向 YY 寄存器写入 ZZ**，实际上的电路则是 `ZZ <= XX ? YY : ZZ`，如果所有写入的条件都不满足，则保留原来的状态。所以你会发现 `timer_reg` 在最后一个 `else` 中没有赋值，那么它就会保持不变。可以尝试想象一下，如果你要实现一个综合器，要如何把一系列的 `if-then-else` 语句，翻译成类似 `ZZ <= XX ? YY : ZZ` 的电路。
-    
-    最后再把 `timer_reg` 连接到输出 `timer` 即可。
-
 ## 总结
 
 经过这个例子，我们学会了如何确定哪些东西需要用一个寄存器来保存，并且如何用 `if-then-else` 的方式来方便地更新寄存器的值，而不用手动去写 `ZZ = XX ? YY : ZZ` 的代码，让综合器自动为我们做电路的转换。
@@ -287,15 +289,18 @@
 
 如果你看过网上的一些代码，你可能会发现，有的代码对 `reset` 的处理并不同，例如：
 
-=== "VHDL"
+=== "System Verilog"
 
-    ```vhdl
-    if reset='1' then
-      -- some simple reset logic
-    elsif clock='1' and clock'event then
-      -- some logic
-    end if;
+    ```sv
+    always_ff @ (posedge clock, posedge reset) begin
+      if (reset) begin
+        // some simple reset logic
+      end else begin
+        // some logic
+      end
+    end
     ```
+
 
 === "Verilog"
 
@@ -309,16 +314,14 @@
     end
     ```
 
-=== "System Verilog"
+=== "VHDL"
 
-    ```sv
-    always_ff @ (posedge clock, posedge reset) begin
-      if (reset) begin
-        // some simple reset logic
-      end else begin
-        // some logic
-      end
-    end
+    ```vhdl
+    if reset='1' then
+      -- some simple reset logic
+    elsif clock='1' and clock'event then
+      -- some logic
+    end if;
     ```
 
 这种写法和之前的区别是 `reset` 的处理不同，使用这种写法时，即使没有时钟上升沿，也可以复位，因此这种写法称为异步复位。而在上面实现的秒表例子采用的是同步复位，即在时钟上升沿的时候检查复位信号。两种写法都是可以的，在目前的学习阶段中，不需要区分二者的区别。如果你编写的硬件逻辑会运行在 Xilinx 的 FPGA 上，那么建议使用同步复位。

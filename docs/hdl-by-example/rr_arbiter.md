@@ -80,175 +80,187 @@
 
 接下来，让我们用 HDL 语言来实现上面的逻辑。
 
-=== "VHDL"
+=== "System Verilog"
     
     首先，让我们实现第一部分逻辑，即根据最后一次获取资源的用户编号确定优先级的优先级编码器：
     
-    ```vhdl
-    library IEEE;
-    use IEEE.STD_LOGIC_1164.ALL;
-    use IEEE.STD_LOGIC_ARITH.ALL;
-    use IEEE.STD_LOGIC_UNSIGNED.ALL;
+    ```sv
+    module rr_priority_encoder (
+      input wire [3:0] request,
+      input wire [1:0] last_user,
+      output wire valid,
+      output wire [1:0] user
+    );
+      logic valid_comb;
+      logic [1:0] user_comb;
     
-    entity rr_priority_encoder is
-        Port ( request   : in  STD_LOGIC_VECTOR (3 downto 0);
-               last_user : in  STD_LOGIC_VECTOR (1 downto 0);
-               valid     : out STD_LOGIC;
-               user      : out STD_LOGIC_VECTOR (1 downto 0));
-    end rr_priority_encoder;
+      always_comb begin
+        // default
+        valid_comb = 1'b0;
+        user_comb = 2'd0;
     
-    architecture behavior of rr_priority_encoder is
-    begin
-      process (request, last_user) begin
-        -- default
-        valid <= '0';
-        user <= "00";
+        // naive way
+        if (last_user == 2'd3) begin
+          casez (request)
+            4'b???1: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd0;
+            end
+            4'b??10: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd1;
+            end
+            4'b?100: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd2;
+            end
+            4'b1000: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd3;
+            end
+          endcase
+        end else if (last_user == 2'd0) begin
+          casez (request)
+            4'b??1?: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd1;
+            end
+            4'b?10?: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd2;
+            end
+            4'b100?: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd3;
+            end
+            4'b0001: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd0;
+            end
+          endcase
+        end else if (last_user == 2'd1) begin
+          casez (request)
+            4'b?1??: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd2;
+            end
+            4'b10??: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd3;
+            end
+            4'b00?1: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd0;
+            end
+            4'b0010: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd1;
+            end
+          endcase
+        end else if (last_user == 2'd2) begin
+          casez (request)
+            4'b1???: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd3;
+            end
+            4'b0??1: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd0;
+            end
+            4'b0?10: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd1;
+            end
+            4'b0100: begin
+              valid_comb = 1'b1;
+              user_comb = 2'd2;
+            end
+          endcase
+        end
     
-        -- naive way
-        if last_user="11" then
-          if request(0)='1' then
-            valid <= '1';
-            user <= "00";
-          elsif request(1)='1' then
-            valid <= '1';
-            user <= "01";
-          elsif request(2)='1' then
-            valid <= '1';
-            user <= "10";
-          elsif request(3)='1' then
-            valid <= '1';
-            user <= "11";
-          end if;
-        elsif last_user="00" then
-          if request(1)='1' then
-            valid <= '1';
-            user <= "01";
-          elsif request(2)='1' then
-            valid <= '1';
-            user <= "10";
-          elsif request(3)='1' then
-            valid <= '1';
-            user <= "11";
-          elsif request(0)='1' then
-            valid <= '1';
-            user <= "00";
-          end if;
-        elsif last_user="01" then
-          if request(2)='1' then
-            valid <= '1';
-            user <= "10";
-          elsif request(3)='1' then
-            valid <= '1';
-            user <= "11";
-          elsif request(0)='1' then
-            valid <= '1';
-            user <= "00";
-          elsif request(1)='1' then
-            valid <= '1';
-            user <= "01";
-          end if;
-        elsif last_user="10" then
-          if request(3)='1' then
-            valid <= '1';
-            user <= "11";
-          elsif request(0)='1' then
-            valid <= '1';
-            user <= "00";
-          elsif request(1)='1' then
-            valid <= '1';
-            user <= "01";
-          elsif request(2)='1' then
-            valid <= '1';
-            user <= "10";
-          end if;
-        end if;
-      end process;
-    end behavior;
+      end
+    
+      assign valid = valid_comb;
+      assign user = user_comb;
+    
+    endmodule
     ```
     
     这里直接暴力枚举了所有情况，你也可以尝试一下，能否从面积、延迟、可读性等方面来优化上面的代码。
     
     接着，第二部分就是我们要设计的循环优先级仲裁器：
     
-    ```vhdl
-    library IEEE;
-    use IEEE.STD_LOGIC_1164.ALL;
-    use IEEE.STD_LOGIC_ARITH.ALL;
-    use IEEE.STD_LOGIC_UNSIGNED.ALL;
+    ```sv
+    module rr_arbiter (
+      input wire clock,
+      input wire reset,
     
-    entity rr_arbiter is
-        Port ( clock   : in  STD_LOGIC;
-               reset   : in  STD_LOGIC;
-               request : in  STD_LOGIC_VECTOR (3 downto 0);
-               valid   : out STD_LOGIC;
-               user    : out STD_LOGIC_VECTOR (1 downto 0));
-    end rr_arbiter;
+      input wire [3:0] request,
+      output wire valid,
+      output wire [1:0] user
+    );
+      logic [1:0] user_reg;
+      logic valid_reg;
     
-    architecture behavior of rr_arbiter is
-    signal user_reg : STD_LOGIC_VECTOR (1 downto 0);
-    signal valid_reg : STD_LOGIC;
-    signal priority_encoder_valid_comb : STD_LOGIC;
-    signal priority_encoder_user_comb : STD_LOGIC_VECTOR (1 downto 0);
-    begin
-      -- rr_priority_encoder
-      rr_priority_encoder_component : entity work.rr_priority_encoder
-        port map(
-          request => request,
-          last_user => user_reg,
-          valid => priority_encoder_valid_comb,
-          user => priority_encoder_user_comb
-        );
+      logic [1:0] user_comb;
+      logic [1:0] priority_encoder_user_comb;
+      
+      rr_priority_encoder rr_priority_encoder_inst (
+        .request(request),
+        .last_user(user_reg),
+        .valid(valid),
+        .user(priority_encoder_user_comb)
+      );
     
-      -- sequential
-      process (clock, reset) begin
-        if clock='1' and clock'event then
-          if reset='1' then
-            user_reg <= "00";
-            valid_reg <= '0';
-          else
-            valid_reg <= priority_encoder_valid_comb;
-            if valid_reg='0' and priority_encoder_valid_comb='1' then
-              -- case 1: non valid -> valid
-              user_reg <= priority_encoder_user_comb;
-            elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='1' then
-              -- case 2: persist
-            elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='0' then
-              -- case 3: next user
-              user_reg <= priority_encoder_user_comb;
-            end if;
-          end if;
-        end if;
-      end process;
+      // sequential
+      always_ff @ (posedge clock) begin
+        if (reset) begin
+          user_reg <= 2'd0;
+          valid_reg <= 1'b0;
+        end else begin
+          valid_reg <= valid;
+          if (!valid_reg && valid) begin
+            // case 1: non valid -> valid
+            user_reg <= priority_encoder_user_comb;
+          end else if (valid_reg && valid && request[user_reg]) begin
+            // case 2: persist
+          end else if (valid_reg && valid && !request[user_reg]) begin
+            // case 3: next user
+            user_reg <= priority_encoder_user_comb;
+          end
+        end
+      end
     
-      -- combinatorial
-      process (valid_reg, priority_encoder_valid_comb, request, user_reg, priority_encoder_user_comb) begin
-        -- default
-        user <= "00";
+      // combinatorial
+      always_comb begin
+        // default
+        user_comb = 2'b0;
+        if (!valid_reg && valid) begin
+          // case 1: non valid -> valid
+          user_comb = priority_encoder_user_comb;
+        end else if (valid_reg && valid && request[user_reg]) begin
+          // case 2: persist
+          user_comb = user_reg;
+        end else if (valid_reg && valid && !request[user_reg]) begin
+          // case 3: next user
+          user_comb = priority_encoder_user_comb;
+        end
+      end
     
-        if valid_reg='0' and priority_encoder_valid_comb='1' then
-          -- case 1: non valid -> valid
-          user <= priority_encoder_user_comb;
-        elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='1' then
-          -- case 2: persist
-        elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='0' then
-          -- case 3: next user
-          user <= priority_encoder_user_comb;
-        end if;
+      assign user = user_comb;
     
-        valid <= priority_encoder_valid_comb;
-      end process;
-    end behavior;
+    endmodule
     ```
     
     这里要比较注意写法上的一些规则：
     
-    1. 声明 `signal` 的时候，按照它是寄存器还是连线，给予不同的名称后缀
-    2. 把时序逻辑和组合逻辑写在不同的 `process` 块中
+    1. 声明 `reg` 的时候，按照它是寄存器还是连线，给予不同的名称后缀
+    2. 时序逻辑写在 `always_ff` 块中，组合逻辑写在 `always_comb` 块中
     3. 写组合逻辑的时候，需要保证每个分支下对组合逻辑信号赋值；可以预先写一个默认值防止出错
     4. 遇到复杂的逻辑的时候，一定要在代码中编写注释
     
     这样，就实现了一个循环优先级仲裁器。
-    
+
 === "Verilog"
     
     首先，让我们实现第一部分逻辑，即根据最后一次获取资源的用户编号确定优先级的优先级编码器：
@@ -430,183 +442,173 @@
     
     这样，就实现了一个循环优先级仲裁器。
     
-=== "System Verilog"
+
+=== "VHDL"
     
     首先，让我们实现第一部分逻辑，即根据最后一次获取资源的用户编号确定优先级的优先级编码器：
     
-    ```sv
-    module rr_priority_encoder (
-      input wire [3:0] request,
-      input wire [1:0] last_user,
-      output wire valid,
-      output wire [1:0] user
-    );
-      logic valid_comb;
-      logic [1:0] user_comb;
+    ```vhdl
+    library IEEE;
+    use IEEE.STD_LOGIC_1164.ALL;
+    use IEEE.STD_LOGIC_ARITH.ALL;
+    use IEEE.STD_LOGIC_UNSIGNED.ALL;
     
-      always_comb begin
-        // default
-        valid_comb = 1'b0;
-        user_comb = 2'd0;
+    entity rr_priority_encoder is
+        Port ( request   : in  STD_LOGIC_VECTOR (3 downto 0);
+               last_user : in  STD_LOGIC_VECTOR (1 downto 0);
+               valid     : out STD_LOGIC;
+               user      : out STD_LOGIC_VECTOR (1 downto 0));
+    end rr_priority_encoder;
     
-        // naive way
-        if (last_user == 2'd3) begin
-          casez (request)
-            4'b???1: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd0;
-            end
-            4'b??10: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd1;
-            end
-            4'b?100: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd2;
-            end
-            4'b1000: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd3;
-            end
-          endcase
-        end else if (last_user == 2'd0) begin
-          casez (request)
-            4'b??1?: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd1;
-            end
-            4'b?10?: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd2;
-            end
-            4'b100?: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd3;
-            end
-            4'b0001: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd0;
-            end
-          endcase
-        end else if (last_user == 2'd1) begin
-          casez (request)
-            4'b?1??: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd2;
-            end
-            4'b10??: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd3;
-            end
-            4'b00?1: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd0;
-            end
-            4'b0010: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd1;
-            end
-          endcase
-        end else if (last_user == 2'd2) begin
-          casez (request)
-            4'b1???: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd3;
-            end
-            4'b0??1: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd0;
-            end
-            4'b0?10: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd1;
-            end
-            4'b0100: begin
-              valid_comb = 1'b1;
-              user_comb = 2'd2;
-            end
-          endcase
-        end
+    architecture behavior of rr_priority_encoder is
+    begin
+      process (request, last_user) begin
+        -- default
+        valid <= '0';
+        user <= "00";
     
-      end
-    
-      assign valid = valid_comb;
-      assign user = user_comb;
-    
-    endmodule
+        -- naive way
+        if last_user="11" then
+          if request(0)='1' then
+            valid <= '1';
+            user <= "00";
+          elsif request(1)='1' then
+            valid <= '1';
+            user <= "01";
+          elsif request(2)='1' then
+            valid <= '1';
+            user <= "10";
+          elsif request(3)='1' then
+            valid <= '1';
+            user <= "11";
+          end if;
+        elsif last_user="00" then
+          if request(1)='1' then
+            valid <= '1';
+            user <= "01";
+          elsif request(2)='1' then
+            valid <= '1';
+            user <= "10";
+          elsif request(3)='1' then
+            valid <= '1';
+            user <= "11";
+          elsif request(0)='1' then
+            valid <= '1';
+            user <= "00";
+          end if;
+        elsif last_user="01" then
+          if request(2)='1' then
+            valid <= '1';
+            user <= "10";
+          elsif request(3)='1' then
+            valid <= '1';
+            user <= "11";
+          elsif request(0)='1' then
+            valid <= '1';
+            user <= "00";
+          elsif request(1)='1' then
+            valid <= '1';
+            user <= "01";
+          end if;
+        elsif last_user="10" then
+          if request(3)='1' then
+            valid <= '1';
+            user <= "11";
+          elsif request(0)='1' then
+            valid <= '1';
+            user <= "00";
+          elsif request(1)='1' then
+            valid <= '1';
+            user <= "01";
+          elsif request(2)='1' then
+            valid <= '1';
+            user <= "10";
+          end if;
+        end if;
+      end process;
+    end behavior;
     ```
     
     这里直接暴力枚举了所有情况，你也可以尝试一下，能否从面积、延迟、可读性等方面来优化上面的代码。
     
     接着，第二部分就是我们要设计的循环优先级仲裁器：
     
-    ```sv
-    module rr_arbiter (
-      input wire clock,
-      input wire reset,
+    ```vhdl
+    library IEEE;
+    use IEEE.STD_LOGIC_1164.ALL;
+    use IEEE.STD_LOGIC_ARITH.ALL;
+    use IEEE.STD_LOGIC_UNSIGNED.ALL;
     
-      input wire [3:0] request,
-      output wire valid,
-      output wire [1:0] user
-    );
-      logic [1:0] user_reg;
-      logic valid_reg;
+    entity rr_arbiter is
+        Port ( clock   : in  STD_LOGIC;
+               reset   : in  STD_LOGIC;
+               request : in  STD_LOGIC_VECTOR (3 downto 0);
+               valid   : out STD_LOGIC;
+               user    : out STD_LOGIC_VECTOR (1 downto 0));
+    end rr_arbiter;
     
-      logic [1:0] user_comb;
-      logic [1:0] priority_encoder_user_comb;
-      
-      rr_priority_encoder rr_priority_encoder_inst (
-        .request(request),
-        .last_user(user_reg),
-        .valid(valid),
-        .user(priority_encoder_user_comb)
-      );
+    architecture behavior of rr_arbiter is
+    signal user_reg : STD_LOGIC_VECTOR (1 downto 0);
+    signal valid_reg : STD_LOGIC;
+    signal priority_encoder_valid_comb : STD_LOGIC;
+    signal priority_encoder_user_comb : STD_LOGIC_VECTOR (1 downto 0);
+    begin
+      -- rr_priority_encoder
+      rr_priority_encoder_component : entity work.rr_priority_encoder
+        port map(
+          request => request,
+          last_user => user_reg,
+          valid => priority_encoder_valid_comb,
+          user => priority_encoder_user_comb
+        );
     
-      // sequential
-      always_ff @ (posedge clock) begin
-        if (reset) begin
-          user_reg <= 2'd0;
-          valid_reg <= 1'b0;
-        end else begin
-          valid_reg <= valid;
-          if (!valid_reg && valid) begin
-            // case 1: non valid -> valid
-            user_reg <= priority_encoder_user_comb;
-          end else if (valid_reg && valid && request[user_reg]) begin
-            // case 2: persist
-          end else if (valid_reg && valid && !request[user_reg]) begin
-            // case 3: next user
-            user_reg <= priority_encoder_user_comb;
-          end
-        end
-      end
+      -- sequential
+      process (clock, reset) begin
+        if clock='1' and clock'event then
+          if reset='1' then
+            user_reg <= "00";
+            valid_reg <= '0';
+          else
+            valid_reg <= priority_encoder_valid_comb;
+            if valid_reg='0' and priority_encoder_valid_comb='1' then
+              -- case 1: non valid -> valid
+              user_reg <= priority_encoder_user_comb;
+            elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='1' then
+              -- case 2: persist
+            elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='0' then
+              -- case 3: next user
+              user_reg <= priority_encoder_user_comb;
+            end if;
+          end if;
+        end if;
+      end process;
     
-      // combinatorial
-      always_comb begin
-        // default
-        user_comb = 2'b0;
-        if (!valid_reg && valid) begin
-          // case 1: non valid -> valid
-          user_comb = priority_encoder_user_comb;
-        end else if (valid_reg && valid && request[user_reg]) begin
-          // case 2: persist
-          user_comb = user_reg;
-        end else if (valid_reg && valid && !request[user_reg]) begin
-          // case 3: next user
-          user_comb = priority_encoder_user_comb;
-        end
-      end
+      -- combinatorial
+      process (valid_reg, priority_encoder_valid_comb, request, user_reg, priority_encoder_user_comb) begin
+        -- default
+        user <= "00";
     
-      assign user = user_comb;
+        if valid_reg='0' and priority_encoder_valid_comb='1' then
+          -- case 1: non valid -> valid
+          user <= priority_encoder_user_comb;
+        elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='1' then
+          -- case 2: persist
+        elsif valid_reg='1' and priority_encoder_valid_comb='1' and request(conv_integer(user_reg))='0' then
+          -- case 3: next user
+          user <= priority_encoder_user_comb;
+        end if;
     
-    endmodule
+        valid <= priority_encoder_valid_comb;
+      end process;
+    end behavior;
     ```
     
     这里要比较注意写法上的一些规则：
     
-    1. 声明 `reg` 的时候，按照它是寄存器还是连线，给予不同的名称后缀
-    2. 时序逻辑写在 `always_ff` 块中，组合逻辑写在 `always_comb` 块中
+    1. 声明 `signal` 的时候，按照它是寄存器还是连线，给予不同的名称后缀
+    2. 把时序逻辑和组合逻辑写在不同的 `process` 块中
     3. 写组合逻辑的时候，需要保证每个分支下对组合逻辑信号赋值；可以预先写一个默认值防止出错
     4. 遇到复杂的逻辑的时候，一定要在代码中编写注释
     
     这样，就实现了一个循环优先级仲裁器。
+    

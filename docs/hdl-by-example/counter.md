@@ -154,6 +154,240 @@
 
 最后我们用 HDL 来实现上面的电路。相信读到这里的你，已经能够根据上面的分析，自己写出来下面的代码。
 
+=== "System Verilog"
+    
+    鉴于同学已经比较熟悉 System Verilog 代码了，这里直接给出最终代码：
+    
+    首先是消抖电路：
+    
+    ```sv
+    module debouncer (
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire button_debounced
+    );
+      logic last_button_reg;
+      logic [15:0] counter_reg;
+      logic button_debounced_reg;
+
+      always_ff @ (posedge clock) begin
+        if (reset) begin
+          last_button_reg <= 1'b0;
+          counter_reg <= 16'b0;
+          button_debounced_reg <= 1'b0;
+        end else begin
+          last_button_reg <= button;
+    
+          if (button == last_button_reg) begin
+            if (counter_reg == 16'd10000) begin
+              button_debounced_reg <= last_button_reg;
+            end else begin
+              counter_reg <= counter_reg + 16'b1;
+            end
+          end else begin
+            counter_reg <= 16'b0;
+          end
+        end
+      end
+
+      assign button_debounced = button_debounced_reg;
+    endmodule
+    ```
+
+    接着是计数器部分：
+
+    ```sv
+    module counter (
+      input wire clock,
+      input wire reset,
+      input wire button_debounced,
+      output wire [3:0] ones,
+      output wire [3:0] tens
+    );
+
+      logic [3:0] ones_reg;
+      logic [3:0] tens_reg;
+      logic button_debounced_reg;
+
+      always_ff @ (posedge clock) begin
+        if (reset) begin
+          ones_reg <= 4'b0;
+          tens_reg <= 4'b0;
+          button_debounced_reg <= 1'b0;
+        end else begin
+          button_debounced_reg <= button_debounced;
+    
+          if (button_debounced && !button_debounced_reg) begin
+            if (ones_reg == 4'd9) begin
+              ones_reg <= 4'b0;
+              tens_reg <= tens_reg + 4'b1;
+            end else begin
+              ones_reg <= ones_reg + 4'b1;
+            end
+          end
+        end
+      end
+    
+      assign ones = ones_reg;
+      assign tens = tens_reg;
+    
+    endmodule
+    ```
+    
+    最后再用一个顶层 `module` 把两个模块合起来：
+    
+    ```sv
+    module counter_top (
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire [3:0] ones,
+      output wire [3:0] tens
+    );
+
+      wire button_debounced;
+
+      debouncer debouncer_component (
+        .clock(clock),
+        .reset(reset),
+        .button(button),
+        .button_debounced(button_debounced)
+      );
+    
+      counter counter_component (
+        .clock(clock),
+        .reset(reset),
+        .button_debounced(button_debounced),
+        .ones(ones),
+        .tens(tens)
+      );
+    
+    endmodule
+    ```
+    
+    这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `wire`，这个只是把两个模块的输入输出连起来，并不是寄存器。其他信号则是直接连接到顶层模块的输入输出信号。
+    
+    这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
+
+
+=== "Verilog"
+    
+    鉴于同学已经比较熟悉 Verilog 代码了，这里直接给出最终代码：
+    
+    首先是消抖电路：
+    
+    ```verilog
+    module debouncer (
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire button_debounced
+    );
+      reg last_button_reg;
+      reg [15:0] counter_reg;
+      reg button_debounced_reg;
+    
+      always @ (posedge clock) begin
+        if (reset) begin
+          last_button_reg <= 1'b0;
+          counter_reg <= 16'b0;
+          button_debounced_reg <= 1'b0;
+        end else begin
+          last_button_reg <= button;
+    
+          if (button == last_button_reg) begin
+            if (counter_reg == 16'd10000) begin
+              button_debounced_reg <= last_button_reg;
+            end else begin
+              counter_reg <= counter_reg + 16'b1;
+            end
+          end else begin
+            counter_reg <= 16'b0;
+          end
+        end
+      end
+    
+      assign button_debounced = button_debounced_reg;
+    endmodule
+    ```
+    
+    接着是计数器部分：
+    
+    ```verilog
+    module counter (
+      input wire clock,
+      input wire reset,
+      input wire button_debounced,
+      output wire [3:0] ones,
+      output wire [3:0] tens
+    );
+    
+      reg [3:0] ones_reg;
+      reg [3:0] tens_reg;
+      reg button_debounced_reg;
+    
+      always @ (posedge clock) begin
+        if (reset) begin
+          ones_reg <= 4'b0;
+          tens_reg <= 4'b0;
+          button_debounced_reg <= 1'b0;
+        end else begin
+          button_debounced_reg <= button_debounced;
+    
+          if (button_debounced && !button_debounced_reg) begin
+            if (ones_reg == 4'd9) begin
+              ones_reg <= 4'b0;
+              tens_reg <= tens_reg + 4'b1;
+            end else begin
+              ones_reg <= ones_reg + 4'b1;
+            end
+          end
+        end
+      end
+    
+      assign ones = ones_reg;
+      assign tens = tens_reg;
+    
+    endmodule
+    ```
+    
+    最后再用一个顶层 `module` 把两个模块合起来：
+    
+    ```verilog
+    module counter_top (
+      input wire clock,
+      input wire reset,
+      input wire button,
+      output wire [3:0] ones,
+      output wire [3:0] tens
+    );
+    
+      wire button_debounced;
+    
+      debouncer debouncer_component (
+        .clock(clock),
+        .reset(reset),
+        .button(button),
+        .button_debounced(button_debounced)
+      );
+    
+      counter counter_component (
+        .clock(clock),
+        .reset(reset),
+        .button_debounced(button_debounced),
+        .ones(ones),
+        .tens(tens)
+      );
+    
+    endmodule
+    ```
+    
+    这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `wire`，这个只是把两个模块的输入输出连起来，并不是寄存器。其他信号则是直接连接到顶层模块的输入输出信号。
+    
+    这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
+    
+
 === "VHDL"
     
     鉴于同学已经比较熟悉 VHDL 代码了，这里直接给出最终代码：
@@ -299,243 +533,33 @@
     
     这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
     
-=== "Verilog"
-    
-    鉴于同学已经比较熟悉 Verilog 代码了，这里直接给出最终代码：
-    
-    首先是消抖电路：
-    
-    ```verilog
-    module debouncer (
-      input wire clock,
-      input wire reset,
-      input wire button,
-      output wire button_debounced
-    );
-      reg last_button_reg;
-      reg [15:0] counter_reg;
-      reg button_debounced_reg;
-    
-      always @ (posedge clock) begin
-        if (reset) begin
-          last_button_reg <= 1'b0;
-          counter_reg <= 16'b0;
-          button_debounced_reg <= 1'b0;
-        end else begin
-          last_button_reg <= button;
-    
-          if (button == last_button_reg) begin
-            if (counter_reg == 16'd10000) begin
-              button_debounced_reg <= last_button_reg;
-            end else begin
-              counter_reg <= counter_reg + 16'b1;
-            end
-          end else begin
-            counter_reg <= 16'b0;
-          end
-        end
-      end
-    
-      assign button_debounced = button_debounced_reg;
-    endmodule
-    ```
-    
-    接着是计数器部分：
-    
-    ```verilog
-    module counter (
-      input wire clock,
-      input wire reset,
-      input wire button_debounced,
-      output wire [3:0] ones,
-      output wire [3:0] tens
-    );
-    
-      reg [3:0] ones_reg;
-      reg [3:0] tens_reg;
-      reg button_debounced_reg;
-    
-      always @ (posedge clock) begin
-        if (reset) begin
-          ones_reg <= 4'b0;
-          tens_reg <= 4'b0;
-          button_debounced_reg <= 1'b0;
-        end else begin
-          button_debounced_reg <= button_debounced;
-    
-          if (button_debounced && !button_debounced_reg) begin
-            if (ones_reg == 4'd9) begin
-              ones_reg <= 4'b0;
-              tens_reg <= tens_reg + 4'b1;
-            end else begin
-              ones_reg <= ones_reg + 4'b1;
-            end
-          end
-        end
-      end
-    
-      assign ones = ones_reg;
-      assign tens = tens_reg;
-    
-    endmodule
-    ```
-    
-    最后再用一个顶层 `module` 把两个模块合起来：
-    
-    ```verilog
-    module counter_top (
-      input wire clock,
-      input wire reset,
-      input wire button,
-      output wire [3:0] ones,
-      output wire [3:0] tens
-    );
-    
-      wire button_debounced;
-    
-      debouncer debouncer_component (
-        .clock(clock),
-        .reset(reset),
-        .button(button),
-        .button_debounced(button_debounced)
-      );
-    
-      counter counter_component (
-        .clock(clock),
-        .reset(reset),
-        .button_debounced(button_debounced),
-        .ones(ones),
-        .tens(tens)
-      );
-    
-    endmodule
-    ```
-    
-    这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `wire`，这个只是把两个模块的输入输出连起来，并不是寄存器。其他信号则是直接连接到顶层模块的输入输出信号。
-    
-    这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
-    
-=== "System Verilog"
-    
-    鉴于同学已经比较熟悉 System Verilog 代码了，这里直接给出最终代码：
-    
-    首先是消抖电路：
-    
-    ```sv
-    module debouncer (
-      input wire clock,
-      input wire reset,
-      input wire button,
-      output wire button_debounced
-    );
-      logic last_button_reg;
-      logic [15:0] counter_reg;
-      logic button_debounced_reg;
-
-      always_ff @ (posedge clock) begin
-        if (reset) begin
-          last_button_reg <= 1'b0;
-          counter_reg <= 16'b0;
-          button_debounced_reg <= 1'b0;
-        end else begin
-          last_button_reg <= button;
-    
-          if (button == last_button_reg) begin
-            if (counter_reg == 16'd10000) begin
-              button_debounced_reg <= last_button_reg;
-            end else begin
-              counter_reg <= counter_reg + 16'b1;
-            end
-          end else begin
-            counter_reg <= 16'b0;
-          end
-        end
-      end
-
-      assign button_debounced = button_debounced_reg;
-    endmodule
-    ```
-
-    接着是计数器部分：
-
-    ```sv
-    module counter (
-      input wire clock,
-      input wire reset,
-      input wire button_debounced,
-      output wire [3:0] ones,
-      output wire [3:0] tens
-    );
-
-      logic [3:0] ones_reg;
-      logic [3:0] tens_reg;
-      logic button_debounced_reg;
-
-      always_ff @ (posedge clock) begin
-        if (reset) begin
-          ones_reg <= 4'b0;
-          tens_reg <= 4'b0;
-          button_debounced_reg <= 1'b0;
-        end else begin
-          button_debounced_reg <= button_debounced;
-    
-          if (button_debounced && !button_debounced_reg) begin
-            if (ones_reg == 4'd9) begin
-              ones_reg <= 4'b0;
-              tens_reg <= tens_reg + 4'b1;
-            end else begin
-              ones_reg <= ones_reg + 4'b1;
-            end
-          end
-        end
-      end
-    
-      assign ones = ones_reg;
-      assign tens = tens_reg;
-    
-    endmodule
-    ```
-    
-    最后再用一个顶层 `module` 把两个模块合起来：
-    
-    ```sv
-    module counter_top (
-      input wire clock,
-      input wire reset,
-      input wire button,
-      output wire [3:0] ones,
-      output wire [3:0] tens
-    );
-
-      wire button_debounced;
-
-      debouncer debouncer_component (
-        .clock(clock),
-        .reset(reset),
-        .button(button),
-        .button_debounced(button_debounced)
-      );
-    
-      counter counter_component (
-        .clock(clock),
-        .reset(reset),
-        .button_debounced(button_debounced),
-        .ones(ones),
-        .tens(tens)
-      );
-    
-    endmodule
-    ```
-    
-    这里新出现的语法是在一个模块中去例化另一个模块，需要提供一个输入输出端口的映射。在这里，`button_debounced` 是两个内部模块之间的，所以声明了一个 `wire`，这个只是把两个模块的输入输出连起来，并不是寄存器。其他信号则是直接连接到顶层模块的输入输出信号。
-    
-    这样就实现了整个计数器的功能。如果看代码的时候感觉有一些困惑，可以开两个网页，把代码和前面的分析内容对照着看。
-
 ## 扩展
 
 上面介绍了消抖电路，它主要的目的是消除 **物理按键** 在按下和松开时产生的抖动，其检测的事件是，输入信号持续一段时间（ms 量级）不变。
 
 此外，还有一类在输入异步信号的处理上很常用的电路，它针对的问题是，如果我用一个时钟驱动的触发器对异步的输入信号进行采样，如果输入信号变化的时刻 **不满足 setup/hold 约束**，即它变化的时刻与时钟上升沿十分接近，此时触发器的输出是不稳定的，可能会出现错误。对于这个问题，通常的解决方法是，用两个触发器进行采样：
+
+=== "System Verilog"
+
+    ```sv
+    always_ff @ (posedge clock) begin
+      in_reg1 <= in;
+      in_reg2 <= in_reg1;
+
+      // use in_reg2 instead of in
+    end
+    ```
+
+=== "Verilog"
+
+    ```verilog
+    always @ (posedge clock) begin
+      in_reg1 <= in;
+      in_reg2 <= in_reg1;
+
+      // use in_reg2 instead of in
+    end
+    ```
 
 === "VHDL"
 
@@ -550,26 +574,5 @@
     end process;
     ```
 
-=== "Verilog"
-
-    ```verilog
-    always @ (posedge clock) begin
-      in_reg1 <= in;
-      in_reg2 <= in_reg1;
-
-      // use in_reg2 instead of in
-    end
-    ```
-
-=== "System Verilog"
-
-    ```sv
-    always_ff @ (posedge clock) begin
-      in_reg1 <= in;
-      in_reg2 <= in_reg1;
-
-      // use in_reg2 instead of in
-    end
-    ```
 
 这种方法在异步复位转同步、跨时钟域的场景中都会看到。
