@@ -58,7 +58,7 @@ FPGA 型号是 [XC7A200T-2FBG484I](https://docs.amd.com/v/u/en-US/7-series-produ
 
 ### SRAM 读写操作
 
-实验板控制面板的主要功能为对板载的 4MB SRAM 进行读写操作。在面板上输入读写起始地址，选择电脑上的二进制文件，即可向 SRAM 中写入数据；输入起始地址和长度，即可从 SRAM 中读取数据，并显示在网页上，或下载为二进制文件。
+实验板控制面板的主要功能为对板载的 4MB SRAM 进行读写操作。在面板上输入读写起始地址，选择电脑上的二进制文件，即可向 SRAM 中写入数据；输入起始地址和长度，即可从 SRAM 中读取数据，并显示在网页上，或下载为二进制文件。需要注意的是，读写 SRAM 时，为了避免出现冲突，实验 FPGA 会“复位”到数码管显示 "00000000"的状态。之后如果想要运行自己的设计，需要重新下载 Bitstream。
 
 读写起始地址均要求为十六进制，且地址和长度均须为 4 的整数倍数，即至少要完整写入或读出 SRAM 的一个 32 位字。
 
@@ -93,6 +93,8 @@ $ openFPGALoader -c ft2232 --fpga-part xc7a200t mod_top.bit
 
 另一种办法是，在 macOS 上运行 jtag-remote-server，通过 xvc 协议暴露出 FPGA 的 JTAG 接口，通过网络转发到 Linux 机器上，再让 Vivado 通过 xvc 连接 FPGA。这样的好处是 ILA 等功能也可以正常使用，缺点是受网络延迟和带宽影响比较大。
 
+更进一步，还可以在虚拟机内启动 Linux，在 Linux 虚拟机内启动 Xilinx Vivado 的 `hw_server` 程序，把下载器的 USB 设备直通到 Linux 虚拟机中，然后再设法把 `hw_server` 监听的 3121 端口转发到实际运行 Vivado 的 Linux 系统上，就可以获得比较好的 Vivado 使用体验。
+
 此外，部分 macOS 系统无法连接到控制模块，可以使用 USB 直通到 Linux 虚拟机的方法。
 
 
@@ -104,11 +106,11 @@ Xilinx FPGA 版实验板是 2023 年新设计的数字逻辑设计实验开发�
 2. 将 32MB SDR SDRAM 内存升级到 512MB DDR3 SDRAM 内存，在速度和容量上获得了巨大的提升；
 3. 把 PS/2 接口扩展到两个，不再需要鼠标键盘二选一，可以全都要；
 4. 由于引脚个数限制，减少了 PMOD 扩展接口的个数：从 8 减少到 5，不过不用担心，根据往年的经验，5 个也是用不完的；
-5. 由于引脚个数限制，减少了一组 SRAM，只剩下了一组（并行）SRAM，不过作为补偿，添加了 16MB 的 SPI NOR Flash 和 8MB 串行 SRAM 内存。
+5. 由于引脚个数限制，减少了一组 SRAM，只剩下了一组（并行）SRAM（实际上 Intel FPGA 版实验板也只焊接了一组），不过作为补偿，添加了 16MB 的 SPI NOR Flash 和 8MB 串行 SPI SRAM 内存。
 
 备注：XC7A200T 是 Xilinx Artix 7 系列里最高端的一款 FPGA。Xilinx(AMD) FPGA 一共有这些产品系列：
 
-1. Spartan-6：45nm
+1. Spartan-6:45nm
 2. 7 Series：28nm，从低端到高端依次是 Spartan 7，Artix 7，Kintex 7，Virtex 7
 3. UltraScale：20nm，从低端到高端依次是 Kintex UltraScale，Virtex UltraScale
 4. UltraScale+：16nm，从低端到高端依次是 Spartan UltraScale+，Artix UltraScale+，Kintex UltraScale+，Virtex UltraScale+
@@ -117,4 +119,4 @@ Xilinx FPGA 版实验板是 2023 年新设计的数字逻辑设计实验开发�
 
 1. Zynq 7000：对应 7 Series，28nm
 2. Zynq UltraScale+ MPSoC/RFSoC：对应 UltraScale+，16nm
-3. Versal：7nm
+3. Versal: 7nm
