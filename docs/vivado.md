@@ -20,6 +20,8 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
 
 工程模板的仓库为 <https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx>。我们为每个组在清华 GitLab 上创建了项目，仓库地址为 `https://git.tsinghua.edu.cn/digital-design-lab/2024-spring/digital-design-grp-XX`，其中 `XX` 为分配的组号。仓库中已经预置了最新的工程模板，通常可以直接使用。
 
+注：切换分支的时候如果 Vivado 已经打开了项目，那么 Vivado 是不会自动从硬盘读取新的 xpr 项目文件的，因此建议用 Vivado 重新打开一次项目。注意 Vivado 在退出的时候，也会保存项目文件 xpr 到硬盘。所以切换分支时，应该先退出 Vivado，切换分支，确定 xpr 项目文件的内容是新分支的，再打开 Vivado。
+
 工程模板还提供了一些外设的样例，下面描述了这些样例的功能，以及这些样例大概做了哪些改动：
 
 - [ethernet](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/ethernet) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...ethernet): 以太网 IP，收到的数据求和后显示在数码管上
@@ -61,8 +63,6 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     - 不需要修改 `io.xdc`，因为 MIG 会自己生成一份约束文件
     - 修改 `mod_top.sv`，添加 DDR3 SDRAM 的顶层信号，例化 DDR3 SDRAM 控制器
     - 在 `mod_top.sv` 中实现通过 MIG 的接口读写 DDR3 SDRAM 的逻辑
-
-注：切换分支的时候如果 Vivado 已经打开了项目，那么 Vivado 是不会自动从硬盘读取新的项目文件的，因此建议用 Viado 重新打开一次项目。
 
 !!! success "必须使用 Git"
     
