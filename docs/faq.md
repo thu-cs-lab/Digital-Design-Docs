@@ -22,3 +22,52 @@ SD 卡读取的时候，不同 SD 卡的地址编码不一样：
 目前示例代码没有内置自动检测 SDSC 或 SDHC 的逻辑，如果想要实现，可以发送 CMD58 命令获取 CCS，如果 CCS 为 0 就是 SDSC，CCS 为 1 就是 SDHC 或 SDXC。可以从 SD 卡表面区分 SDSC/SDHC/SDXC。
 
 如果使用 WinHex 工具来查看文件的地址，需要注意的是，默认显示的地址可能是相对于分区开头的，而不是 SD 卡开头。例如地址 0x00044000 对应逻辑扇区 544，但是分区前还有 32 个扇区，物理扇区号是 544+32=576，因此在读取 SD 卡的时候，应该要读取第 576 个扇区。这些数据在 WinHex 的右侧边栏中会显示。
+
+## COE 文件的格式是什么样的？
+
+官方文档：[COE File Syntax](https://docs.amd.com/r/en-US/ug896-vivado-ip/COE-File-Syntax)，文档中给出了几个例子：
+
+```ini
+; This .COE file specifies the contents for a block memory
+; of depth=16, and width=4. In this case, values are specified
+; in hexadecimal format.
+memory_initialization_radix=2;
+memory_initialization_vector=
+1111,
+1111,
+1111,
+1111,
+1111,
+0000,
+0101,
+0011,
+0000,
+1111,
+1111,
+1111,
+1111,
+1111,
+1111,
+1111;
+```
+
+```ini
+; The example specifies initialization values for a memory of depth= 32, 
+; and width=16. In this case, values are specified in hexadecimal
+; format.
+memory_initialization_radix = 16;
+memory_initialization_vector = 23f4 0721 11ff ABe1 0001 1 0A 0
+ 23f4 0721 11ff ABe1 0001 1 0A 0
+ 23f4 721 11ff ABe1 0001 1 A 0
+ 23f4 721 11ff ABe1 0001 1 A 0;
+```
+
+## 出现 Incorrect bitstream assigned to device 错误
+
+实验模板已经配置好了实验 FPGA 的型号，因此如果没有修改过实验模板的配置，那么项目配置是没有问题的。此时，可以去 Hardware Manager 查看一下，如果识别到的 FPGA 型号是 xc7z020，那就说明 JTAG 插错地方了，识别了错误的 FPGA，应该插到板子左下角的 JTAG 插座上。
+
+## 出现 A LUT3 cell in the design is missing a connection 错误
+
+这通常是使用了某个 Vivado 提供的 IP，例化以后，部分信号没有连接，导致 Vivado 在优化的时候，发现部分信号空悬，这才报了错。
+
+这个时候，打开 IP 配置界面，或者查看 IP 的 Instantiaion Wrapper，可以看到 IP 都有哪些输入输出信号，结合 IP 的文档了解这些信号的含义，进行正确的连接或赋值。
