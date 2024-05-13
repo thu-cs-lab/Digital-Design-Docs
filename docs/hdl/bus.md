@@ -17,8 +17,6 @@
 
 内存映射协议（memory-mapped protocol）用于可寻址的数据传输，通常用于 CPU 等复杂设备。其传输的单位是“事务”（transaction），通常有数据、地址、响应等多个通道（channel），在传输前需要进行协商，包括方向（读/写）、地址、数据大小、传输模式（单次、突发、回绕）等。
 
-IntelFPGA 上的 IP 使用的标准内存映射协议为 Avalon，详细说明位于 [官方文档](https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/manual/mnl_avalon_spec.pdf) 的第三节。
-
 由 ARM 牵头定制的 AMBA (Advanced Microcontroller Bus Architecture) 规范中包含了名为 AXI 和 AXI-Lite 的内存映射协议，被 Xilinx 等平台广泛使用。其文档可见 [Xilinx UG761](https://www.xilinx.com/support/documentation/ip_documentation/ug761_axi_reference_guide.pdf)，以及 [AMBA 规范](https://developer.arm.com/documentation/ihi0022/hc) 的 Part A/B。
 
 在一些开源设计中，例如 Opencores 网站上的 IP，通常会使用 Wishbone 内存映射协议，它相对上面的两种协议来说比较简单，可以阅读 [计算机组成原理实验 4: Wishbone 总线协议](https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/lab4/wishbone/)、[Wishbone 总线协议介绍](https://jia.je/hardware/2022/06/19/wishbone/) 和 [Wishbone 总线协议标准](https://cdn.opencores.org/downloads/wbspec_b4.pdf)。
@@ -37,9 +35,7 @@ Quartus 与 Vivado 中均有相应的 IP 可供使用。
 
 流式协议（streaming protocol）通常用于大量数据的传输，通常只有一个传输方向和通道，传输单位为“帧”（frame），无地址概念。常见的流式传输协议如下：
 
-IntelFPGA 上的 IP 使用的标准流式协议为 Avalon Streaming (Avalon-ST)，详细说明位于 [官方文档](https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/manual/mnl_avalon_spec.pdf) 的第五节。
-
-AMBA 中同样包含了名为 AXI Stream 的流式协议，也被 Xilinx 平台广泛使用。其文档可见 [Xilinx UG761](https://www.xilinx.com/support/documentation/ip_documentation/ug761_axi_reference_guide.pdf) 的第 45 页，以及 [AMBA 规范](https://developer.arm.com/documentation/ihi0051/a/Introduction/About-the-AXI4-Stream-protocol)。
+AMBA 中包含了名为 AXI Stream 的流式协议，也被 Xilinx 平台广泛使用。其文档可见 [Xilinx UG761](https://www.xilinx.com/support/documentation/ip_documentation/ug761_axi_reference_guide.pdf) 的第 45 页，以及 [AMBA 规范](https://developer.arm.com/documentation/ihi0051/a/Introduction/About-the-AXI4-Stream-protocol)。
 
 流式协议同样存在 Interconnect、Crossbar、Width Converter、Clock Converter、Register Slice 等辅助组件，Quartus 与 Vivado 中都有相应的 IP 可供使用。
 
