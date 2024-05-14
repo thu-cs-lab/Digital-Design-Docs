@@ -2,11 +2,11 @@
 
 本节列举了开发中可能用到的常用软件。
 
-## MifConverter
+## CoeConverter
 
-地址：[GitHub](https://github.com/thu-cs-lab/MifConverter)、[清华 Git](https://git.tsinghua.edu.cn/harry/MifConverter)。
+地址：[GitHub](https://github.com/thu-cs-lab/CoeConverter)
 
-用于将图片或者二进制文件转换为 MIF 格式，供 EDA 工具使用。注意新实验板的位宽较宽（24 位色），因此可以使用非默认的参数。
+用于将图片或者二进制文件转换为 COE 格式，供 EDA 工具使用。
 
 ## 串口调试相关
 
