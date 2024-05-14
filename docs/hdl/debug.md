@@ -6,7 +6,7 @@ Xilinx 的 FPGA，支持在 FPGA 内部进行“调试”：实际上，就是�
 
 为了让 Vivado 插入集成逻辑分析仪，需要进行如下步骤：
 
-1.（可选）修改代码，在想要调试的信号上添加 (* mark_debug = "true" *) 标记
+1. （可选）修改代码，在想要调试的信号上添加 (* mark_debug = "true" *) 标记
 2. 点击 Run Synthesis 进行综合
 3. 综合完成后然后点击 Open Synthesized Design
 4. 点击 Setup Debug，Vivado 会显示你已经配置了 ILA 调试或者标记了 mark_debug 的信号
