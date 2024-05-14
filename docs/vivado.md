@@ -131,8 +131,8 @@ RTL 代码应该具有良好的风格，如规范的缩进、清晰的命名和�
 
 Vivado 提供了丰富的 IP Core，你可以根据需要自由生成和选用（在 Vivado 的 IP Catalog 中选择）。一些常用的 IP Core 包括：
 
-* RAM / ROM
-* FIFO（用于时钟域同步或者任务队列）
+* RAM / ROM: [Block Memory Generator](https://docs.xilinx.com/v/u/en-US/pg058-blk-mem-gen) [Xilinx Parameterized Macros](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/Xilinx-Parameterized-Macros)
+* FIFO（用于时钟域同步或者任务队列）：[Xilinx Parameterized Macros](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/Xilinx-Parameterized-Macros)
 * 各类 DSP（乘除法、开方、乘方、三角函数等数学运算）
 * Tri Mode Ethernet MAC（用于驱动 RGMII 以太网 PHY）
 
