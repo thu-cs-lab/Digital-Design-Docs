@@ -4,10 +4,21 @@
 
 Xilinx 的 FPGA，支持在 FPGA 内部进行“调试”：实际上，就是在 FPGA 内部内嵌一个逻辑分析仪，不断地对内部信号进行采样，保存下来，传输到电脑上进行展示。这个功能，在 Vivado 中叫做 ILA（Integrated Logic Analyzer）。
 
-为了让 Vivado 插入集成逻辑分析仪，需要设置如下的内容：
+为了让 Vivado 插入集成逻辑分析仪，需要进行如下步骤：
 
-1. 采样的时钟来自于 FPGA 内部的哪个时钟信号
-2. 使用上述时钟采样哪些信号
+1.（可选）修改代码，在想要调试的信号上添加 (* mark_debug = "true" *) 标记
+2. 点击 Run Synthesis 进行综合
+3. 综合完成后然后点击 Open Synthesized Design
+4. 点击 Setup Debug，Vivado 会显示你已经配置了 ILA 调试或者标记了 mark_debug 的信号
+5. 从中选择要观察的信号，如果没有 mark_debug，也可以手动搜索并添加信号，注意信号综合后，名称可能和源码不完全一致
+6. 给每个要观察的信号，设置采样的时钟域，建议选择该信号所在时钟域的时钟
+7. 按照提示完成配置，完成配置后，点击保存（非常重要，不要忘记）
+8. 如果是第一次配置 ILA，Vivado 会提示保存的文件名，建议选择保存到新文件 debug.xdc，防止污染 io.xdc 的内容
+9. 观察 debug.xdc 的内容，确认出现了自己配置 ILA 的相关信号的名称
+10. 重新生成 Bitstream
+11. Program Device 后，即可在打开的 Hardware Manager 中找到 ILA 界面，观察信号的状态
+
+对于 ILA 界面的使用方式，建议阅读 [Vivado Design Suite User Guide](https://www.xilinx.com/support/documents/sw_manuals/xilinx2022_1/ug908-vivado-programming-debugging.pdf) 第 11 章。
 
 !!! note "注意时钟"
 
