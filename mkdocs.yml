@@ -29,6 +29,7 @@ nav:
       - 总线协议: hdl/bus.md
       - 调试相关: hdl/debug.md
       - 三态门: hdl/tri.md
+      - 外接相关: hdl/peripheral.md
     - 硬件相关:
       - 实验板: hardware/board_xilinx.md
       - 板载外设: hardware/onboard_xilinx.md
