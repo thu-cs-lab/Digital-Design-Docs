@@ -9,7 +9,7 @@ FPGA 中，时钟可以由以下两种方式产生：
 * 外部输入：由 FPGA 芯片外部的晶振的周期震荡产生并输入到 FPGA 中；
 * 内部生成：FPGA 内部具有 PLL (Phase-Locked Loops) 或 MMCM (Mixed-Mode Clock Manager) 等时钟管理组件可以根据已有的时钟产生新的时钟，并更改频率、相位等属性。
 
-通常，如果需要的时钟频率与输入的不一致（更高或者更低），就需要使用 PLL/MMCM 来生成新的时钟。Quartus 与 Vivado 均提供了相应的 IP Core，分别称为 PLL 和 Clocking Wizard。
+通常，如果需要的时钟频率与输入的不一致（更高或者更低），就需要使用 PLL/MMCM 来生成新的时钟。Vivado 提供了相应的 IP Core，称为 Clocking Wizard。
 在初始化 IP 时，提供输入时钟的频率、抖动（可取默认值）等信息，而后指定需要的时钟信息，即可生成新的时钟供使用。
 一般来说，此类 IP 会提供一个名称类似 `locked` 的信号，表明输出是否稳定，可以用作其生成的时钟对应的（异步）复位信号（注意极性）。
 
@@ -73,10 +73,10 @@ end
 
 对于分隔于两个时钟域的生产者——消费者模型，可以通过具有两个端口的 FIFO 来进行同步，每端使用自己的时钟进行 `enqueue` 和 `dequeue` 即可。
 
-Quartus 中对应的 IP Core 名称为 FIFO（IP 设置中选择 No common clock，对应的模块名字为 `DCFIFO` （读写宽度相同）和 `DCFIFO_MIXED_WIDTHS`（读写宽度不同）），Vivado 中为 `FIFO Generator` (PG057)，XPM 中也有相应的 `XPM_FIFO_ASYNC` 模块。
+Vivado 中 IP Core 为 `FIFO Generator` (PG057)，XPM 中也有相应的 `XPM_FIFO_ASYNC` 模块。
 
 ### 异步双口 RAM
 
 对于更一般的需求，可以通过具有两个时钟域的两个读写端口的 Block RAM 来传递数据，每端使用自己的时钟进行操作。
 
-Quartus 中对应的 IP Core 名为 `Simple Dual-port RAM`（一口读、一口写）和 `True Dual-port RAM`（两口均可读写），Vivado 中为 `Block Memory Generator`（配置时同样可选前述两种模式），XPM 中有相应的 `XPM_MEMORY_SDPRAM` 和 `XPM_MEMORY_TDPRAM` 模块。
+Vivado 中 IP Core 为 `Block Memory Generator`（配置时同样可选前述两种模式），XPM 中有相应的 `XPM_MEMORY_SDPRAM` 和 `XPM_MEMORY_TDPRAM` 模块。

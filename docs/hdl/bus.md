@@ -29,7 +29,7 @@
 * FIFO：在接口间缓存数据
 * Register Slice：插入寄存器，切断组合逻辑，改善时序
 
-Quartus 与 Vivado 中均有相应的 IP 可供使用。
+Vivado 中有相应的 IP 可供使用。
 
 ## 流式传输协议
 

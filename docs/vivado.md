@@ -95,8 +95,8 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     * `dpy_scan.sv`：数码管扫描、译码模块
     * `led_scan.sv`：LED 扫描模块
     * `video.sv`：使用 VGA 时序驱动 HDMI 接口的样例
-* `ip/`：用于放置 Quartus 生成的各类 IP
-    * `pll`：预生成的 PLL 模块，用于从输入的 100M 时钟生成 50M 时钟提供给 VGA 模块
+* `project-template-xilinx.srcs/sources_1/ip`：用于放置 Vivado 生成的各类 IP
+    * `ip_pll`：预生成的 PLL 模块，用于从输入的 100M 时钟生成 50M 时钟提供给 VGA 模块
 
 在新建文件时，你也应当遵循这一规范，合理放置文件。
 

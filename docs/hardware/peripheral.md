@@ -132,7 +132,7 @@ SPI（Serial Peripheral Interface），同步协议，一般有四个引脚：�
 * CP2102 模块（UART 串口转 USB）：<https://detail.tmall.com/item.htm?id=41337916197&skuId=4141815325445>
 * 逻辑分析仪（类似示波器，可解码任何数字协议，但不能发送数据）：<https://item.taobao.com/item.htm?id=587348570376> （已下架）
 
-如果有不同接口调试需要，建议另行购买单片机（如 Arduino）进行。在使用中如果遇到问题，建议使用 SignalTap/逻辑分析仪采集信号进行观察。
+如果有不同接口调试需要，建议另行购买单片机（如 Arduino）进行。在使用中如果遇到问题，建议使用 ILA/逻辑分析仪采集信号进行观察。
 
 ## 注意事项
 
