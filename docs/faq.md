@@ -30,7 +30,7 @@ SD 卡读取的时候，不同 SD 卡的地址编码不一样：
 ```ini
 ; This .COE file specifies the contents for a block memory
 ; of depth=16, and width=4. In this case, values are specified
-; in hexadecimal format.
+; in binary format.
 memory_initialization_radix=2;
 memory_initialization_vector=
 1111,
