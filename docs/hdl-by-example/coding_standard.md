@@ -522,7 +522,7 @@
 === "System Verilog"
  
     ```sv
-    // GOOD
+    // GOOD, but do not use with always_ff
     logic some_reg;
     initial begin
       some_reg = 1'b0;
