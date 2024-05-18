@@ -76,6 +76,8 @@ SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如
 - [计算机组成原理实验 4：总线实验之 SRAM 控制器实验](https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/lab4/sram/)
 - [异步 SRAM 的时序和控制器编写（进阶）](https://jia.je/hardware/2022/05/19/async-sram-timing/)
 
+需要注意 SRAM 的数据信号要使用三态门。
+
 ## SPI NOR Flash
 
 实验板子还提供了 16MB 的 SPI NOR Flash，型号为 [W25Q128JVSIQTR](https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q128JV)。它是一片非易失的 Flash 存储，可以用来保存自己的数据。FPGA 通过 SPI 或者 QSPI 接口，可以快速地随机访问 SPI NOR Flash 的内容。Flash 写入时，需要先擦除，再写入新的数据。
