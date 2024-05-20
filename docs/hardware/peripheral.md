@@ -20,7 +20,7 @@ Pmod（Peripheral Module Interface）是 Digilent 提出的，适用于各类开
 
 ![](pmod_io.png)
 
-在项目模板的 `io.tcl` 中定义了各个 Pmod 接口的引脚约束，其中 `pmod_io[0]` 到 `pmod_io[3]` 对应 Pmod 接口的 1-4 引脚，`pmod_io[4]` 到 `pmod_io[7]` 对应 Pmod 接口的 7-10 引脚，如上图。板子上的引脚旁标记了引脚编号，上面一排是 1-6，下面一排是 7-12。
+在项目模板的 `io.xdc` 中定义了各个 Pmod 接口的引脚约束，其中 `pmod_io[0]` 到 `pmod_io[3]` 对应 Pmod 接口的 1-4 引脚，`pmod_io[4]` 到 `pmod_io[7]` 对应 Pmod 接口的 7-10 引脚，如上图。板子上的引脚旁标记了引脚编号，上面一排是 1-6，下面一排是 7-12。
 
 ### UART 协议
 
