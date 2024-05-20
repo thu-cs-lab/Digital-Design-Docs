@@ -4,7 +4,7 @@
 
 实验板上提供了 HDMI 视频输出接口，用于输出视频信号。FPGA 直接产生 HDMI 信号并输出，最高可支持 1080p 60Hz 24 位真彩色的视频信号。
 
-我们的工程模板中已经提供了输出视频的样例代码，其中使用的是 800x600 分辨率，72Hz 的视频格式，其他支持的视频格式，可参考 [芯片数据手册](https://www.ti.com/lit/ds/symlink/tfp410.pdf) 或 [VGA 时序列表](http://tinyvga.com/vga-timing)，注意修改分辨率时，需要同时修改 `video` 模块例化中的时序参数以及 `rgb2dvi` IP 的设置，如无必要，不建议使用样例之外的时序格式。由于 VGA 和 HDMI 只是物理接口和传输数据的方式不同，而传输的数据、时序都是一样的，所以本实验中 VGA 或者 HDMI 实际上说的是同一回事。
+我们的工程模板中已经提供了输出视频的样例代码，其中使用的是 800x600 分辨率，72Hz 的视频格式，其他支持的视频格式，可参考 [芯片数据手册](https://www.ti.com/lit/ds/symlink/tfp410.pdf) 或 [VGA 时序列表](http://tinyvga.com/vga-timing)，注意修改分辨率时，需要同时修改 `video` 模块例化中的时序参数以及 `rgb2dvi` IP 的设置（注意 TMDS clock range 选项），如无必要，不建议使用样例之外的时序格式。由于 VGA 和 HDMI 只是物理接口和传输数据的方式不同，而传输的数据、时序都是一样的，所以本实验中 VGA 或者 HDMI 实际上说的是同一回事。
 
 样例代码中使用了如下参数，和 [VESA Signal 800 x 600 @ 72 Hz](http://tinyvga.com/vga-timing/800x600@72Hz) 对应关系如下：
 
