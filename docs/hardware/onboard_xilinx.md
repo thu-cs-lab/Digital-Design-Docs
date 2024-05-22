@@ -80,6 +80,8 @@ SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如
 
 需要注意 SRAM 的数据信号要使用三态门。
 
+如果把 SRAM 用于显存，从 SRAM 读取的数据要通过 HDMI 显示到显示器上，那么需注意 SRAM 控制器的时钟和显示输出的像素时钟，如果这两个时钟不是同一个，需要考虑跨时钟域的问题。如果想避免跨时钟域的问题，可以让 SRAM 控制器以显示输出的像素时钟作为时钟，不过代价是读写 SRAM 需要的时间变长，设计上需要做一些取舍。
+
 ## SPI NOR Flash
 
 实验板子还提供了 16MB 的 SPI NOR Flash，型号为 [W25Q128JVSIQTR](https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q128JV)。它是一片非易失的 Flash 存储，可以用来保存自己的数据。FPGA 通过 SPI 或者 QSPI 接口，可以快速地随机访问 SPI NOR Flash 的内容。Flash 写入时，需要先擦除，再写入新的数据。
