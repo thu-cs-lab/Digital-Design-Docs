@@ -77,3 +77,16 @@ memory_initialization_vector = 23f4 0721 11ff ABe1 0001 1 0A 0
 这是因为 Vivado 的 Verilog 报错功能实现地比较粗暴，可能前面某个地方写错了一点，导致后面的代码都被解析成错误的语法，然后出现不知所云的错误。此时就要人工浏览一遍代码，仔细找找语法错误。
 
 类比一下，写 C/C++ 的时候，如果出现了类似的问题，GCC/Clang 等编译器做的会比较好，会找出程序员一些常见的错误并指出，而不是简单地汇报 lexer/parser 分析时出现的直接问题。Vivado 显然没有花那么多功夫。
+
+## Windows 下无法连接 FPGA，显示 Unable to launch local hw_server executable
+
+见 [Windows 下 Vivado hw_server 由于端口绑定失败无法启动的解决方法](https://zhuanlan.zhihu.com/p/670343325)，简而言之，用管理员权限运行：
+
+```cmd
+net stop winnat 
+netsh int ip add excludedportrange protocol=tcp numberofports=3 startport=3000
+netsh int ip add excludedportrange protocol=tcp numberofports=1 startport=3121
+net start winnat 
+```
+
+重试，可以发现 hw_server 正常工作。
