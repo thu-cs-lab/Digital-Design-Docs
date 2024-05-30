@@ -141,3 +141,10 @@ Vivado 提供了丰富的 IP Core，你可以根据需要自由生成和选用�
 ## 连接到 FPGA
 
 将发给同学的 Xilinx Cable 的 USB 端插到电脑上，另一端插到实验板的 LAB_JTAG 上，就可以在 Vivado 中，点击 `Open Hardware Manager`，连接到 FPGA。检测到 FPGA 后，可以把编译出来的 bitstream 烧写到 FPGA 中，如果配置了 ILA，还可以使用 ILA 观察 FPGA 内部信号的状态。
+
+## 语言支持
+
+Vivado 并不支持 Verilog/SystemVerilog 的所有功能，具体支持哪些功能，可以在下列文档中找到：
+
+- [Vivado Design Suite User Guide: Logic Simulation Appendix B SystemVerilog Support in Vivado Simulator](https://docs.amd.com/v/u/2019.2-English/ug900-vivado-logic-simulation)
+- [Vivado Design Suite User Guide: Synthesis Chapter 8 SystemVerilog Support](https://docs.amd.com/v/u/2019.2-English/ug901-vivado-synthesis)
