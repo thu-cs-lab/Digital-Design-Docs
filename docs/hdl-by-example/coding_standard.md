@@ -519,6 +519,8 @@
 
 设置启动初始值不能代替复位的功能，不能偷懒，必须都实现。不可以对组合逻辑使用。
 
+特别地，对于 System Verilog，对同一个寄存器在 initial 和 always_ff 中分别赋值会报错，此时可以把 always_ff 改成 always。
+
 === "System Verilog"
  
     ```sv
@@ -528,7 +530,7 @@
       some_reg = 1'b0;
     end
  
-    // GOOD
+    // GOOD, but do not use with always_ff
     logic some_reg;
     initial some_reg = 1'b0;
 
