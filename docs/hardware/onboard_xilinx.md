@@ -60,6 +60,7 @@
 
 完整的接口描述，请阅读 [Zynq-7000 SoC and 7 Series Devices Memory Interface Solutions](https://docs.amd.com/v/u/en-US/ug586_7Series_MIS) 第一章中相关内容。
 
+对于 SDRAM 在硬件上是如何实现的，推荐阅读 [What Every Programmer Should Know About Memory](https://people.freebsd.org/~lstewart/articles/cpumemory.pdf) 的相关部分。
 
 ## 千兆以太网
 
@@ -81,6 +82,8 @@ SRAM 读写需要满足一定的时序，可以按照下面的文档，学习如
 需要注意 SRAM 的数据信号要使用三态门。
 
 如果把 SRAM 用于显存，从 SRAM 读取的数据要通过 HDMI 显示到显示器上，那么需注意 SRAM 控制器的时钟和显示输出的像素时钟，如果这两个时钟不是同一个，需要考虑跨时钟域的问题。如果想避免跨时钟域的问题，可以让 SRAM 控制器以显示输出的像素时钟作为时钟，不过代价是读写 SRAM 需要的时间变长，设计上需要做一些取舍。
+
+对于 SRAM 在硬件上是如何实现的，推荐阅读 [What Every Programmer Should Know About Memory](https://people.freebsd.org/~lstewart/articles/cpumemory.pdf) 的相关部分。
 
 ## SPI NOR Flash
 
