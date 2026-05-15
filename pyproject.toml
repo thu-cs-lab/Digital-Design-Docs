@@ -6,7 +6,7 @@ authors = ["Jiajie Chen <c@jia.je>"]
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 mkdocs-wavedrom-plugin = {git = "https://github.com/jiegec/mkdocs-wavedrom-plugin.git"}
 
 [tool.poetry.dev-dependencies]
