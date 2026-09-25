@@ -90,7 +90,7 @@ markdown_extensions:
       custom_fences:
         - name: wavedrom
           class: wavedrom
-          format: !!python/name:markdownwavedrom.plugin.fence_wavedrom_format
+          format: !!python/name:zensical_wavedrom_plugin.extension.fence_wavedrom_format
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.tasklist:
