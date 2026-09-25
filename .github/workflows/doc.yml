@@ -16,5 +16,5 @@ jobs:
       run: |
         python -m pip install --upgrade poetry
         poetry install
-    - name: Build with mkdocs
-      run: poetry run mkdocs build
+    - name: Build with zensical
+      run: poetry run zensical build
