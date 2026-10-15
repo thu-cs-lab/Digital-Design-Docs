@@ -6,7 +6,7 @@
 
 FPGA 中，时钟可以由以下两种方式产生：
 
-* 外部输入：由 FPGA 芯片外部的晶振的周期震荡产生并输入到 FPGA 中；
+* 外部输入：由 FPGA 芯片外部的晶振的周期振荡产生并输入到 FPGA 中；
 * 内部生成：FPGA 内部具有 PLL (Phase-Locked Loops) 或 MMCM (Mixed-Mode Clock Manager) 等时钟管理组件可以根据已有的时钟产生新的时钟，并更改频率、相位等属性。
 
 通常，如果需要的时钟频率与输入的不一致（更高或者更低），就需要使用 PLL/MMCM 来生成新的时钟。Vivado 提供了相应的 IP Core，称为 Clocking Wizard。

@@ -39,7 +39,7 @@ I²C（Inter-Integrated Circuit），同步协议，一般有两个引脚：数�
 
 ### I²S 协议
 
-I²S（Inter-Integrated Circuit Sound），一般用于数字音频传输，包含时钟（`SCLK/BCLK`）、帧使用（`LRCK/WS`）、数据（`SDATA`）。适合需要自定义音频的场合。如果只需要播放背景音乐等固定的音乐，建议直接购买 MP3 语音模块。
+I²S（Inter-Integrated Circuit Sound），一般用于数字音频传输，包含时钟（`SCLK/BCLK`）、帧同步（`LRCK/WS`）、数据（`SDATA`）。适合需要自定义音频的场合。如果只需要播放背景音乐等固定的音乐，建议直接购买 MP3 语音模块。
 
 ### SPI 协议
 
