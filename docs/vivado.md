@@ -4,7 +4,7 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
 
 ## 下载安装
 
-本实验使用的 EDA 软件为 Xilinx Viavdo 2019.2，安装过程可以参考 [数字逻辑实验课程的 Vivado 安装文档](https://lab.cs.tsinghua.edu.cn/digital-logic-lab/doc/vivado-install/)。请保证硬盘至少有 50GB 的可用空间。
+本实验使用的 EDA 软件为 Xilinx Vivado 2019.2，安装过程可以参考 [数字逻辑实验课程的 Vivado 安装文档](https://lab.cs.tsinghua.edu.cn/digital-logic-lab/doc/vivado-install/)。请保证硬盘至少有 50GB 的可用空间。
 
 !!! info "为什么不用新版本"
 
@@ -49,7 +49,7 @@ Vivado 是用于 Xilinx FPGA 的 EDA 开发工具。
     - 修改 `io.xdc`，取消涉及到 Base RAM 部分约束的注释
     - 修改 `mod_top.sv`，取消 SDCard SPI 的顶层信号的注释
     - 修改 `mod_top_tb.v` ，在仿真环境中添加 SRAM 仿真模型
-- [pmod_i2c](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/pmod_i2c) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...pmod_i2c): 只实现了针对 WM8731 的 I2C 写入，没有处理 ACK；可以在这个项目的的基础上，修改引脚定义（`io.xdc`），修改写入的寄存器（`i2c.sv`），添加 ACK 判断等等
+- [pmod_i2c](https://git.tsinghua.edu.cn/digital-design-lab/project-template/-/tree/pmod_i2c) [diff](https://git.tsinghua.edu.cn/digital-design-lab/project-template-xilinx/-/compare/master...pmod_i2c): 只实现了针对 WM8731 的 I2C 写入，没有处理 ACK；可以在这个项目的基础上，修改引脚定义（`io.xdc`），修改写入的寄存器（`i2c.sv`），添加 ACK 判断等等
     - 修改 `io.xdc`，复制 PMOD 的 IO 约束，把信号名称改为 I2C 的信号
     - 修改 `mod_top.sv`，添加 I2C 的顶层信号，例化 I2C 控制器 `i2c.sv`
     - 在 `i2c.sv` 中实现 I2C 控制器的逻辑
@@ -120,7 +120,7 @@ RTL 代码应该具有良好的风格，如规范的缩进、清晰的命名和�
 - DDR3 SDRAM
 - BaseRAM（SRAM）
 - 所有的 PMOD 接口
-- 以太网 RGMI
+- 以太网 RGMII
 - QSPI NOR Flash
 - QSPI PSRAM
 - SDCard 的 SD/SPI 模式

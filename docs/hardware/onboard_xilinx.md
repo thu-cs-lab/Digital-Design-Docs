@@ -12,7 +12,7 @@
 
 - Pixel clock: 50MHz
 - HSIZE: 800 (Visible Area)
-- HFP: 856 = 800 (Visible Area) + 56 (Front proch)
+- HFP: 856 = 800 (Visible Area) + 56 (Front porch)
 - HSP: 976 = 856 + 120 (Sync pulse)
 - HMAX: 1040 (Whole line)
 - VSIZE: 600 (Visible Area)

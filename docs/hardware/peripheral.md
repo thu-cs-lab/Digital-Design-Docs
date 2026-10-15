@@ -35,11 +35,11 @@ I²C（Inter-Integrated Circuit），同步协议，一般有两个引脚：数�
 
 按照规范，两根数据线均需要上拉电阻，可按照 [此教程](https://electronics.stackexchange.com/questions/248248/altera-fpga-i-o-weak-pull-ups) 开启 FPGA 片内相应引脚的上拉电阻。
 
-一般来说，由发送方提供时钟，接收方需要在每次接受数据后进行应答。可参考 <https://www.fpga4fun.com/I2C.html>。
+一般来说，由发送方提供时钟，接收方需要在每次接收数据后进行应答。可参考 <https://www.fpga4fun.com/I2C.html>。
 
 ### I²S 协议
 
-I²S（Inter-Integrated Sound），一般用于数字音频传输，包含时钟（`SCLK/BCLK`）、帧使用（`LRCK/WS`）、数据（`SDATA`）。适合需要自定义音频的场合。如果只需要播放背景音乐等固定的音乐，建议直接购买 MP3 语音模块。
+I²S（Inter-Integrated Circuit Sound），一般用于数字音频传输，包含时钟（`SCLK/BCLK`）、帧使用（`LRCK/WS`）、数据（`SDATA`）。适合需要自定义音频的场合。如果只需要播放背景音乐等固定的音乐，建议直接购买 MP3 语音模块。
 
 ### SPI 协议
 

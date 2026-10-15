@@ -8,7 +8,7 @@ Xilinx 的 FPGA，支持在 FPGA 内部进行“调试”：实际上，就是�
 
 1. （可选）修改代码，在想要调试的信号上添加 (* mark_debug = "true" *) 标记
 2. 点击 Run Synthesis 进行综合
-3. 综合完成后然后点击 Open Synthesized Design
+3. 综合完成后点击 Open Synthesized Design
 4. 点击 Setup Debug，Vivado 会显示你已经配置了 ILA 调试或者标记了 mark_debug 的信号
 5. 从中选择要观察的信号，如果没有 mark_debug，也可以手动搜索并添加信号，注意信号综合后，名称可能和源码不完全一致
 6. 给每个要观察的信号，设置采样的时钟域，建议选择该信号所在时钟域的时钟
