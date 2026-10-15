@@ -68,7 +68,7 @@ memory_initialization_vector = 23f4 0721 11ff ABe1 0001 1 0A 0
 
 ## 出现 A LUT3 cell in the design is missing a connection 错误
 
-这通常是使用了某个 Vivado 提供的 IP，例化以后，部分信号没有连接，导致 Vivado 在优化的时候，发现部分信号空悬，这才报了错。
+这通常是使用了某个 Vivado 提供的 IP，例化以后，部分信号没有连接，导致 Vivado 在优化的时候，发现部分信号悬空，这才报了错。
 
 这个时候，打开 IP 配置界面，或者查看 IP 的 Instantiation Wrapper，可以看到 IP 都有哪些输入输出信号，结合 IP 的文档了解这些信号的含义，进行正确的连接或赋值。
 
