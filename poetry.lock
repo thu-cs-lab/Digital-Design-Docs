@@ -279,14 +279,14 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pymdown-extensions"
-version = "13.1"
+version = "13.1.1"
 description = "Extension pack for Python Markdown."
 optional = false
 python-versions = ">=3.11.5"
 groups = ["main"]
 files = [
-    {file = "pymdown_extensions-13.1-py3-none-any.whl", hash = "sha256:093d1fab98168526d98fbb17aa5c9da68eef3664324f6b25ebbf78b2709babeb"},
-    {file = "pymdown_extensions-13.1.tar.gz", hash = "sha256:e1ecec373677483b7324a47e5b4bf2e0c6614fe8dcdab1dcc6a05ecefd9b527d"},
+    {file = "pymdown_extensions-13.1.1-py3-none-any.whl", hash = "sha256:eadd3c66e1c44249cde54be202606f52cbf798ffdc334e060ed7d15800bab3a0"},
+    {file = "pymdown_extensions-13.1.1.tar.gz", hash = "sha256:975384d42127906a014ed0770ab7d5b0d747a24f2635b9eba8571791455781d3"},
 ]
 
 [package.dependencies]
@@ -393,14 +393,14 @@ files = [
 
 [[package]]
 name = "soupsieve"
-version = "4.1.1"
+version = "4.1.3"
 description = "A modern CSS selector implementation for Beautiful Soup."
 optional = false
 python-versions = ">=3.11.5"
 groups = ["main"]
 files = [
-    {file = "soupsieve-4.1.1-py3-none-any.whl", hash = "sha256:8ff3422dab0b720fb667ee79864d80531a0e57994a13eb701697719ffcb751f6"},
-    {file = "soupsieve-4.1.1.tar.gz", hash = "sha256:b296bd2d2f65b1a78149f3d7bf6736a147d2c9e2dfbde0e4404639d748a02e03"},
+    {file = "soupsieve-4.1.3-py3-none-any.whl", hash = "sha256:7a390d1a57d1ab7bb228531e9b8a750a5ebf87db774e0ef6faeeac057d22a5bf"},
+    {file = "soupsieve-4.1.3.tar.gz", hash = "sha256:13f70186c8f40bf8d0ff7bbab09a18fb149600b465269207b5e5b588f55fda08"},
 ]
 
 [[package]]
